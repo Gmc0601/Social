@@ -1,0 +1,237 @@
+//
+//  XFSeniorFilterViewController.m
+//  FateCircle
+//
+//  Created by 王文利 on 2017/9/22.
+//  Copyright © 2017年 王文利. All rights reserved.
+//
+
+#import "XFSeniorFilterViewController.h"
+#import "XFSelectItemView.h"
+
+#define SeniorFilterBaseTag     100
+@interface XFSeniorFilterViewController ()<XFSelectItemViewDelegate>
+
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIView *currentTapView;
+
+@end
+
+@implementation XFSeniorFilterViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupUI];
+}
+
+- (void)setupUI {
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.view.backgroundColor = WhiteColor;
+    UIView *navView = [UIView xf_navView:@"高级筛选"
+                              backTarget:self
+                              backAction:@selector(backBtnClick)];
+    [self.view addSubview:navView];
+    
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navView.bottom, kScreenWidth, kScreenHeight - XFNavHeight - 64)];
+    self.scrollView = scrollView;
+    [self.view addSubview:scrollView];
+    
+    UIView *paddingView = [UIView xf_createPaddingView];
+    paddingView.frame = CGRectMake(0, 0, kScreenWidth, 5);
+    [self.scrollView addSubview:paddingView];
+    
+    UIView *ageView = [self createRightLabelView:@"年龄" andInfo:nil];
+    ageView.tag = SeniorFilterBaseTag;
+    ageView.top = paddingView.bottom;
+    
+    UIView *heightView = [self createRightLabelView:@"身高" andInfo:nil];
+    heightView.tag = SeniorFilterBaseTag + 1;
+    heightView.top = ageView.bottom;
+    
+    UIView *weightView = [self createRightLabelView:@"体重" andInfo:nil];
+    weightView.tag = SeniorFilterBaseTag + 2;
+    weightView.top = heightView.bottom;
+    
+    UIView *educationView = [self createRightLabelView:@"学历" andInfo:nil];
+    educationView.tag = SeniorFilterBaseTag + 3;
+    educationView.top = weightView.bottom;
+    
+    UIView *incomeView = [self createRightLabelView:@"收入" andInfo:nil];
+    incomeView.tag = SeniorFilterBaseTag + 4;
+    incomeView.top = educationView.bottom;
+    
+    UIView *houseView = [self createRightLabelView:@"车产" andInfo:nil];
+    houseView.tag = SeniorFilterBaseTag + 5;
+    houseView.top = incomeView.bottom;
+    
+    UIView *carView = [self createRightLabelView:@"房产" andInfo:nil];
+    carView.tag = SeniorFilterBaseTag + 6;
+    carView.top = houseView.bottom;
+    
+    UIView *cityView = [self createRightLabelView:@"所在城市" andInfo:nil];
+    cityView.tag = SeniorFilterBaseTag + 7;
+    cityView.top = carView.bottom;
+    if (cityView.bottom > scrollView.height) {
+        self.scrollView.contentSize = CGSizeMake(kScreenWidth, cityView.bottom);
+    }
+    
+    UIButton *resetbtn = [UIButton xf_titleButtonWithTitle:@"重置"
+                                                titleColor:BlackColor
+                                                 titleFont:Font(15)
+                                                    target:self
+                                                    action:@selector(resetBtnClick)];
+    resetbtn.backgroundColor = RGBGray(242);
+    [resetbtn xf_cornerCut:5];
+    [self.view addSubview:resetbtn];
+    
+    UIButton *confirmBtn = [UIButton xf_titleButtonWithTitle:@"确定"
+                                                  titleColor:WhiteColor
+                                                   titleFont:Font(15)
+                                                      target:self
+                                                      action:@selector(confirmBtnClick)];
+    confirmBtn.backgroundColor = ThemeColor;
+    [confirmBtn xf_cornerCut:5];
+    [self.view addSubview:confirmBtn];
+    
+    CGFloat itemW = (kScreenWidth - 15 * 3) * 0.5;
+    resetbtn.size = confirmBtn.size = CGSizeMake(itemW, 44);
+    resetbtn.bottom = confirmBtn.bottom = kScreenHeight - 10;
+    resetbtn.left = 15;
+    confirmBtn.left = resetbtn.right + 15;
+};
+
+#pragma mark ----------<XFSelectItemViewDelegate>----------
+- (void)selectItemView:(XFSelectItemView *)itemView selectInfo:(NSString *)info {
+    UILabel *label = (UILabel *)[self.currentTapView viewWithTag:100];
+    [self setupRightLabel:label info:info];
+}
+
+#pragma mark ----------Action----------
+- (void)itemViewTap:(UITapGestureRecognizer *)ges {
+    self.currentTapView = ges.view;
+    switch (ges.view.tag - SeniorFilterBaseTag) {
+        case 0: {
+            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"年龄"
+                                                                         leftArray:@[@"不限", @"18", @"100"]
+                                                                        rightArray:@[@"18", @"100"]];
+            selectItem.delegate = self;
+            [self.view addSubview:selectItem];
+        }
+            break;
+        case 1: {
+            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"身高(cm)"
+                                                                         leftArray:@[@"不限", @"151", @"200"]
+                                                                        rightArray:@[@"160", @"200"]];
+            selectItem.delegate = self;
+            [self.view addSubview:selectItem];
+        }
+            break;
+        case 2: {
+            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"体重(kg)"
+                                                                         leftArray:@[@"不限", @"41", @"100"]
+                                                                        rightArray:@[@"45", @"200"]];
+            selectItem.delegate = self;
+            [self.view addSubview:selectItem];
+        }
+            break;
+        case 3: {
+            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"学历"
+                                                                         dataArray:@[@"不限", @"大专", @"本科"]
+                                                                        selectText:nil];
+            selectItem.delegate = self;
+            [self.view addSubview:selectItem];
+        }
+            break;
+        case 4: {
+            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"收入"
+                                                                         dataArray:@[@"不限", @"3000一下", @"3000-5000"]
+                                                                        selectText:nil];
+            selectItem.delegate = self;
+            [self.view addSubview:selectItem];
+        }
+            break;
+        case 5: {
+            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"车产情况"
+                                                                         dataArray:@[@"不限", @"有", @"无"]
+                                                                        selectText:nil];
+            selectItem.delegate = self;
+            [self.view addSubview:selectItem];
+        }
+            break;
+        case 6: {
+            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"房产情况"
+                                                                         dataArray:@[@"不限", @"有", @"无"]
+                                                                        selectText:nil];
+            selectItem.delegate = self;
+            [self.view addSubview:selectItem];
+        }
+            break;
+        case 7:
+            FFLog(@"7");
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)resetBtnClick {
+    [self backBtnClick];
+}
+
+- (void)confirmBtnClick {
+    [self backBtnClick];
+}
+
+- (UIView *)createRightLabelView:(NSString *)title andInfo:(NSString *)info {
+    UIView *view = [UIView xf_createWhiteView];
+    view.size = CGSizeMake(kScreenWidth, 50);
+    view.userInteractionEnabled = YES;
+    [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemViewTap:)]];
+    [self.scrollView addSubview:view];
+    
+    UILabel *label = [UILabel xf_labelWithFont:Font(12)
+                                     textColor:RGBGray(102)
+                                 numberOfLines:0
+                                     alignment:NSTextAlignmentLeft];
+    label.text = title;
+    label.frame = CGRectMake(15, 0, 100, view.height);
+    [view addSubview:label];
+    
+    UIImageView *arrowView = [[UIImageView alloc] initWithImage:Image(@"icon_gd")];
+    arrowView.centerY = view.height * 0.5;
+    arrowView.right = view.width - 15;
+    [view addSubview:arrowView];
+    
+    UILabel *rightLabel = [UILabel xf_labelWithFont:Font(15)
+                                          textColor:BlackColor
+                                      numberOfLines:0
+                                          alignment:NSTextAlignmentRight];
+    [self setupRightLabel:rightLabel info:info];
+    
+    rightLabel.width = 200;
+    rightLabel.top = 0;
+    rightLabel.height = view.height;
+    rightLabel.right = arrowView.left - 10;
+    [view addSubview:rightLabel];
+    rightLabel.tag = 100;
+    
+    UIView *splitView = [UIView xf_createSplitView];
+    splitView.frame = CGRectMake(10, view.height - 0.5, view.width - 20, 0.5);
+    [view addSubview:splitView];
+    
+    return view;
+}
+
+- (void)setupRightLabel:(UILabel *)label info:(NSString *)info {
+    if (info.length == 0 || [info isEqualToString:@"不限"]) {
+        label.text = @"不限";
+        label.textColor = RGBGray(204);
+    } else {
+        label.text = info;
+        label.textColor = BlackColor;
+    }
+}
+
+@end

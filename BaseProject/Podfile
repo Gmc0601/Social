@@ -1,9 +1,14 @@
-# platform :ios, “7.0”
-target ‘BaseProject’ do
+platform :ios, '9.0'
+inhibit_all_warnings!
 
-pod ‘YYKit’
-pod 'AFNetworking'
-pod 'SDWebImage'
-pod 'MBProgressHUD'
-
+target 'BaseProject' do
+    pod 'AFNetworking'
+    pod 'MJExtension'
+    pod 'MJRefresh'
+    pod 'YYKit'
+    pod 'WXSTransition'
+    pod 'MBProgressHUD'
+    pod 'SVProgressHUD'
+    pod 'AMapLocation-NO-IDFA'
+    pod 'AMapSearch-NO-IDFA'
 end

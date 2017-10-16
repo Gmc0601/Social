@@ -14,26 +14,43 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - AMapFoundation-NO-IDFA (1.4.2)
+  - AMapLocation-NO-IDFA (2.4.0):
+    - AMapFoundation-NO-IDFA (~> 1.4)
+  - AMapSearch-NO-IDFA (5.3.0):
+    - AMapFoundation-NO-IDFA (~> 1.2)
   - MBProgressHUD (1.0.0)
-  - SDWebImage (4.0.0):
-    - SDWebImage/Core (= 4.0.0)
-  - SDWebImage/Core (4.0.0)
+  - MJExtension (3.0.13)
+  - MJRefresh (3.1.12)
+  - SVProgressHUD (2.1.2)
+  - WXSTransition (1.2.1)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - AFNetworking
+  - AMapLocation-NO-IDFA
+  - AMapSearch-NO-IDFA
   - MBProgressHUD
-  - SDWebImage
+  - MJExtension
+  - MJRefresh
+  - SVProgressHUD
+  - WXSTransition
   - YYKit
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AMapFoundation-NO-IDFA: 3b9ce87abc6a37c718cc320687469d0b74d5c953
+  AMapLocation-NO-IDFA: 9493012d3241a7d551942c7c1e1069b51f295083
+  AMapSearch-NO-IDFA: eb0f9b424e6c3cdcb0e8c656e9622e8d0ee54238
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+  WXSTransition: 0bd758aaa1f5869a908b1bb103c4a9e26ad1d3eb
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: b3db4d1c30feba6e19dcfc1cfb2c1686ad89c9b6
+PODFILE CHECKSUM: 481d113eb149a5f69471865a7918d3d89df5da15
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

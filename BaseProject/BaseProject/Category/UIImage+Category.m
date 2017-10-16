@@ -261,9 +261,6 @@
     return [self _yy_flipHorizontal:YES vertical:NO];
 }
 
-static inline CGFloat DegreesToRadians(CGFloat degrees) {
-    return degrees * M_PI / 180;
-}
 @end
 
 

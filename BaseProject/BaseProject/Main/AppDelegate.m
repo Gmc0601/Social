@@ -8,26 +8,20 @@
 
 #import "AppDelegate.h"
 #import "TBTabBarController.h"
-@interface AppDelegate ()
-@property (nonatomic, retain) TBTabBarController *tabbar;
-@end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [ConfigModel saveBoolObject:YES forKey:IsLogin];
+    [ConfigModel saveString:@"88d7009129e5ef5ba7fb88112db30ee6" forKey:UserToken];
+    [SVProgressHUD setMinimumDismissTimeInterval:1];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    
-    self.tabbar = [[TBTabBarController alloc] init];
-    
-    self.window.rootViewController = self.tabbar;
-    
+    self.window.rootViewController = [[TBTabBarController alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
-    
     [self.window makeKeyAndVisible];
-    
-    
+
     return YES;
 }
 

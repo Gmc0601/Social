@@ -7,13 +7,14 @@
 //
 
 #import "TBTabBarController.h"
-#import "MyCenterViewController.h"
 #import "MessageListViewController.h"
-#import "ContactViewController.h"
-#import "MomentsViewController.h"
 #import "ViewController.h"
 #import "TBNavigationController.h"
 #import "TBTabBar.h"
+#import "XFMessageViewController.h"
+#import "XFFriendViewController.h"
+#import "XFCircleViewController.h"
+#import "XFMyViewController.h"
 
 @interface TBTabBarController ()
 
@@ -34,18 +35,17 @@
 
 - (void)setUpChildVC {
 
-    MessageListViewController *newsVc = [[MessageListViewController alloc] init];
+    XFMessageViewController *newsVc = [[XFMessageViewController alloc] init];
     [self setChildVC:newsVc title:@"消息" image:@"icon_xx_tab-拷贝" selectedImage:@"icon_xx_tab"];
 
-    ContactViewController *investment = [[ContactViewController alloc] init];
+    XFFriendViewController *investment = [[XFFriendViewController alloc] init];
     [self setChildVC:investment title:@"有缘人" image:@"icon_yyr_tab_pre" selectedImage:@"icon_yyr_tab"];
     
-    MomentsViewController *moment = [[MomentsViewController alloc] init];
+    XFCircleViewController *moment = [[XFCircleViewController alloc] init];
     [self setChildVC:moment title:@"缘分圈" image:@"icon_yfq_tab" selectedImage:@"icon_yfq_tab_pre"];
     
-    MyCenterViewController *myVC = [[MyCenterViewController alloc] init];
+    XFMyViewController *myVC = [[XFMyViewController alloc] init];
     [self setChildVC:myVC title:@"我" image:@"icon_wd_tab_pre" selectedImage:@"icon_wd_tab"];
-
 }
 
 - (void) setChildVC:(UIViewController *)childVC title:(NSString *) title image:(NSString *) image selectedImage:(NSString *) selectedImage {

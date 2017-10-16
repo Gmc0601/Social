@@ -56,7 +56,7 @@
         _CC_table.delegate = self;
         _CC_table.dataSource = self;
         [_CC_table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        WeakSelf(weakself);
+        XXWeakSelf(weakself);
         [_CC_table addRefreshHeaderWithBlock:^{
             [weakself CC_reloadDate];
         }];

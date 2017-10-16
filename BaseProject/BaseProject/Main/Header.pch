@@ -9,6 +9,75 @@
 #ifndef Header_pch
 #define Header_pch
 
+
+
+
+
+#import "XFConst.h"
+#import <YYKit/YYKit.h>
+#import <MJExtension.h>
+#import <MJRefresh.h>
+#import <AFNetworking.h>
+#import "MLBlackTransition.h"
+#import <SVProgressHUD.h>
+#import <MBProgressHUD.h>
+#import <AMapSearchKit/AMapSearchKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
+
+#import "NSString+XFExtension.h"
+#import "UILabel+XFExtension.h"
+#import "UIButton+XFExtension.h"
+#import "UIView+XFExtension.h"
+#import "UIColor+XFExtension.h"
+#import "NSArray+XFExtension.h"
+
+#import "XFViewController.h"
+#import "XFTextView.h"
+#import "XFLRButton.h"
+#import "XFUDButton.h"
+#import "XFRefreshTool.h"
+
+#import "MainApi.h"
+
+#import "User.h"
+#import "TradeRecord.h"
+#import "CircleComment.h"
+#import "Circle.h"
+
+
+
+#ifdef DEBUG
+#define FFLog(...)                      NSLog(@"%s 第%d行 \n %@\n\n",__func__,__LINE__,[NSString stringWithFormat:__VA_ARGS__])
+#define FFLogFunc                       FFLog(@"%s", __func__);
+#else
+#define FFLog
+#define FFLogFunc
+#endif
+
+
+#define RGBGray(r)                      [UIColor colorWithRed:r/255.0f green:r/255.0f blue:r/255.0f alpha:1]
+#define RGB(R,G,B)                      [UIColor colorWithRed:R/255.0f green:G/255.0f blue:B/255.0f alpha:1]
+#define RGBA(R,G,B,A)                   [UIColor colorWithRed:R/255.0f green:G/255.0f blue:B/255.0f alpha:A]
+#define RandomColor                     RGB((arc4random_uniform(256)),(arc4random_uniform(256)),(arc4random_uniform(256)))
+#define ThemeColor                      RGB(144, 56, 143)
+#define BlueColor                       RGB(75, 220, 199)
+#define BlackColor                      RGBGray(51)
+#define WhiteColor                      RGBGray(255)
+#define SplitColor                      RGBGray(224)
+#define PaddingColor                    RGBGray(240)
+#define MaskColor                       RGBA(0, 0, 0, 0.4)
+#define Image(name)                     [UIImage imageNamed:name]
+#define NoteCenter                      [NSNotificationCenter defaultCenter]
+#define UserDefaults                    [NSUserDefaults standardUserDefaults]
+#define WeakSelf                        __weak typeof(self) weakSelf = self;
+#define Font(num)                       [UIFont systemFontOfSize:num]
+#define FontB(num)                      [UIFont boldSystemFontOfSize:num]
+
+#define IsNULL(_ref)   (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]) || ([(_ref) isKindOfClass:[NSNull class]]) )
+
+
+
 #import "CCUrl.h"
 #import "ConfigModel.h"
 #import "MainApi.h"
@@ -49,7 +118,7 @@
 #define kEnglishKeyboardHeight      (216.f)
 #define kChineseKeyboardHeight      (252.f)
 
-#define WeakSelf(weakSelf)  __weak __typeof(&*self)  weakSelf  = self;
+#define XXWeakSelf(weakSelf)  __weak __typeof(&*self)  weakSelf  = self;
 #define WeakObj(o) __weak typeof(o) o##Weak = o
 
 #define StrongSelf(strongSelf)  __strong __typeof(&*self)  strongSelf = weakSelf;
