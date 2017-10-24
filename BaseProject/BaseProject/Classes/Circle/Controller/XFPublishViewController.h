@@ -11,3 +11,4 @@
 @interface XFPublishViewController : XFViewController
 
 @end
+

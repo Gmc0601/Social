@@ -69,7 +69,7 @@
 
 - (void)overBtnClick {
     self.nickName = self.field.text;
-    if (self.nickName.length) {        
+    if (self.nickName.length) {
         if (self.saveBtnClick) {
             self.saveBtnClick(self.nickName);
         }
@@ -78,3 +78,4 @@
 }
 
 @end
+

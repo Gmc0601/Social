@@ -10,4 +10,7 @@
 
 @interface XFSeniorFilterViewController : XFViewController
 
+@property (nonatomic, copy) void (^confirmBack)(NSDictionary *dict);
+
 @end
+

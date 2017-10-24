@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '8.0'
 inhibit_all_warnings!
 
 target 'BaseProject' do
@@ -11,4 +11,7 @@ target 'BaseProject' do
     pod 'SVProgressHUD'
     pod 'AMapLocation-NO-IDFA'
     pod 'AMapSearch-NO-IDFA'
+    pod 'AMap2DMap-NO-IDFA'
+    pod 'TZImagePickerController'
+    pod 'MWPhotoBrowser'
 end

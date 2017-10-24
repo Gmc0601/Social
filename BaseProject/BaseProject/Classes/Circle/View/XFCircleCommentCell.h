@@ -14,3 +14,4 @@
 @property (nonatomic, strong) XFCircleCommentCellModel *model;
 
 @end
+

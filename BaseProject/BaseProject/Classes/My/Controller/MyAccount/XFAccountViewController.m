@@ -36,10 +36,10 @@
                               backAction:@selector(backBtnClick)];
     
     UIButton *recordBtn = [UIButton xf_titleButtonWithTitle:@"交易记录"
-                                                titleColor:BlackColor
-                                                 titleFont:Font(15)
-                                                    target:self
-                                                    action:@selector(recordBtnClick)];
+                                                 titleColor:BlackColor
+                                                  titleFont:Font(15)
+                                                     target:self
+                                                     action:@selector(recordBtnClick)];
     recordBtn.frame = CGRectMake(kScreenWidth - 85, 20, 85, 44);
     [navView addSubview:recordBtn];
     [self.view addSubview:navView];
@@ -59,9 +59,9 @@
     
     
     UILabel *countLabel = [UILabel xf_labelWithFont:FontB(50)
-                                             textColor:BlackColor
-                                         numberOfLines:1
-                                             alignment:NSTextAlignmentCenter];
+                                          textColor:BlackColor
+                                      numberOfLines:1
+                                          alignment:NSTextAlignmentCenter];
     countLabel.text = @"0";
     self.integralLabel = countLabel;
     countLabel.frame = CGRectMake(0, integralLabel.bottom + 20, kScreenWidth, 38);
@@ -98,10 +98,10 @@
     [self.view addSubview:splitView2];
     
     UIButton *outBtn = [UIButton xf_titleButtonWithTitle:@"提现"
-                                                 titleColor:BlackColor
-                                                  titleFont:Font(15)
-                                                     target:self
-                                                     action:@selector(outBtnClick)];
+                                              titleColor:BlackColor
+                                               titleFont:Font(15)
+                                                  target:self
+                                                  action:@selector(outBtnClick)];
     outBtn.backgroundColor = RGBGray(242);
     [outBtn xf_cornerCut:5];
     outBtn.size = CGSizeMake(kScreenWidth - 20, 44);
@@ -122,19 +122,17 @@
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
                   NSDictionary *info = responseObject[@"info"];
-                  if ([info isKindOfClass:[NSDictionary class]]) {
-                      NSNumber *integral = info[@"integral"];
-                      weakSelf.integralLabel.text = integral.stringValue;
-                      
-                      NSNumber *income = info[@"income"];
-                      weakSelf.incomeLabel.text = income.stringValue;
-                      
-                      NSNumber *expend = info[@"expend"];
-                      weakSelf.expendLabel.text = expend.stringValue;
-                      
-                      NSNumber *pay = info[@"pay"];
-                      weakSelf.payLabel.text = pay.stringValue;
-                  }
+                  NSNumber *integral = info[@"integral"];
+                  weakSelf.integralLabel.text = integral.stringValue;
+                  
+                  NSNumber *income = info[@"income"];
+                  weakSelf.incomeLabel.text = income.stringValue;
+                  
+                  NSNumber *expend = info[@"expend"];
+                  weakSelf.expendLabel.text = expend.stringValue;
+                  
+                  NSNumber *pay = info[@"pay"];
+                  weakSelf.payLabel.text = pay.stringValue;
               }];
 }
 
@@ -167,9 +165,9 @@
     [view addSubview:infoLabel];
     
     UILabel *countLabel = [UILabel xf_labelWithFont:FontB(18)
-                                         textColor:RGBGray(102)
-                                     numberOfLines:1
-                                         alignment:NSTextAlignmentCenter];
+                                          textColor:RGBGray(102)
+                                      numberOfLines:1
+                                          alignment:NSTextAlignmentCenter];
     countLabel.text = @"0";
     countLabel.frame = CGRectMake(0, infoLabel.bottom, view.width, 30);
     countLabel.tag = 100;
@@ -180,3 +178,4 @@
 }
 
 @end
+

@@ -84,8 +84,13 @@
                                                                     selectText:nil];
         selectItem.delegate = self;
         [self.view addSubview:selectItem];
+    } else if (ges.view.tag == 2) {
+        XFUserAgreementViewController *controller = [[XFUserAgreementViewController alloc] init];
+        controller.agreementType = AgreementType_About;
+        [self pushController:controller];
     } else if (ges.view.tag == 3) {
         XFUserAgreementViewController *controller = [[XFUserAgreementViewController alloc] init];
+        controller.agreementType = AgreementType_Agree;
         [self pushController:controller];
     }
 }
@@ -97,7 +102,7 @@
     view.tag = tag;
     view.userInteractionEnabled = YES;
     [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTap:)]];
-
+    
     UILabel *label = [UILabel xf_labelWithFont:Font(12)
                                      textColor:RGBGray(102)
                                  numberOfLines:0
@@ -119,3 +124,4 @@
 }
 
 @end
+

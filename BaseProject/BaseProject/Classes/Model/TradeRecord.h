@@ -19,3 +19,4 @@
 @property (nonatomic, copy) NSString *status; // 状态
 
 @end
+

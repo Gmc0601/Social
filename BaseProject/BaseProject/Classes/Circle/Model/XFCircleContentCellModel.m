@@ -85,7 +85,8 @@
         self.picViewFrame = rect;
         maxContentH = CGRectGetMaxY(self.picViewFrame);
     } else if (circle.upload_type.integerValue == 2) {
-        
+        self.videoFrame = CGRectMake(contentLeft, maxContentH, 87, 87);
+        maxContentH = CGRectGetMaxY(self.videoFrame);
     }
     
     self.circleContentFrame = CGRectMake(0, 0, kScreenWidth, maxContentH);

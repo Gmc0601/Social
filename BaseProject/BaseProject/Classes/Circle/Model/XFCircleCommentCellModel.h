@@ -21,3 +21,4 @@
 - (instancetype)initWithComment:(CircleComment *)comment;
 
 @end
+

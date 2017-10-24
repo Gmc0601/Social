@@ -37,7 +37,9 @@
                           User *user = [User mj_objectWithKeyValues:userInfo];
                           
                           NSDictionary *cpInfo = info[@"usercpinfo"];
-                          user.coolpoint = cpInfo[@"coolpoint"];
+                          if (!IsNULL(cpInfo[@"coolpoint"])) {
+                              user.coolpoint = cpInfo[@"coolpoint"];
+                          }
                           user.beetlepoint = cpInfo[@"beetlepoint"];
                           
                           NSDictionary *rankInfo = info[@"rankinginfo"];
@@ -85,12 +87,12 @@
     countryView.top = topView.bottom;
     
     UIView *cityView = [self createItemView:@"所在地排名"
-                                           coo:self.user.city_coo.integerValue
-                                           bee:self.user.city_bee.integerValue];
+                                        coo:self.user.city_coo.integerValue
+                                        bee:self.user.city_bee.integerValue];
     cityView.top = countryView.bottom;
     UIView *friendView = [self createItemView:@"好友排名"
-                                           coo:self.user.friend_coo.integerValue
-                                           bee:self.user.friend_bee.integerValue];
+                                          coo:self.user.friend_coo.integerValue
+                                          bee:self.user.friend_bee.integerValue];
     friendView.top = cityView.bottom;
     self.scrollView.contentSize = CGSizeMake(kScreenWidth, friendView.bottom);
 }
@@ -140,7 +142,7 @@
     NSMutableAttributedString *fenStr = [[NSMutableAttributedString alloc] initWithString:@"分"];
     fenStr.font = Font(12);
     [attrStr appendAttributedString:fenStr.copy];
-
+    
     attrStr.color = BlueColor;
     label.attributedText = attrStr;
     label.textAlignment = NSTextAlignmentCenter;
@@ -203,3 +205,4 @@
 }
 
 @end
+

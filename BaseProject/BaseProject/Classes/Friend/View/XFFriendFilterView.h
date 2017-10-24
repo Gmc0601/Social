@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, FriendFilterType) {
 
 @optional
 - (void)friendFilterView:(XFFriendFilterView *)view didSelect:(NSString *)text;
-
+- (void)friendFilterView:(XFFriendFilterView *)view didSelectCharm:(NSString *)charm tortoise:(NSString *)tortoise;
 @end
 
 @interface XFFriendFilterView : UIView
@@ -31,3 +31,4 @@ typedef NS_ENUM(NSInteger, FriendFilterType) {
                      tortoiseCount:(CGFloat)tortoiseCount;
 
 @end
+

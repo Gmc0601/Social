@@ -11,14 +11,17 @@
 #import "XFCircleContentCell.h"
 #import "XFCircleContentCellModel.h"
 #import "XFCircleDetailViewController.h"
+#import "XFPlayVideoController.h"
 
 
-@interface XFCircleContentViewController ()<UITableViewDelegate, UITableViewDataSource, XFCircleContentCellDelegate>
+@interface XFCircleContentViewController ()<UITableViewDelegate, UITableViewDataSource, XFCircleContentCellDelegate, MWPhotoBrowserDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *suggestArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) NSInteger currentPage;
+
+@property (nonatomic, strong) NSMutableArray *photosArray;
 
 @end
 
@@ -232,6 +235,44 @@
     FFLogFunc
 }
 
+- (void)circleContentCell:(XFCircleContentCell *)cell didClickVideoView:(XFCircleContentCellModel *)model {
+    XFPlayVideoController *controller = [[XFPlayVideoController alloc] init];
+    controller.videoUrl = model.circle.video;
+    [self pushController:controller];
+}
+
+- (void)circleContentCell:(XFCircleContentCell *)cell didTapPicView:(NSInteger)index model:(XFCircleContentCellModel *)model {
+    self.photosArray = [NSMutableArray array];
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    for (int i = 0; i < model.circle.image.count; i++) {
+        [self.photosArray addObject:[MWPhoto photoWithURL:[NSURL URLWithString:model.circle.image[i]]]];
+    }
+    browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
+    browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+    browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
+    browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
+    browser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    browser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
+    browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+    [browser setCurrentPhotoIndex:index];
+    [browser showNextPhotoAnimated:YES];
+    [browser showPreviousPhotoAnimated:YES];
+    
+    // Present
+    [self.navigationController pushViewController:browser animated:YES];
+}
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.photosArray.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.photosArray.count) {
+        return [self.photosArray objectAtIndex:index];
+    }
+    return nil;
+}
+
 #pragma mark ----------Private----------
 - (NSString *)getTheUrl {
     if (self.type == CircleContentType_Hot) {
@@ -279,3 +320,4 @@
 }
 
 @end
+

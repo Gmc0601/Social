@@ -19,7 +19,8 @@
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickShareBtn:(XFCircleContentCellModel *)model;
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickZanBtn:(XFCircleContentCellModel *)model;
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickCommentBtn:(XFCircleContentCellModel *)model;
-
+- (void)circleContentCell:(XFCircleContentCell *)cell didClickVideoView:(XFCircleContentCellModel *)model;
+- (void)circleContentCell:(XFCircleContentCell *)cell didTapPicView:(NSInteger)index model:(XFCircleContentCellModel *)model;
 @end
 
 @interface XFCircleContentCell : UITableViewCell
@@ -28,3 +29,4 @@
 @property (nonatomic, weak) id<XFCircleContentCellDelegate> delegate;
 
 @end
+

@@ -41,7 +41,6 @@
 }
 
 - (void)setupNavView {
-    self.navigationController.navigationBarHidden = YES;
     UIView *navView = [UIView xf_createWhiteView];
     navView.frame = CGRectMake(0, 0, kScreenWidth, XFNavHeight);
     navView.backgroundColor = ThemeColor;
@@ -202,3 +201,4 @@
 }
 
 @end
+

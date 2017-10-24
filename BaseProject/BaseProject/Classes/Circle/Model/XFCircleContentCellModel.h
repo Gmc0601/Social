@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, CircleContentModelType) {
 @property (nonatomic, assign) CGRect descLabelFrame;
 @property (nonatomic, assign) CGRect picViewFrame;
 @property (nonatomic, strong) NSArray *picFArray;
+@property (nonatomic, assign) CGRect videoFrame;
 @property (nonatomic, assign) CGRect circleContentFrame;
 
 @property (nonatomic, assign) CGRect rewardBtnFrame;

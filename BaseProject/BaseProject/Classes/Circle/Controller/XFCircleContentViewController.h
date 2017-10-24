@@ -20,3 +20,4 @@ typedef NS_ENUM(NSInteger, CircleContentType) {
 @property (nonatomic, assign) CircleContentType type;
 
 @end
+

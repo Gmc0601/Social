@@ -29,3 +29,4 @@ typedef NS_ENUM(NSInteger, CircleShareBtnType) {
 @property (nonatomic, weak) id<XFCircleShareViewDelegate> delegate;
 
 @end
+

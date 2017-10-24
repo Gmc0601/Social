@@ -54,6 +54,18 @@
     }
 }
 
+- (void)circleContentView:(XFCircleContentView *)view didClickVideoView:(XFCircleContentCellModel *)model {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circleContentCell:didClickVideoView:)]) {
+        [self.delegate circleContentCell:self didClickVideoView:self.model];
+    }
+}
+
+- (void)circleContentView:(XFCircleContentView *)view didTapPicView:(NSInteger)index model:(XFCircleContentCellModel *)model {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circleContentCell:didTapPicView:model:)]) {
+        [self.delegate circleContentCell:self didTapPicView:index model:self.model];
+    }
+}
+
 #pragma mark ----------Action----------
 - (void)rewardBtnClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(circleContentCell:didClickRewardBtn:)]) {
@@ -142,3 +154,4 @@
 }
 
 @end
+

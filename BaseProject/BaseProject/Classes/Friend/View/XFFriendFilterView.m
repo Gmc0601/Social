@@ -247,9 +247,15 @@
     }];
 }
 - (void)dismiss {
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(friendFilterView:didSelect:)]) {
-//        [self.delegate friendFilterView:self didSelect:self.selectIndex];
-//    }
+    if (self.type == FriendFilterType_Normal) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(friendFilterView:didSelect:)]) {
+            [self.delegate friendFilterView:self didSelect:self.dataArray[self.selectIndex]];
+        }
+    } else if (self.type == FriendFilterType_Charm) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(friendFilterView:didSelectCharm:tortoise:)]) {
+            [self.delegate friendFilterView:self didSelectCharm:self.charmCountLabel.text tortoise:self.tortoiseCountLabel.text];
+        }
+    }
     [UIView animateWithDuration:0.25 animations:^{
         self.alpha = 0;
         if (self.type == FriendFilterType_Normal) {
@@ -276,9 +282,9 @@
 
 - (UILabel *)createContentLabel:(NSString *)text {
     UILabel *label = [UILabel xf_labelWithFont:Font(13)
-                                          textColor:BlackColor
-                                      numberOfLines:1
-                                          alignment:NSTextAlignmentCenter];
+                                     textColor:BlackColor
+                                 numberOfLines:1
+                                     alignment:NSTextAlignmentCenter];
     label.text = text;
     return label;
 }
@@ -312,3 +318,4 @@
 }
 
 @end
+

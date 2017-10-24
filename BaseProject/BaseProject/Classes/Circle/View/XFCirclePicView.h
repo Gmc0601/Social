@@ -7,10 +7,19 @@
 //  缘分圈图片View
 
 #import <UIKit/UIKit.h>
-@class XFCircleContentCellModel;
+@class XFCircleContentCellModel, XFCirclePicView;
+
+@protocol XFCirclePicViewDelegate <NSObject>
+
+@optional
+- (void)circlePicView:(XFCirclePicView *)picView didTapPicView:(NSInteger)index model:(XFCircleContentCellModel *)model;
+
+@end
 
 @interface XFCirclePicView : UIView
 
 @property (nonatomic, strong) XFCircleContentCellModel *model;
+@property (nonatomic, weak) id<XFCirclePicViewDelegate> delegate;
 
 @end
+

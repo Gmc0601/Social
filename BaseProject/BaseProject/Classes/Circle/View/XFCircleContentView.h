@@ -15,6 +15,8 @@
 @optional
 - (void)circleContentView:(XFCircleContentView *)view didClickIconView:(XFCircleContentCellModel *)model;
 - (void)circleContentView:(XFCircleContentView *)view didClickFollowBtn:(XFCircleContentCellModel *)model;
+- (void)circleContentView:(XFCircleContentView *)view didClickVideoView:(XFCircleContentCellModel *)model;
+- (void)circleContentView:(XFCircleContentView *)view didTapPicView:(NSInteger)index model:(XFCircleContentCellModel *)model;
 
 @end
 
@@ -24,3 +26,4 @@
 @property (nonatomic, weak) id<XFCircleContentViewDelegate> delegate;
 
 @end
+

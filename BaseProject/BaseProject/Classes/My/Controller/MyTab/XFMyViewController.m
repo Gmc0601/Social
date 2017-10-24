@@ -55,7 +55,6 @@
 }
 
 - (void)setupUI {
-    self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = WhiteColor;
     self.automaticallyAdjustsScrollViewInsets = NO;
     UISwipeGestureRecognizer *up = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(viewUpSwipe)];
@@ -87,7 +86,6 @@
 
 - (void)setupTabView {
     _tabView = [UIView xf_createWhiteView];
-    _tabView.backgroundColor = [UIColor clearColor];
     _tabView.frame = CGRectMake(0, self.myInfoView.bottom, kScreenWidth, XFCircleTabHeight + 2);
     
     UIButton *circleBtn = [self createTabBtn:@"缘分圈" andTag:0];
@@ -150,7 +148,7 @@
     XFFollowViewController *controller = [[XFFollowViewController alloc] init];
     controller.followType = (FollowType)tag;
     [self pushController:controller];
-
+    
 }
 
 - (void)myInfoViewDidTapSignLabel:(XFMyInfoView *)view {
@@ -160,7 +158,7 @@
         self.myInfoView.user = self.user;
     };
     [self pushController:controller];
-
+    
 }
 
 - (void)myInfoViewDidClickIconBtn:(XFMyInfoView *)view {
@@ -214,6 +212,7 @@
         [UIView animateWithDuration:0.25 animations:^{
             self.tabView.top = XFNavHeight;
             self.scrollView.top = self.tabView.bottom;
+            //            self.myInfoView.bottom = XFNavHeight;
         }];
     }
 }
@@ -230,6 +229,7 @@
     }
     if (offset <= 0) {
         [UIView animateWithDuration:0.25 animations:^{
+            //            self.myInfoView.top = 0;
             self.tabView.top = self.myInfoView.bottom;
             self.scrollView.top = self.tabView.bottom;
         }];
@@ -301,3 +301,4 @@
 }
 
 @end
+

@@ -14,13 +14,22 @@
 @property (nonatomic, weak) UIView *alertView;
 @property (nonatomic, weak) UITextField *field;
 
+@property (nonatomic, strong) YYLabel *rightLabel;
+@property (nonatomic, strong) NSDictionary *infoDict;
+
 @end
 
 @implementation XFGetMoneyViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNotification];
     [self setupUI];
+    [self loadData];
+}
+
+- (void)dealloc {
+    [NoteCenter removeObserver:self];
 }
 
 - (void)setupUI {
@@ -30,6 +39,35 @@
                                    backTarget:self
                                    backAction:@selector(backBtnClick)];
     [self.view addSubview:navView];
+}
+
+- (void)setupNotification {
+    [NoteCenter addObserver:self
+                   selector:@selector(bindSuccess:)
+                       name:XFBindAliPaySuccessNotification
+                     object:nil];
+}
+
+- (void)loadData {
+    [HttpRequest postPath:XFMyIntegralDetailUrl
+                   params:nil
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          NSDictionary *dict = responseObject[@"info"];
+                          if ([dict isKindOfClass:[NSDictionary class]]) {
+                              self.infoDict = dict;
+                              [self setupContent];
+                          }
+                      }
+                  }
+                  
+              }];
+}
+
+- (void)setupContent {
+    
     
     UILabel *leftLabel1 = [UILabel xf_labelWithFont:Font(15)
                                           textColor:BlackColor
@@ -40,35 +78,27 @@
     [self.view addSubview:leftLabel1];
     
     YYLabel *rightLabel = [YYLabel new];
-//    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:@"未绑定支付宝账户"];
-//    attr.font = Font(13);
-//    attr.color = RGBGray(153);
-//    NSMutableAttributedString *agreementAttr = [[NSMutableAttributedString alloc] initWithString:@" 立即绑定"];
-//    agreementAttr.font = Font(13);
-//    agreementAttr.color = RGB(86, 144, 56);
-//    YYTextHighlight *highlight = [YYTextHighlight new];
-//    highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
-//        XFBindAlipayViewController *controller = [[XFBindAlipayViewController alloc] init];
-//        [self pushController:controller];
-//    };
-//    [agreementAttr setTextHighlight:highlight range:agreementAttr.rangeOfAll];
-//    [attr appendAttributedString:agreementAttr];
-//    rightLabel.attributedText = attr.copy;
-    /*  上面注释部分是未绑定支付宝账户  */
-    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:@"13011007870"];
-    attr.font = Font(13);
-    attr.color = BlackColor;
-    NSMutableAttributedString *agreementAttr = [[NSMutableAttributedString alloc] initWithString:@" 修改"];
-    agreementAttr.font = Font(13);
-    agreementAttr.color = RGB(86, 144, 56);
-    YYTextHighlight *highlight = [YYTextHighlight new];
-    highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
-        XFBindAlipayViewController *controller = [[XFBindAlipayViewController alloc] init];
-        [self pushController:controller];
-    };
-    [agreementAttr setTextHighlight:highlight range:agreementAttr.rangeOfAll];
-    [attr appendAttributedString:agreementAttr];
-    rightLabel.attributedText = attr.copy;
+    self.rightLabel = rightLabel;
+    NSString *zhanghao = self.infoDict[@"zhanghao"];
+    if (IsNULL(zhanghao) || zhanghao.length == 0) {
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:@"未绑定支付宝账户"];
+        attr.font = Font(13);
+        attr.color = RGBGray(153);
+        NSMutableAttributedString *agreementAttr = [[NSMutableAttributedString alloc] initWithString:@" 立即绑定"];
+        agreementAttr.font = Font(13);
+        agreementAttr.color = RGB(86, 144, 56);
+        YYTextHighlight *highlight = [YYTextHighlight new];
+        highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+            XFBindAlipayViewController *controller = [[XFBindAlipayViewController alloc] init];
+            [self pushController:controller];
+        };
+        [agreementAttr setTextHighlight:highlight range:agreementAttr.rangeOfAll];
+        [attr appendAttributedString:agreementAttr];
+        rightLabel.attributedText = attr.copy;
+    } else {
+        [self setupRightLabel:zhanghao];
+    }
+    
     rightLabel.frame = CGRectMake(kScreenWidth - 215, XFNavHeight, 200, 50);
     rightLabel.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:rightLabel];
@@ -87,6 +117,7 @@
     
     UITextField *field = [[UITextField alloc] init];
     self.field = field;
+    field.keyboardType = UIKeyboardTypeNumberPad;
     field.frame = CGRectMake(15, leftLabel2.bottom, kScreenWidth - 30, 60);
     field.font = FontB(50);
     field.textColor = BlackColor;
@@ -100,7 +131,12 @@
                                           textColor:RGBGray(153)
                                       numberOfLines:0
                                           alignment:NSTextAlignmentLeft];
-    leftLabel3.text = @"可提现积分：100";
+    NSString *ketixian = self.infoDict[@"ketixian"];
+    if (IsNULL(ketixian) || ketixian.length == 0) {
+        leftLabel3.text = @"可提现积分：0";
+    } else {
+        leftLabel3.text = [NSString stringWithFormat:@"可提现积分：%@", ketixian];
+    }
     leftLabel3.frame = CGRectMake(15, splitView2.bottom + 5, 100, 30);
     [self.view addSubview:leftLabel3];
     
@@ -108,25 +144,52 @@
                                           textColor:RGBGray(153)
                                       numberOfLines:0
                                           alignment:NSTextAlignmentLeft];
-    leftLabel4.text = @"不可提现积分：100";
+    NSString *buketixian = self.infoDict[@"buketixian"];
+    if (IsNULL(buketixian) || buketixian.length == 0) {
+        leftLabel4.text = @"不可提现积分：0";
+    } else {
+        leftLabel4.text = [NSString stringWithFormat:@"不可提现积分：%@", buketixian];
+    }
     [leftLabel4 sizeToFit];
     leftLabel4.left = 15;
     leftLabel4.top = leftLabel3.bottom;
     [self.view addSubview:leftLabel4];
     
     UIButton *infoBtn = [UIButton xf_imgButtonWithImgName:@"tx_icon_sm"
-                                                       target:self
-                                                       action:@selector(infoBtnClick)];
+                                                   target:self
+                                                   action:@selector(infoBtnClick)];
     [infoBtn sizeToFit];
     infoBtn.left = leftLabel4.right + 10;
     infoBtn.centerY = leftLabel4.centerY;
     [self.view addSubview:infoBtn];
     
     UIButton *confirmBtn = [UIButton xf_bottomBtnWithTitle:@"确认提现"
-                                                 target:self
-                                                 action:@selector(confirmBtnClick)];
+                                                    target:self
+                                                    action:@selector(confirmBtnClick)];
     confirmBtn.frame = CGRectMake(10, infoBtn.bottom + 30, kScreenWidth - 20, 44);
     [self.view addSubview:confirmBtn];
+}
+
+- (void)bindSuccess:(NSNotification *)notification {
+    [self setupRightLabel:notification.object];
+}
+
+- (void)setupRightLabel:(NSString *)text {
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:text];
+    attr.font = Font(13);
+    attr.color = BlackColor;
+    NSMutableAttributedString *agreementAttr = [[NSMutableAttributedString alloc] initWithString:@" 修改"];
+    agreementAttr.font = Font(13);
+    agreementAttr.color = RGB(86, 144, 56);
+    YYTextHighlight *highlight = [YYTextHighlight new];
+    highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+        XFBindAlipayViewController *controller = [[XFBindAlipayViewController alloc] init];
+        [self pushController:controller];
+    };
+    [agreementAttr setTextHighlight:highlight range:agreementAttr.rangeOfAll];
+    [attr appendAttributedString:agreementAttr];
+    self.rightLabel.attributedText = attr.copy;
+    self.rightLabel.textAlignment = NSTextAlignmentRight;
 }
 
 - (void)infoBtnClick {
@@ -165,8 +228,26 @@
 }
 
 - (void)confirmBtnClick {
-    FFLogFunc
-    FFLog(@"%@", self.field.text);
+    if (self.field.text.length == 0) {
+        FFLog(@"提现积分为空");
+        return;
+    }
+    if (self.field.text.integerValue == 0) {
+        FFLog(@"提现积分为0");
+        return;
+    }
+    [HttpRequest postPath:XFMyTXUrl
+                   params:@{@"integral" : self.field.text}
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          FFLog(@"提现成功");
+                      } else {
+                          FFLog(@"%@", responseObject[@"info"]);
+                      }
+                  }
+              }];
 }
 
 - (void)bottomBtnClick {
@@ -182,3 +263,4 @@
 }
 
 @end
+

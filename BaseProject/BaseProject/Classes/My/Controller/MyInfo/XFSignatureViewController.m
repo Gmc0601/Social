@@ -49,16 +49,16 @@
     [self.view addSubview:textView];
     
     UILabel *infoLabel = [UILabel xf_labelWithFont:Font(13)
-                                          textColor:RGBGray(153)
-                                      numberOfLines:0
-                                          alignment:NSTextAlignmentRight];
+                                         textColor:RGBGray(153)
+                                     numberOfLines:0
+                                         alignment:NSTextAlignmentRight];
     infoLabel.text = @"最多可输入24个字符";
     infoLabel.frame = CGRectMake(15, textView.bottom, kScreenWidth - 30, 50);
     [self.view addSubview:infoLabel];
     
     UIButton *saveBtn = [UIButton xf_bottomBtnWithTitle:@"保存"
-                                                    target:self
-                                                    action:@selector(btnClick)];
+                                                 target:self
+                                                 action:@selector(btnClick)];
     saveBtn.frame = CGRectMake(10, infoLabel.bottom, kScreenWidth - 20, 44);
     [self.view addSubview:saveBtn];
 }
@@ -91,3 +91,4 @@
 }
 
 @end
+

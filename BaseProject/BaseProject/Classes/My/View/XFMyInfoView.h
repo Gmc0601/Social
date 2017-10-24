@@ -23,3 +23,4 @@
 @property (nonatomic, weak) id<XFMyInfoViewDelegate> delegate;
 
 @end
+

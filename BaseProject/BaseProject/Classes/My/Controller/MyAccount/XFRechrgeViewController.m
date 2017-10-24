@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIButton *selectTextBtn;
 @property (nonatomic, strong) UIButton *selectImgBtn;
 
+@property (nonatomic, strong) NSArray *infoArray;
+
 @end
 
 @implementation XFRechrgeViewController
@@ -22,18 +24,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self loadData];
 }
 
 - (void)setupUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
-    UIView *navView = [UIView xf_navView:@"交易记录"
+    UIView *navView = [UIView xf_navView:@"充值"
                               backTarget:self
                               backAction:@selector(backBtnClick)];
     [self.view addSubview:navView];
-    
+}
+
+- (void)loadData {
+    [HttpRequest postPath:XFMyRecharegListUrl
+                   params:nil
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          NSArray *infoArray = responseObject[@"info"];
+                          if ([infoArray hasContent]) {
+                              self.infoArray = infoArray;
+                              [self setupContent];
+                              [self getContentWithDict:self.infoArray.firstObject];
+                          }
+                      }
+                  }
+              }];
+}
+
+- (void)setupContent {
     UIView *paddingView = [UIView xf_createPaddingView];
-    paddingView.frame = CGRectMake(0, navView.bottom, kScreenWidth, 5);
+    paddingView.frame = CGRectMake(0, XFNavHeight, kScreenWidth, 5);
     [self.view addSubview:paddingView];
     
     UILabel *myIntegralLabel = [UILabel xf_labelWithFont:Font(15)
@@ -46,41 +69,39 @@
     [self.view addSubview:myIntegralLabel];
     
     UILabel *selectLabel = [UILabel xf_labelWithFont:Font(12)
-                                               textColor:RGBGray(204)
-                                           numberOfLines:0
-                                               alignment:NSTextAlignmentLeft];
+                                           textColor:RGBGray(204)
+                                       numberOfLines:0
+                                           alignment:NSTextAlignmentLeft];
     selectLabel.text = @"选择充值金额";
     selectLabel.frame = CGRectMake(20, myIntegralLabel.bottom - 10, kScreenWidth - 40, 40);
     [self.view addSubview:selectLabel];
     
-    UIButton *btn1 = [self createTextBtn:@"10积分(赠送1积分)¥10" tag:0];
-    btn1.top = selectLabel.bottom;
-    
-    UIButton *btn2 = [self createTextBtn:@"50积分(赠送10积分)¥28" tag:1];
-    btn2.top = btn1.bottom + 10;
-    UIButton *btn3 = [self createTextBtn:@"100积分(赠送30积分)¥50" tag:2];
-    btn3.top = btn2.bottom + 10;
-    UIButton *btn4 = [self createTextBtn:@"150积分(赠送50积分)¥99" tag:3];
-    btn4.top = btn3.bottom + 10;
-    
-    [self textBtnClick:btn1];
-    
+    CGFloat orignY = selectLabel.bottom;
+    for (int i = 0; i < self.infoArray.count; i++) {
+        NSString *title = [self getContentWithDict:self.infoArray[i]];
+        UIButton *btn = [self createTextBtn:title tag:i];
+        btn.top = orignY;
+        orignY += (btn.height + 10);
+        if (i == 0) {
+            [self textBtnClick:btn];
+        }
+    }
     UIView *splitView = [UIView xf_createSplitView];
-    splitView.frame = CGRectMake(10, btn4.bottom + 15, kScreenWidth - 20, 0.5);
+    splitView.frame = CGRectMake(10, orignY + 5, kScreenWidth - 20, 0.5);
     [self.view addSubview:splitView];
     
     UILabel *payStyleLabel = [UILabel xf_labelWithFont:Font(15)
-                                               textColor:BlackColor
-                                           numberOfLines:0
-                                               alignment:NSTextAlignmentLeft];
+                                             textColor:BlackColor
+                                         numberOfLines:0
+                                             alignment:NSTextAlignmentLeft];
     payStyleLabel.text = @"支付方式";
     payStyleLabel.frame = CGRectMake(20, splitView.bottom + 5, kScreenWidth - 40, 40);
     [self.view addSubview:payStyleLabel];
     
     UILabel *selectPayLabel = [UILabel xf_labelWithFont:Font(12)
-                                           textColor:RGBGray(204)
-                                       numberOfLines:0
-                                           alignment:NSTextAlignmentLeft];
+                                              textColor:RGBGray(204)
+                                          numberOfLines:0
+                                              alignment:NSTextAlignmentLeft];
     selectPayLabel.text = @"选择支付方式";
     selectPayLabel.frame = CGRectMake(20, payStyleLabel.bottom - 10, kScreenWidth - 40, 40);
     [self.view addSubview:selectPayLabel];
@@ -102,6 +123,13 @@
     [self.view addSubview:confirmBtn];
 }
 
+- (NSString *)getContentWithDict:(NSDictionary *)dict {
+    NSString *buy_integral = dict[@"buy_integral"];
+    NSString *money = dict[@"money"];
+    NSString *send_integral = dict[@"send_integral"];
+    return [NSString stringWithFormat:@"%@积分(赠送%@积分)¥%@", buy_integral, send_integral, money];
+}
+
 #pragma mark ----------Action----------
 - (void)textBtnClick:(UIButton *)button {
     self.selectTextBtn.selected = NO;
@@ -120,9 +148,21 @@
 }
 
 - (void)confirmBtnClick {
-    FFLog(@"立即充值");
-    FFLog(@"%@", self.selectTextBtn.currentTitle);
-    FFLog(@"%zd", self.selectImgBtn.tag);
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSDictionary *infoDict = self.infoArray[self.selectTextBtn.tag];
+    [dict addEntriesFromDictionary:infoDict];
+    dict[@"type"] = self.selectImgBtn.tag == 0 ? @"1" : @"2";
+    [HttpRequest postPath:XFMyRechrgeUrl
+                   params:dict
+              resultBlock:^(id responseObject, NSError *error) {
+#warning 接口失败
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          FFLog(@"--------");
+                      }
+                  }
+              }];
 }
 
 
@@ -164,3 +204,4 @@
     }
 }
 @end
+

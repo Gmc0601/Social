@@ -76,9 +76,9 @@
 - (UILabel *)stateLabel {
     if (_stateLabel == nil) {
         _stateLabel = [UILabel xf_labelWithFont:Font(12)
-                                     textColor:RGBGray(153)
-                                 numberOfLines:1
-                                     alignment:NSTextAlignmentRight];
+                                      textColor:RGBGray(153)
+                                  numberOfLines:1
+                                      alignment:NSTextAlignmentRight];
         [self.contentView addSubview:_stateLabel];
     }
     return _stateLabel;
@@ -93,3 +93,4 @@
 }
 
 @end
+

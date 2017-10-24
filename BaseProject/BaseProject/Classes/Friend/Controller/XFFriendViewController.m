@@ -11,12 +11,19 @@
 #import "XFFriendFilterView.h"
 #import "XFSeniorFilterViewController.h"
 #import "XFFriendHomeViewController.h"
+#import "XFMapViewController.h"
+#import "XFLocationViewController.h"
 
-@interface XFFriendViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, XFFriendFilterViewDelegate>
+@interface XFFriendViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, XFFriendFilterViewDelegate, AMapLocationManagerDelegate>
 
+@property (nonatomic, strong) AMapLocationManager *locationManager;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) UILabel *locationLabel;
+
+@property (nonatomic, strong) NSMutableDictionary *seniorDict; // 普通筛选字典
+@property (nonatomic, strong) NSMutableDictionary *normalDict; // 高级筛选字典
 
 @end
 
@@ -26,13 +33,13 @@
     [super viewDidLoad];
     [self setupUI];
     [self loadData];
+    [self getLocation];
 }
 
 - (void)setupUI {
-    UIView *navView = [UIView xf_createWhiteView];
-    navView.frame = CGRectMake(0, 0, kScreenWidth, XFNavHeight);
-    navView.backgroundColor = ThemeColor;
-    [self.view addSubview:navView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self setupNavView];
     
     UIView *fileterView = [UIView xf_createWhiteView];
     fileterView.frame = CGRectMake(0, XFNavHeight, kScreenWidth, 33);
@@ -70,12 +77,69 @@
     splitView.frame = CGRectMake(0, fileterView.height - 0.5, fileterView.width, 0.5);
     [fileterView addSubview:splitView];
     [self.collectionView reloadData];
+    self.seniorDict = [NSMutableDictionary dictionary];
+    self.normalDict = [NSMutableDictionary dictionary];
+}
+
+- (void)setupNavView {
+    UIView *navView = [UIView xf_createWhiteView];
+    navView.frame = CGRectMake(0, 0, kScreenWidth, XFNavHeight);
+    navView.backgroundColor = ThemeColor;
+    [self.view addSubview:navView];
+    
+    UIView *searchView = [UIView xf_createViewWithColor:RGBA(249, 249, 249, 0.5)];
+    searchView.frame = CGRectMake(kScreenWidth - 177 - 16, 28, 177, 32);
+    [searchView xf_cornerCut:16];
+    [navView addSubview:searchView];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:Image(@"icon_nav_ss")];
+    imgView.centerY = searchView.height * 0.5;
+    imgView.right = searchView.width - 15;
+    [searchView addSubview:imgView];
+    
+    UITextField *textField = [[UITextField alloc] init];
+    textField.font = Font(13);
+    textField.placeholder = @"输入ID号搜索";
+    [searchView addSubview:textField];
+    textField.height = searchView.height;
+    textField.left = 15;
+    textField.width = imgView.left - 10 - textField.left;
+    
+    UIImageView *locationView = [[UIImageView alloc] initWithImage:Image(@"icon_dw_b")];
+    locationView.left = 16;
+    locationView.centerY = searchView.centerY;
+    locationView.userInteractionEnabled = YES;
+    [locationView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationViewTap)]];
+    [navView addSubview:locationView];
+    
+    UILabel *locationLabel = [UILabel xf_labelWithFont:Font(13)
+                                             textColor:WhiteColor
+                                         numberOfLines:1
+                                             alignment:NSTextAlignmentLeft];
+    self.locationLabel = locationLabel;
+    locationLabel.left = locationView.right + 5;
+    locationLabel.width = searchView.left - 5 - locationLabel.left;
+    locationLabel.height = 13;
+    locationLabel.centerY = locationView.centerY;
+    [navView addSubview:locationLabel];
+}
+
+- (void)locationViewTap {
+    //    XFMapViewController *controller = [[XFMapViewController alloc] init];
+    //    [self pushController:controller];
+    XFLocationViewController *controller = [[XFLocationViewController alloc] init];
+    controller.titleStr = @"选择地址";
+    controller.selectAddress = ^(NSDictionary *dict) {
+        NSString *name = dict[@"name"];
+        self.locationLabel.text = name;
+    };
+    [self pushController:controller];
 }
 
 - (void)loadData {
     WeakSelf
     [HttpRequest postPath:XFFriendHomeUrl
-                   params:nil
+                   params:[self getTheParams]
               resultBlock:^(id responseObject, NSError *error) {
                   weakSelf.dataArray = [NSMutableArray array];
                   if (!error) {
@@ -90,17 +154,36 @@
                           [self.collectionView reloadData];
                       }
                   }
-    }];
+              }];
 }
 
 - (NSDictionary *)getTheParams {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    
-    
-    
-    
-    
+    if (self.seniorDict.allKeys.count) {
+        [dict addEntriesFromDictionary:self.seniorDict];
+    }
+    if (self.normalDict.allKeys.count) {
+        [dict addEntriesFromDictionary:self.normalDict];
+    }
+    NSString *latitude = [UserDefaults stringForKey:XFCurrentLatitudeKey];
+    NSString *longitude = [UserDefaults stringForKey:XFCurrentLongitudeKey];
+    if (latitude.length && longitude.length) {
+        dict[@"lat"] = latitude;
+        dict[@"long"] = longitude;
+    }
+    FFLog(@"%@", dict);
     return dict;
+}
+
+- (void)getLocation {
+    self.locationManager = [[AMapLocationManager alloc] init];
+    [self.locationManager setDelegate:self];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+    [self.locationManager setLocationTimeout:10];
+    [self.locationManager setReGeocodeTimeout:5];
+    [self.locationManager requestLocationWithReGeocode:NO completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        FFLog(@"%@", regeocode.street);
+    }];
 }
 
 #pragma mark ----------<UICollectionViewDataSource>----------
@@ -129,33 +212,94 @@
 #pragma mark ----------<XFFriendFilterViewDelegate>----------
 - (void)friendFilterView:(XFFriendFilterView *)view didSelect:(NSString *)text {
     if (view.tag == 0) {
-        
+        if (![text isEqualToString:@"附近"]) {
+            self.normalDict[@"distance"] = text;
+            if ([text isEqualToString:@"全城"]) {
+                self.normalDict[@"distance"] = @"6";
+            }
+            [self loadData];
+        } else {
+            self.normalDict[@"distance"] = @"";
+        }
+    } else if (view.tag == 1) {
+        if (![text isEqualToString:@"不限"]) {
+            self.normalDict[@"sex"] = text;
+            [self loadData];
+        } else {
+            self.normalDict[@"sex"] = @"";
+        }
     }
+}
+
+- (void)friendFilterView:(XFFriendFilterView *)view didSelectCharm:(NSString *)charm tortoise:(NSString *)tortoise {
+    self.normalDict[@"coolpoint"] = charm;
+    self.normalDict[@"beetlepoint"] = tortoise;
+    [self loadData];
 }
 
 #pragma mark ----------Action----------
 - (void)filterBtnClick:(XFLRButton *)button {
     if (button.tag == 0) {
+        NSInteger index = 0;
+        NSString *text = self.normalDict[@"distance"];
+        NSArray *array = @[@"附近", @"1km", @"3km", @"4km", @"5km", @"10km", @"全城"];
+        if (text.length) {
+            if ([array containsObject:text]) {
+                index = [array indexOfObject:text];
+            } else {
+                if ([text isEqualToString:@"6"]) {
+                    index = array.count - 1;
+                }
+            }
+        }
         XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithDataArray:@[@"附近", @"1km", @"3km", @"4km", @"5km", @"10km", @"全城"]
-                                                                     selectIndex:0];
+                                                                     selectIndex:index];
         view.tag = 0;
         view.delegate = self;
         [[UIApplication sharedApplication].keyWindow addSubview:view];
     } else if (button.tag == 1) {
+        NSInteger index = 0;
+        NSString *text = self.normalDict[@"sex"];
+        NSArray *array = @[@"不限性别", @"男", @"女"];
+        if (text.length) {
+            if ([array containsObject:text]) {
+                index = [array indexOfObject:text];
+            }
+        }
         XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithDataArray:@[@"不限性别", @"男", @"女"]
-                                                                     selectIndex:0];
+                                                                     selectIndex:index];
         view.tag = 1;
         view.delegate = self;
         [[UIApplication sharedApplication].keyWindow addSubview:view];
     } else if (button.tag == 2) {
-        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithCharmCount:2.3 tortoiseCount:3.5];
-        view.tag = 3;
+        CGFloat charm = 0;
+        CGFloat tor = 0;
+        NSString *charmStr = self.normalDict[@"coolpoint"];
+        if (charmStr.length) {
+            charm = charmStr.floatValue;
+        }
+        NSString *torStr = self.normalDict[@"beetlepoint"];
+        if (torStr.length) {
+            tor = torStr.floatValue;
+        }
+        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithCharmCount:charm tortoiseCount:tor];
+        view.tag = 2;
         view.delegate = self;
         [[UIApplication sharedApplication].keyWindow addSubview:view];
     } else if (button.tag == 3) {
         XFSeniorFilterViewController *controller = [[XFSeniorFilterViewController alloc] init];
+        controller.confirmBack = ^(NSDictionary *dict) {
+            self.seniorDict = dict.mutableCopy;
+            if (dict.allKeys.count) {
+                [self loadData];
+            }
+        };
         [self pushController:controller];
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
 }
 
 #pragma mark ----------Private----------
@@ -193,3 +337,4 @@
 }
 
 @end
+

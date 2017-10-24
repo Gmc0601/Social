@@ -13,6 +13,7 @@
 
 @optional
 - (void)selectItemView:(XFSelectItemView *)itemView selectInfo:(NSString *)info;
+- (void)selectItemView:(XFSelectItemView *)itemView selectLeftInfo:(NSString *)leftInfo rightInfo:(NSString *)rightInfo;
 
 @end
 
@@ -29,3 +30,4 @@
 @property (nonatomic, weak) id<XFSelectItemViewDelegate> delegate;
 
 @end
+

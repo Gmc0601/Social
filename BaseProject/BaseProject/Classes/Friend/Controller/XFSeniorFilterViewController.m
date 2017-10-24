@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *currentTapView;
 
+@property (nonatomic, strong) NSMutableDictionary *dict;
+
 @end
 
 @implementation XFSeniorFilterViewController
@@ -27,6 +29,7 @@
 - (void)setupUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
+    self.dict = [NSMutableDictionary dictionary];
     UIView *navView = [UIView xf_navView:@"高级筛选"
                               backTarget:self
                               backAction:@selector(backBtnClick)];
@@ -102,9 +105,88 @@
 };
 
 #pragma mark ----------<XFSelectItemViewDelegate>----------
+- (void)selectItemView:(XFSelectItemView *)itemView selectLeftInfo:(NSString *)leftInfo rightInfo:(NSString *)rightInfo {
+    UILabel *label = (UILabel *)[self.currentTapView viewWithTag:300];
+    [self setupRightLabel:label info:[NSString stringWithFormat:@"%@-%@", leftInfo, rightInfo]];
+    if (self.currentTapView.tag == SeniorFilterBaseTag) {
+        if ([self isNoLimit:leftInfo]) {
+            self.dict[@"age1"] = leftInfo;
+        }
+        if ([self isNoLimit:rightInfo]) {
+            self.dict[@"age2"] = rightInfo;
+        }
+    } else if (self.currentTapView.tag == SeniorFilterBaseTag + 1) {
+        if ([self isNoLimit:leftInfo]) {
+            self.dict[@"height1"] = leftInfo;
+        }
+        if ([self isNoLimit:rightInfo]) {
+            self.dict[@"height2"] = rightInfo;
+        }
+    } else if (self.currentTapView.tag == SeniorFilterBaseTag + 2) {
+        if ([self isNoLimit:leftInfo]) {
+            self.dict[@"weight1"] = leftInfo;
+        }
+        if ([self isNoLimit:rightInfo]) {
+            self.dict[@"weight2"] = rightInfo;
+        }
+    }
+}
+
+- (BOOL)isNoLimit:(NSString *)text {
+    return ![text isEqualToString:@"不限"];
+}
+
 - (void)selectItemView:(XFSelectItemView *)itemView selectInfo:(NSString *)info {
-    UILabel *label = (UILabel *)[self.currentTapView viewWithTag:100];
+    UILabel *label = (UILabel *)[self.currentTapView viewWithTag:300];
     [self setupRightLabel:label info:info];
+    
+    if (self.currentTapView.tag == SeniorFilterBaseTag + 3) {
+        if ([self isNoLimit:info]) {
+            if ([info containsString:@"中专"]) {
+                self.dict[@"education"] = @"1";
+            } else if ([info containsString:@"大专"]) {
+                self.dict[@"education"] = @"2";
+            } else if ([info containsString:@"本科"]) {
+                self.dict[@"education"] = @"3";
+            } else if ([info containsString:@"硕士"]) {
+                self.dict[@"education"] = @"4";
+            } else if ([info containsString:@"博士"]) {
+                self.dict[@"education"] = @"5";
+            }
+        }
+    } else if (self.currentTapView.tag == SeniorFilterBaseTag + 4) {
+        if ([self isNoLimit:info]) {
+            if ([info containsString:@"以下"]) {
+                self.dict[@"income"] = @"1";
+            } else if ([info containsString:@"3000-5"]) {
+                self.dict[@"income"] = @"2";
+            } else if ([info containsString:@"5000-1"]) {
+                self.dict[@"income"] = @"3";
+            } else if ([info containsString:@"10000-2"]) {
+                self.dict[@"income"] = @"4";
+            } else if ([info containsString:@"50000以上"]) {
+                self.dict[@"income"] = @"5";
+            }
+        }
+        
+    } else if (self.currentTapView.tag == SeniorFilterBaseTag + 5) {
+        if ([self isNoLimit:info]) {
+            if ([info containsString:@"有"]) {
+                self.dict[@"house"] = @"1";
+            } else if ([info containsString:@"无"]) {
+                self.dict[@"house"] = @"2";
+            }
+        }
+        
+    } else if (self.currentTapView.tag == SeniorFilterBaseTag + 6) {
+        if ([self isNoLimit:info]) {
+            if ([info containsString:@"有"]) {
+                self.dict[@"car"] = @"1";
+            } else if ([info containsString:@"无"]) {
+                self.dict[@"car"] = @"2";
+            }
+        }
+    }
 }
 
 #pragma mark ----------Action----------
@@ -137,7 +219,7 @@
             break;
         case 3: {
             XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"学历"
-                                                                         dataArray:@[@"不限", @"大专", @"本科"]
+                                                                         dataArray:@[@"不限", @"中专及以下", @"大专", @"本科", @"硕士", @"博士及以上"]
                                                                         selectText:nil];
             selectItem.delegate = self;
             [self.view addSubview:selectItem];
@@ -145,7 +227,7 @@
             break;
         case 4: {
             XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"收入"
-                                                                         dataArray:@[@"不限", @"3000一下", @"3000-5000"]
+                                                                         dataArray:@[@"不限", @"3000以下", @"3000-5000", @"5000-10000", @"10000-20000", @"50000以上"]
                                                                         selectText:nil];
             selectItem.delegate = self;
             [self.view addSubview:selectItem];
@@ -153,7 +235,7 @@
             break;
         case 5: {
             XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"车产情况"
-                                                                         dataArray:@[@"不限", @"有", @"无"]
+                                                                         dataArray:@[@"不限", @"有车产", @"无车产"]
                                                                         selectText:nil];
             selectItem.delegate = self;
             [self.view addSubview:selectItem];
@@ -161,7 +243,7 @@
             break;
         case 6: {
             XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"房产情况"
-                                                                         dataArray:@[@"不限", @"有", @"无"]
+                                                                         dataArray:@[@"不限", @"有房产", @"无房产"]
                                                                         selectText:nil];
             selectItem.delegate = self;
             [self.view addSubview:selectItem];
@@ -181,6 +263,9 @@
 }
 
 - (void)confirmBtnClick {
+    if (self.confirmBack) {
+        self.confirmBack(self.dict);
+    }
     [self backBtnClick];
 }
 
@@ -214,8 +299,8 @@
     rightLabel.top = 0;
     rightLabel.height = view.height;
     rightLabel.right = arrowView.left - 10;
+    rightLabel.tag = 300;
     [view addSubview:rightLabel];
-    rightLabel.tag = 100;
     
     UIView *splitView = [UIView xf_createSplitView];
     splitView.frame = CGRectMake(10, view.height - 0.5, view.width - 20, 0.5);
@@ -235,3 +320,4 @@
 }
 
 @end
+

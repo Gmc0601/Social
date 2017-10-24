@@ -10,7 +10,7 @@
 #import "XFCirclePicView.h"
 #import "XFCircleContentCellModel.h"
 
-@interface XFCircleContentView ()
+@interface XFCircleContentView ()<XFCirclePicViewDelegate>
 
 @property (nonatomic, strong) UIView *paddingView;
 @property (nonatomic, strong) UIImageView *iconView;
@@ -20,6 +20,8 @@
 
 @property (nonatomic, strong) UILabel *descLabel;
 @property (nonatomic, strong) XFCirclePicView *picView;
+@property (nonatomic, strong) UIImageView *videoImageView;
+@property (nonatomic, strong) UIImageView *videoIconView;
 
 @end
 
@@ -61,6 +63,14 @@
     self.picView.frame = model.picViewFrame;
     self.picView.model = model;
     self.picView.hidden = !(circle.upload_type.integerValue == 1 && circle.image.count);
+    
+    self.videoImageView.hidden = circle.upload_type.integerValue != 2;
+    self.videoImageView.frame = model.videoFrame;
+    if (circle.image.count) {
+        NSString *url = circle.image.firstObject;
+        [self.videoImageView setImageURL:[NSURL URLWithString:url]];
+    }
+    self.videoIconView.center = CGPointMake(self.videoImageView.width * 0.5, self.videoImageView.height * 0.5);
 }
 
 #pragma mark ----------Action----------
@@ -73,6 +83,18 @@
 - (void)followBtnClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(circleContentView:didClickFollowBtn:)]) {
         [self.delegate circleContentView:self didClickFollowBtn:self.model];
+    }
+}
+
+- (void)videoViewTap {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circleContentView:didClickVideoView:)]) {
+        [self.delegate circleContentView:self didClickVideoView:self.model];
+    }
+}
+
+- (void)circlePicView:(XFCirclePicView *)picView didTapPicView:(NSInteger)index model:(XFCircleContentCellModel *)model {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circleContentView:didTapPicView:model:)]) {
+        [self.delegate circleContentView:self didTapPicView:index model:model];
     }
 }
 
@@ -148,10 +170,33 @@
 - (XFCirclePicView *)picView {
     if (_picView == nil) {
         _picView = [[XFCirclePicView alloc] init];
+        _picView.delegate = self;
         [self addSubview:_picView];
     }
     return _picView;
 }
 
+- (UIImageView *)videoImageView {
+    if (_videoImageView == nil) {
+        _videoImageView = [[UIImageView alloc] init];
+        _videoImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _videoImageView.backgroundColor = [UIColor lightGrayColor];
+        _videoImageView.userInteractionEnabled = YES;
+        [_videoImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoViewTap)]];
+        _videoImageView.clipsToBounds = YES;
+        [self addSubview:_videoImageView];
+    }
+    return _videoImageView;
+}
+
+- (UIImageView *)videoIconView {
+    if (_videoIconView == nil) {
+        _videoIconView = [[UIImageView alloc] initWithImage:Image(@"icon_yfq_bf")];
+        [self.videoImageView addSubview:_videoIconView];
+    }
+    return _videoIconView;
+}
+
 
 @end
+

@@ -23,10 +23,19 @@
             imgView.contentMode = UIViewContentModeScaleAspectFill;
             imgView.backgroundColor = [UIColor lightGrayColor];
             imgView.tag = i + CirclePicBaseTag;
+            imgView.userInteractionEnabled = YES;
+            [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgViewTap:)]];
             [self addSubview:imgView];
         }
     }
     return self;
+}
+
+- (void)imgViewTap:(UITapGestureRecognizer *)ges {
+    NSInteger index = ges.view.tag - CirclePicBaseTag;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circlePicView:didTapPicView:model:)]) {
+        [self.delegate circlePicView:self didTapPicView:index model:self.model];
+    }
 }
 
 - (void)setModel:(XFCircleContentCellModel *)model {
@@ -44,3 +53,4 @@
 }
 
 @end
+

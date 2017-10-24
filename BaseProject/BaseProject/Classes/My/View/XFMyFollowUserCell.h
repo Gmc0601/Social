@@ -31,3 +31,4 @@ typedef NS_ENUM(NSInteger, MyFollowUserType) {
 @property (nonatomic, strong) User *user;
 
 @end
+

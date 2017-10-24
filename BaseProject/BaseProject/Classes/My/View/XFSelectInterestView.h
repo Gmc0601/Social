@@ -22,3 +22,4 @@
 - (instancetype)initWithSelectArray:(NSArray *)selectArray;
 
 @end
+

@@ -25,7 +25,7 @@
 - (void)setupUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
-    UIView *navView = [UIView xf_navView:@"用户协议"
+    UIView *navView = [UIView xf_navView:self.agreementType == AgreementType_Agree ? @"用户协议" : @"关于我们"
                               backTarget:self
                               backAction:@selector(backBtnClick)];
     [self.view addSubview:navView];
@@ -42,7 +42,7 @@
 
 - (void)loadData {
     WeakSelf
-    [HttpRequest postPath:XFMyUserAgreementUrl
+    [HttpRequest postPath:self.agreementType == AgreementType_Agree ? XFMyUserAgreementUrl : XFMyAboutUsUrl
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {
@@ -57,3 +57,4 @@
 }
 
 @end
+

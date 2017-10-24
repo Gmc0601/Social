@@ -54,10 +54,10 @@
     [self.view addSubview:scrollView];
     
     UIView *basicView = [self createSectionView:@"基本信息" isFriend:YES];
-
+    
     UIView *ageView = [self createItemView:@"年龄：" andInfo:self.user.age];
     ageView.top = basicView.bottom;
-
+    
     UIView *nickView = [self createItemView:@"昵称：" andInfo:self.user.nickname];
     nickView.top = ageView.bottom;
     
@@ -98,16 +98,16 @@
     UIView *detailView = [self createSectionView:@"详细信息" isFriend:isFriend];
     detailView.top = splitView2.bottom;
     
-    if (isFriend) {        
+    if (isFriend) {
         UIView *workView = [self createItemView:@"工作：" andInfo:@""];
         workView.top = detailView.bottom;
         
         UIView *incomeView = [self createItemView:@"收入：" andInfo:@""];
         incomeView.top = workView.bottom;
-
+        
         UIView *houseView = [self createItemView:@"房产：" andInfo:@""];
         houseView.top = incomeView.bottom;
-
+        
         UIView *carView = [self createItemView:@"车产：" andInfo:@""];
         carView.top = houseView.bottom;
     }
@@ -178,3 +178,4 @@
 }
 
 @end
+

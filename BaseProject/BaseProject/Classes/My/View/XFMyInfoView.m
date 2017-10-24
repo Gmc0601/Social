@@ -120,9 +120,9 @@
     [view addSubview:countLabel];
     
     UILabel *infoLabel = [UILabel xf_labelWithFont:Font(12)
-                                          textColor:WhiteColor
-                                      numberOfLines:1
-                                          alignment:NSTextAlignmentCenter];
+                                         textColor:WhiteColor
+                                     numberOfLines:1
+                                         alignment:NSTextAlignmentCenter];
     infoLabel.text = info;
     infoLabel.size = CGSizeMake(view.width, 20);
     infoLabel.top = view.height * 0.5;
@@ -152,3 +152,4 @@
 }
 
 @end
+

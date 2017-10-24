@@ -28,6 +28,9 @@ typedef NS_ENUM(NSInteger, SelectItemType) {
 
 @property (nonatomic, copy) NSString *selectText;
 
+@property (nonatomic, copy) NSString *selectLeftText;
+@property (nonatomic, copy) NSString *selectRightText;
+
 @end
 
 @implementation XFSelectItemView
@@ -59,6 +62,8 @@ typedef NS_ENUM(NSInteger, SelectItemType) {
         self.type = SelectItemType_More;
         self.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
         [self initSubviews:title];
+        self.selectLeftText = self.leftArray.firstObject;
+        self.selectRightText = self.rightArray.firstObject;
         [self show];
     }
     return self;
@@ -144,7 +149,11 @@ typedef NS_ENUM(NSInteger, SelectItemType) {
     if (self.type == SelectItemType_Normal) {
         self.selectText = self.dataArray[row];
     } else {
-        
+        if (component == 0) {
+            self.selectLeftText = self.leftArray[row];
+        } else if (component == 2) {
+            self.selectRightText = self.rightArray[row];
+        }
     }
 }
 
@@ -158,8 +167,14 @@ typedef NS_ENUM(NSInteger, SelectItemType) {
         self.selectText = self.dataArray[0];
     }
     [self dismiss];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(selectItemView:selectInfo:)]) {
-        [self.delegate selectItemView:self selectInfo:self.selectText];
+    if (self.type == SelectItemType_More) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(selectItemView:selectLeftInfo:rightInfo:)]) {
+            [self.delegate selectItemView:self selectLeftInfo:self.selectLeftText rightInfo:self.selectRightText];
+        }
+    } else {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(selectItemView:selectInfo:)]) {
+            [self.delegate selectItemView:self selectInfo:self.selectText];
+        }
     }
 }
 
@@ -183,3 +198,4 @@ typedef NS_ENUM(NSInteger, SelectItemType) {
 }
 
 @end
+

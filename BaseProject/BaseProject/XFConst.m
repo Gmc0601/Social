@@ -46,10 +46,10 @@ NSString *const XFMyUserAgreementUrl        = @"_useragreement_001";
 NSString *const XFMyCharmRuleUrl            = @"_regulation_001";
 NSString *const XFMyCarUpdateUrl            = @"_mycar_001";
 NSString *const XFMyHouseUpdataUrl          = @"_myhouse_001";
-NSString *const XFMyCenterUrl               = @"_personal_information_001";
+NSString *const XFMyInfoUrl                 = @"_personal_information_001";
 NSString *const XFMyAliPayBackUrl           = @"_rechargeback_001";
-NSString *const XFMyAllbumDeleteUrl         = @"_deletemyimg_001";
-NSString *const XFMyAllbumUploadUrl         = @"_scmyimg_001";
+NSString *const XFMyAlbumDeleteUrl         = @"_deletemyimg_001";
+NSString *const XFMyAlbumUploadUrl         = @"_scmyimg_001";
 NSString *const XFMyHouseCheckUrl           = @"_checkhouse_001";
 NSString *const XFMyCarCheckUrl             = @"_checkcar_001";
 NSString *const XFMyCircleDeleteUrl         = @"_deletemyyuanfenquan_001";
@@ -58,15 +58,15 @@ NSString *const XFMyRecharegListUrl         = @"_chongzhilist_001";
 NSString *const XFMyIntegralDetailUrl       = @"_tixianjf_001";
 NSString *const XFMyAboutUsUrl              = @"_guanyuwomen_001";
 
-// 89以后没有弄
-
 
 #pragma mark ----------Const Str----------
 NSString *const XFDefaultPageSize           = @"10";
 
+NSString *const XFBindAliPaySuccessNotification = @"XFBindAliPaySuccessNotification";
+
 
 NSString *const XFCurrentLatitudeKey        = @"XFCurrentLatitudeKey";
-NSString *const XFCurrentLongitudeKey       = @"XFCurrentLatitudeKey";
+NSString *const XFCurrentLongitudeKey       = @"XFCurrentLongitudeKey";
 
 
 #pragma mark ----------Const Num----------

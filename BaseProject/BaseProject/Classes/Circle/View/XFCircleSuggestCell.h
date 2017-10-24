@@ -14,3 +14,4 @@
 @property (nonatomic, strong) NSArray *suggestArray;
 
 @end
+
