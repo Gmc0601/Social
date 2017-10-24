@@ -1166,8 +1166,8 @@
 				TargetAttributes = {
 					42A4442C1EF133E000F90791 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = PA574T6LR3;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 93TJ8UCX73;
+						ProvisioningStyle = Manual;
 					};
 					42A444481EF133E000F90791 = {
 						CreatedOnToolsVersion = 8.3.2;
@@ -1544,13 +1544,17 @@
 			baseConfigurationReference = F79BCDCE7109E930EA932FB6 /* Pods-BaseProject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PA574T6LR3;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 93TJ8UCX73;
 				GCC_PREFIX_HEADER = BaseProject/Main/Header.pch;
 				INFOPLIST_FILE = BaseProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cc.BaseProject;
+				PRODUCT_BUNDLE_IDENTIFIER = cc.Social.app.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a02226b9-4bf3-41d8-9401-757b7842fc0d";
+				PROVISIONING_PROFILE_SPECIFIER = Social;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1559,13 +1563,17 @@
 			baseConfigurationReference = A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PA574T6LR3;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 93TJ8UCX73;
 				GCC_PREFIX_HEADER = BaseProject/Main/Header.pch;
 				INFOPLIST_FILE = BaseProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cc.BaseProject;
+				PRODUCT_BUNDLE_IDENTIFIER = cc.Social.app.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a02226b9-4bf3-41d8-9401-757b7842fc0d";
+				PROVISIONING_PROFILE_SPECIFIER = Social;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
