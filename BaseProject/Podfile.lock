@@ -16,26 +16,33 @@ PODS:
     - AFNetworking/NSURLSession
   - AMap2DMap-NO-IDFA (4.6.0):
     - AMapFoundation-NO-IDFA (~> 1.3)
-  - AMapFoundation-NO-IDFA (1.4.2)
-  - AMapLocation-NO-IDFA (2.4.0):
-    - AMapFoundation-NO-IDFA (~> 1.4)
-  - AMapSearch-NO-IDFA (5.3.0):
+  - AMapFoundation-NO-IDFA (1.3.4)
+  - AMapLocation-NO-IDFA (2.3.1):
+    - AMapFoundation-NO-IDFA (~> 1.3)
+  - AMapSearch-NO-IDFA (4.5.0):
     - AMapFoundation-NO-IDFA (~> 1.2)
   - DACircularProgress (2.3.1)
-  - MBProgressHUD (1.0.0)
+  - MBProgressHUD (0.9.2)
   - MJExtension (3.0.13)
   - MJRefresh (3.1.12)
-  - MWPhotoBrowser (1.3.1):
-    - DACircularProgress
-    - MBProgressHUD
-    - PSTCollectionView (~> 1.2)
-    - SDWebImage (~> 3.5.4)
-  - PSTCollectionView (1.2.3)
-  - SDWebImage (3.5.4):
-    - SDWebImage/Core (= 3.5.4)
-  - SDWebImage/Core (3.5.4)
+  - MWPhotoBrowser (2.1.2):
+    - DACircularProgress (~> 2.3)
+    - MBProgressHUD (~> 0.9)
+    - SDWebImage (!= 3.7.2, ~> 3.7)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
   - SVProgressHUD (2.1.2)
-  - TZImagePickerController (1.9.0)
+  - TZImagePickerController (1.7.8)
+  - UMengUShare/Core (6.4.0):
+    - UMengUShare/Network
+  - UMengUShare/Network (6.4.0)
+  - UMengUShare/Social/ReducedQQ (6.4.0):
+    - UMengUShare/Core
+  - UMengUShare/Social/ReducedWeChat (6.4.0):
+    - UMengUShare/Core
+  - UMengUShare/UI (6.4.0):
+    - UMengUShare/Core
   - WXSTransition (1.2.1)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
@@ -52,27 +59,30 @@ DEPENDENCIES:
   - MWPhotoBrowser
   - SVProgressHUD
   - TZImagePickerController
+  - UMengUShare/Social/ReducedQQ
+  - UMengUShare/Social/ReducedWeChat
+  - UMengUShare/UI
   - WXSTransition
   - YYKit
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AMap2DMap-NO-IDFA: 01c80e7e93568617b1b1b452cfec71f974f5bc8a
-  AMapFoundation-NO-IDFA: 3b9ce87abc6a37c718cc320687469d0b74d5c953
-  AMapLocation-NO-IDFA: 9493012d3241a7d551942c7c1e1069b51f295083
-  AMapSearch-NO-IDFA: eb0f9b424e6c3cdcb0e8c656e9622e8d0ee54238
+  AMapFoundation-NO-IDFA: 56b42e67233c8a883cfd448d94c4cb7380080741
+  AMapLocation-NO-IDFA: 7df5ab4b618d96665551afb0c6426f79db72a4a6
+  AMapSearch-NO-IDFA: c14f82f9f06533b033da001c94077c50d48cee25
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
-  MWPhotoBrowser: 21c403da4f44043e0cd2cd27a6fd30a7f4c431c1
-  PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
-  SDWebImage: 32ca144928625f9a04d561115028cf6db3aa7b63
+  MWPhotoBrowser: 5836d7aa041dc05a13de380c246826578adc5ea5
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
-  TZImagePickerController: bc07d7403e6afae71591aa551978a9cfbc183b8b
+  TZImagePickerController: 87a138ae5d585225aaa6c8abe2cface0f0ad19dd
+  UMengUShare: 83f849f356db0db9f18488cfbc2055a20b150481
   WXSTransition: 0bd758aaa1f5869a908b1bb103c4a9e26ad1d3eb
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 97bd8eba705893a47ecae0697871a66285ceb2ad
+PODFILE CHECKSUM: 01cf38153040d120ef46ec4bae3702e2359e4368
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.2.0

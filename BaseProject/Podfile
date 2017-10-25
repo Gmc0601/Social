@@ -14,4 +14,7 @@ target 'BaseProject' do
     pod 'AMap2DMap-NO-IDFA'
     pod 'TZImagePickerController'
     pod 'MWPhotoBrowser'
+    pod ‘UMengUShare/UI’
+    pod ‘UMengUShare/Social/ReducedWeChat'
+    pod ‘UMengUShare/Social/ReducedQQ'
 end

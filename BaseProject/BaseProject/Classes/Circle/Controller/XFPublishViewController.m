@@ -349,10 +349,10 @@
     imagePickerVc.allowPickingImage = YES;
     imagePickerVc.allowPickingOriginalPhoto = YES;
     imagePickerVc.allowPickingGif = NO;
-    imagePickerVc.allowPickingMultipleVideo = NO;
+//    imagePickerVc.allowPickingMultipleVideo = NO;
     imagePickerVc.sortAscendingByModificationDate = NO;
     imagePickerVc.showSelectBtn = NO;
-    imagePickerVc.isStatusBarDefault = NO;
+//    imagePickerVc.isStatusBarDefault = NO;
     [self presentViewController:imagePickerVc animated:YES completion:nil];
 }
 

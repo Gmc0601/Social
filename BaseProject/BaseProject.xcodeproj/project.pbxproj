@@ -84,6 +84,11 @@
 		42A444431EF133E000F90791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42A444411EF133E000F90791 /* LaunchScreen.storyboard */; };
 		42A4444E1EF133E000F90791 /* BaseProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A4444D1EF133E000F90791 /* BaseProjectTests.m */; };
 		42A444591EF133E100F90791 /* BaseProjectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A444581EF133E100F90791 /* BaseProjectUITests.m */; };
+		42B434931FA075EF00F2DED5 /* RegistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4348F1FA075EE00F2DED5 /* RegistViewController.m */; };
+		42B434941FA075EF00F2DED5 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B434901FA075EE00F2DED5 /* LoginViewController.m */; };
+		42B434951FA075EF00F2DED5 /* MobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B434921FA075EF00F2DED5 /* MobileViewController.m */; };
+		42B434981FA0761400F2DED5 /* CCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B434971FA0761400F2DED5 /* CCTextField.m */; };
+		42B4349B1FA076E000F2DED5 /* CCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4349A1FA076DF00F2DED5 /* CCBaseViewController.m */; };
 		42C84EAF1EF2DB060008189D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C84EA51EF2DB060008189D /* ViewController.m */; };
 		42C84EB01EF2DB060008189D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C84EAC1EF2DB060008189D /* AppDelegate.m */; };
 		42C84EB11EF2DB060008189D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C84EAD1EF2DB060008189D /* main.m */; };
@@ -308,6 +313,16 @@
 		42A444541EF133E100F90791 /* BaseProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaseProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A444581EF133E100F90791 /* BaseProjectUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseProjectUITests.m; sourceTree = "<group>"; };
 		42A4445A1EF133E100F90791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42B4348D1FA075EE00F2DED5 /* RegistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistViewController.h; sourceTree = "<group>"; };
+		42B4348E1FA075EE00F2DED5 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		42B4348F1FA075EE00F2DED5 /* RegistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistViewController.m; sourceTree = "<group>"; };
+		42B434901FA075EE00F2DED5 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		42B434911FA075EF00F2DED5 /* MobileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileViewController.h; sourceTree = "<group>"; };
+		42B434921FA075EF00F2DED5 /* MobileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileViewController.m; sourceTree = "<group>"; };
+		42B434961FA0761400F2DED5 /* CCTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTextField.h; sourceTree = "<group>"; };
+		42B434971FA0761400F2DED5 /* CCTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTextField.m; sourceTree = "<group>"; };
+		42B434991FA076DF00F2DED5 /* CCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBaseViewController.h; sourceTree = "<group>"; };
+		42B4349A1FA076DF00F2DED5 /* CCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBaseViewController.m; sourceTree = "<group>"; };
 		42C84EA41EF2DB060008189D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		42C84EA51EF2DB060008189D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		42C84EAB1EF2DB060008189D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -853,6 +868,21 @@
 			path = BaseProjectUITests;
 			sourceTree = "<group>";
 		};
+		42B4348C1FA075B200F2DED5 /* Login&&Regist */ = {
+			isa = PBXGroup;
+			children = (
+				42B434961FA0761400F2DED5 /* CCTextField.h */,
+				42B434971FA0761400F2DED5 /* CCTextField.m */,
+				42B4348E1FA075EE00F2DED5 /* LoginViewController.h */,
+				42B434901FA075EE00F2DED5 /* LoginViewController.m */,
+				42B434911FA075EF00F2DED5 /* MobileViewController.h */,
+				42B434921FA075EF00F2DED5 /* MobileViewController.m */,
+				42B4348D1FA075EE00F2DED5 /* RegistViewController.h */,
+				42B4348F1FA075EE00F2DED5 /* RegistViewController.m */,
+			);
+			path = "Login&&Regist";
+			sourceTree = "<group>";
+		};
 		42C84EA21EF2DB060008189D /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -909,6 +939,7 @@
 		42C84EA31EF2DB060008189D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				42B4348C1FA075B200F2DED5 /* Login&&Regist */,
 				4264C0961F72172E00F54499 /* Message(消息) */,
 				2E4151C91F945BDE00B53486 /* Circle(缘分圈) */,
 				2E4151EC1F945BDE00B53486 /* Friend(有缘人) */,
@@ -1022,6 +1053,8 @@
 		42F795AC1F00C8B200A11A69 /* BaseViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				42B434991FA076DF00F2DED5 /* CCBaseViewController.h */,
+				42B4349A1FA076DF00F2DED5 /* CCBaseViewController.m */,
 				2E4152971F945C5700B53486 /* XFViewController.h */,
 				2E4152981F945C5700B53486 /* XFViewController.m */,
 				42F795AD1F00C8B200A11A69 /* BaseTableView.h */,
@@ -1242,7 +1275,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		133526D14F1C236D4D0AF02F /* [CP] Copy Pods Resources */ = {
@@ -1296,6 +1329,7 @@
 				2E4152461F945BDE00B53486 /* XFCircleContentCell.m in Sources */,
 				42C84F031EF2E97D0008189D /* NSString+DisplayTime.m in Sources */,
 				42C84ECA1EF2DD1A0008189D /* NSDictionary+Smart.m in Sources */,
+				42B434931FA075EF00F2DED5 /* RegistViewController.m in Sources */,
 				4264C0A01F72182F00F54499 /* MessageListViewController.m in Sources */,
 				42C84EC81EF2DD1A0008189D /* DIc.m in Sources */,
 				2E41528B1F945C0B00B53486 /* UIView+XFExtension.m in Sources */,
@@ -1334,11 +1368,13 @@
 				2E41523C1F945BDE00B53486 /* XFCircleCommentViewController.m in Sources */,
 				2E4152521F945BDE00B53486 /* XFFriendCircleCell.m in Sources */,
 				2E41525D1F945BDE00B53486 /* XFMyInfoViewController.m in Sources */,
+				42B4349B1FA076E000F2DED5 /* CCBaseViewController.m in Sources */,
 				2E41528F1F945C0B00B53486 /* MLBlackTransition.m in Sources */,
 				42C84EFC1EF2E97D0008189D /* NSData+Category.m in Sources */,
 				42C84EFB1EF2E97D0008189D /* NSAttributedString+Category.m in Sources */,
 				2E41524F1F945BDE00B53486 /* XFFriendViewController.m in Sources */,
 				42C84EAF1EF2DB060008189D /* ViewController.m in Sources */,
+				42B434981FA0761400F2DED5 /* CCTextField.m in Sources */,
 				42C84EB91EF2DCD90008189D /* MainApi.m in Sources */,
 				2E41524C1F945BDE00B53486 /* XFFriendCircleViewController.m in Sources */,
 				2E4152691F945BDE00B53486 /* XFMyInfoView.m in Sources */,
@@ -1377,6 +1413,7 @@
 				2E4152601F945BDE00B53486 /* XFMyAlbumViewController.m in Sources */,
 				2E4152641F945BDE00B53486 /* XFCharmRuleViewController.m in Sources */,
 				2E41528A1F945C0B00B53486 /* UILabel+XFExtension.m in Sources */,
+				42B434951FA075EF00F2DED5 /* MobileViewController.m in Sources */,
 				2E4152991F945C5700B53486 /* XFViewController.m in Sources */,
 				2E4152681F945BDE00B53486 /* XFMyFollowUserCell.m in Sources */,
 				2E41526A1F945BDE00B53486 /* XFSelectInterestView.m in Sources */,
@@ -1389,6 +1426,7 @@
 				4264C0A91F72401B00F54499 /* ChatViewController.m in Sources */,
 				42C84EB01EF2DB060008189D /* AppDelegate.m in Sources */,
 				2E4152961F945C1E00B53486 /* XFConst.m in Sources */,
+				42B434941FA075EF00F2DED5 /* LoginViewController.m in Sources */,
 				2E4152A51F945C6500B53486 /* TradeRecord.m in Sources */,
 				42C84F1E1EF2EB650008189D /* SBJSON.m in Sources */,
 				2E4152A31F945C6500B53486 /* Circle.m in Sources */,
