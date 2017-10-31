@@ -8,10 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class XFCircleSuggestCell;
+@protocol XFCircleSuggestCellDelegate <NSObject>
+
+@optional
+- (void)circleSuggestCellClickCloseBtn:(XFCircleSuggestCell *)cell;
+
+@end
+
 @interface XFCircleSuggestCell : UITableViewCell
 
 + (CGFloat)cellHeight;
 @property (nonatomic, strong) NSArray *suggestArray;
+@property (nonatomic, weak) id<XFCircleSuggestCellDelegate> delegate;
 
 @end
 

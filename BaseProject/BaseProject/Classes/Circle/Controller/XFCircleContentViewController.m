@@ -14,7 +14,7 @@
 #import "XFPlayVideoController.h"
 
 
-@interface XFCircleContentViewController ()<UITableViewDelegate, UITableViewDataSource, XFCircleContentCellDelegate, MWPhotoBrowserDelegate>
+@interface XFCircleContentViewController ()<UITableViewDelegate, UITableViewDataSource, XFCircleContentCellDelegate, MWPhotoBrowserDelegate, XFCircleSuggestCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *suggestArray;
@@ -137,6 +137,7 @@
         XFCircleSuggestCell *cell = [tableView dequeueReusableCellWithIdentifier:@"XFCircleSuggestCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.suggestArray = self.suggestArray;
+        cell.delegate = self;
         return cell;
     } else {
         XFCircleContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"XFCircleContentCell" forIndexPath:indexPath];
@@ -279,6 +280,13 @@
     [self.navigationController pushViewController:browser animated:YES];
 }
 
+#pragma mark - -------------------<XFCircleSuggestCellDelegate>-------------------
+- (void)circleSuggestCellClickCloseBtn:(XFCircleSuggestCell *)cell {
+    self.suggestArray = [NSMutableArray array];
+    [self.tableView reloadData];
+}
+
+#pragma mark - -------------------<MWPhotoBrowserDelegate>-------------------
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
     return self.photosArray.count;
 }

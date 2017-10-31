@@ -82,6 +82,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.infoLabel.frame = CGRectMake(15, 0, self.width - 30, 45);
+    self.closeBtn.size = CGSizeMake(13, 13);
+    self.closeBtn.centerY = self.infoLabel.centerY;
+    self.closeBtn.right = kScreenWidth - 17;
     self.collectionView.frame = CGRectMake(0, self.infoLabel.bottom + 10, self.width, [XFCircleSuggestItemCell cellHeight]);
 }
 
@@ -105,6 +108,13 @@
     return cell;
 }
 
+#pragma mark - -------------------Action-------------------
+- (void)closeBtnClick {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circleSuggestCellClickCloseBtn:)]) {
+        [self.delegate circleSuggestCellClickCloseBtn:self];
+    }
+}
+
 #pragma mark ----------Lazy----------
 - (UILabel *)infoLabel {
     if (_infoLabel == nil) {
@@ -117,11 +127,13 @@
     return _infoLabel;
 }
 
-//- (UIButton *)closeBtn {
-//    if (_closeBtn == nil) {
-//        _closeBtn = [UIButton xf_imgButtonWithImgName:@"" target:self action:@selector(close)]
-//    }
-//}
+- (UIButton *)closeBtn {
+    if (_closeBtn == nil) {
+        _closeBtn = [UIButton xf_imgButtonWithImgName:@"icon_yfq_gb" target:self action:@selector(closeBtnClick)];
+        [self.contentView addSubview:_closeBtn];
+    }
+    return _closeBtn;
+}
 
 - (UICollectionViewFlowLayout *)layout {
     if (_layout == nil) {
