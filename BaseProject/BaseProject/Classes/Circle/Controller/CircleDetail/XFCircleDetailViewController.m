@@ -76,12 +76,11 @@
 
 - (void)setupChildControllers {
     XFCircleRewardViewController *circleController = [[XFCircleRewardViewController alloc] init];
-    circleController.circleId = self.circleId;
+    circleController.rewardArray = self.circle.reward;
     [self addChildViewController:circleController];
     
-    XFCircleCommentViewController *albumController = [[XFCircleCommentViewController alloc] init];
-    albumController.circleId = self.circleId;
-    [self addChildViewController:albumController];
+    XFCircleCommentViewController *commentController = [[XFCircleCommentViewController alloc] init];
+    [self addChildViewController:commentController];
     
     XFCircleZanViewController *infocontroller = [[XFCircleZanViewController alloc] init];
     [self addChildViewController:infocontroller];
@@ -234,7 +233,9 @@
     int index = scrollView.contentOffset.x / scrollView.width;
     XFViewController *controller = self.childViewControllers[index];
     if (controller.isViewLoaded) return;
-    if (index == 2) {
+    if (index == 1) {
+        ((XFCircleCommentViewController *)controller).commentArray = self.circle.comment;
+    } else if (index == 2) {
         ((XFCircleZanViewController *)controller).zanArray = self.circle.like;
     }
     UIView *view = controller.view;

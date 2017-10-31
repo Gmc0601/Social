@@ -10,8 +10,8 @@
 
 @interface XFCircleRewardViewController : XFViewController
 
-@property (nonatomic, strong) NSNumber *circleId;
-@property (nonatomic, strong) Circle *circle;
+@property (nonatomic, strong) NSArray *rewardArray;
+
 - (CGFloat)scrollOffset;
 
 @end

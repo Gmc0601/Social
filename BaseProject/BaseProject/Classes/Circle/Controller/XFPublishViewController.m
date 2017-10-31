@@ -42,7 +42,7 @@
     self.view.backgroundColor = WhiteColor;
     self.photos = [NSMutableArray array];
     self.assets = [NSMutableArray array];
-    UIView *navView = [UIView xf_themeNavView:@"缘分圈"
+    UIView *navView = [UIView xf_themeNavView:@"发布动态"
                                    backTarget:self
                                    backAction:@selector(backBtnClick)];
     

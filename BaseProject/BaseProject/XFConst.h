@@ -11,7 +11,7 @@ UIKIT_EXTERN NSString *const XFCircleNewUrl;            // 缘分圈最新----
 UIKIT_EXTERN NSString *const XFCirclePublishUrl;        // 缘分圈发布动态********
 UIKIT_EXTERN NSString *const XFCircleDetailUrl;         // 缘分圈详情----
 UIKIT_EXTERN NSString *const XFCircleSendCommentUrl;    // 缘分圈发布评论---
-UIKIT_EXTERN NSString *const XFCircleSuggestUrl;        // 缘分圈推荐区域---
+UIKIT_EXTERN NSString *const XFCircleSuggestUrl;        // 缘分圈推荐区域--- 
 UIKIT_EXTERN NSString *const XFCircleShareUrl;          // 缘分圈分享页面
 UIKIT_EXTERN NSString *const XFCircleZanUrl;            // 缘分圈点赞---
 UIKIT_EXTERN NSString *const XFCircleRewardUrl;         // 缘分圈打赏********

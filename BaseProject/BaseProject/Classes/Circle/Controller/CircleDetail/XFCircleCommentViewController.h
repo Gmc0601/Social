@@ -10,8 +10,8 @@
 
 @interface XFCircleCommentViewController : XFViewController
 
-@property (nonatomic, strong) NSNumber *circleId;
-@property (nonatomic, strong) Circle *circle;
+@property (nonatomic, strong) NSArray *commentArray;
+
 - (CGFloat)scrollOffset;
 
 @end

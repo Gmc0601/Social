@@ -44,6 +44,7 @@
     if (_iconView == nil) {
         _iconView = [[UIImageView alloc] init];
         [_iconView xf_cornerCut:35];
+        _iconView.backgroundColor = [UIColor lightGrayColor];
         _iconView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:_iconView];
     }
@@ -66,6 +67,7 @@
 @interface XFCircleSuggestCell ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UILabel *infoLabel;
+@property (nonatomic, strong) UIButton *closeBtn;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 
@@ -114,6 +116,12 @@
     }
     return _infoLabel;
 }
+
+//- (UIButton *)closeBtn {
+//    if (_closeBtn == nil) {
+//        _closeBtn = [UIButton xf_imgButtonWithImgName:@"" target:self action:@selector(close)]
+//    }
+//}
 
 - (UICollectionViewFlowLayout *)layout {
     if (_layout == nil) {
