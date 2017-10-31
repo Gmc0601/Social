@@ -139,7 +139,7 @@
         browser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
         browser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
         browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-        [browser setCurrentPhotoIndex:indexPath.item];
+        [browser setCurrentPhotoIndex:indexPath.item - 1];
         [browser showNextPhotoAnimated:YES];
         [browser showPreviousPhotoAnimated:YES];
         
