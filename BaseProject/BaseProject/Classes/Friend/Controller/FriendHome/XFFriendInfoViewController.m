@@ -68,7 +68,8 @@
     splitView1.frame = CGRectMake(0, cityView.bottom + 5, kScreenWidth, 0.5);
     [self.scrollView addSubview:splitView1];
     
-    BOOL isFriend = self.user.user_type.integerValue == 2;
+#warning 需要判断是不是好友，不知道哪个字段
+    BOOL isFriend = YES;
     UIView *personView = [self createSectionView:@"个人信息" isFriend:isFriend];
     personView.top = splitView1.bottom;
     

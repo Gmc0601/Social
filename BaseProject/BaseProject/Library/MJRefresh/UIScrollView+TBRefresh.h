@@ -7,21 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class TBRefreshHeadView;
-
-@class TBRefreshFootView;
+//
+//@class TBRefreshHeadView;
+//
+//@class TBRefreshFootView;
 
 @interface UIScrollView (TBRefresh)
-//下拉刷新
-@property(nonatomic,weak)TBRefreshHeadView *header;
-//上拉加载
-@property(nonatomic,weak)TBRefreshFootView *footer;
-
-
--(void)addRefreshHeaderWithBlock:(void (^)())Block;
-
-
--(void)addRefreshFootWithBlock:(void (^)())Block;
+////下拉刷新
+//@property(nonatomic,weak)TBRefreshHeadView *header;
+////上拉加载
+//@property(nonatomic,weak)TBRefreshFootView *footer;
+//
+//
+//-(void)addRefreshHeaderWithBlock:(void (^)())Block;
+//
+//
+//-(void)addRefreshFootWithBlock:(void (^)())Block;
 
 @end

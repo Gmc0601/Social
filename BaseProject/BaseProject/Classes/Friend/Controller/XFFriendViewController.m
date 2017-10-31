@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UILabel *locationLabel;
+@property (nonatomic, assign) NSInteger currentPage;
 
 @property (nonatomic, strong) NSMutableDictionary *seniorDict; // 普通筛选字典
 @property (nonatomic, strong) NSMutableDictionary *normalDict; // 高级筛选字典
@@ -40,7 +41,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self setupNavView];
-    
     UIView *fileterView = [UIView xf_createWhiteView];
     fileterView.frame = CGRectMake(0, XFNavHeight, kScreenWidth, 33);
     [self.view addSubview:fileterView];
@@ -76,7 +76,8 @@
     UIView *splitView = [UIView xf_createSplitView];
     splitView.frame = CGRectMake(0, fileterView.height - 0.5, fileterView.width, 0.5);
     [fileterView addSubview:splitView];
-    [self.collectionView reloadData];
+    self.collectionView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
+    self.collectionView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
     self.seniorDict = [NSMutableDictionary dictionary];
     self.normalDict = [NSMutableDictionary dictionary];
 }
@@ -138,20 +139,57 @@
 
 - (void)loadData {
     WeakSelf
+    self.currentPage = 1;
     [HttpRequest postPath:XFFriendHomeUrl
                    params:[self getTheParams]
               resultBlock:^(id responseObject, NSError *error) {
+                  [weakSelf.collectionView.mj_header endRefreshing];
                   weakSelf.dataArray = [NSMutableArray array];
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
                           NSArray *infoArray = responseObject[@"info"];
                           if ([infoArray isKindOfClass:[NSArray class]] && infoArray.count) {
+                              weakSelf.currentPage ++;
                               for (int i = 0 ; i < infoArray.count; i++) {
                                   NSDictionary *dict = infoArray[i];
                                   User *user = [User mj_objectWithKeyValues:dict];
                                   [weakSelf.dataArray addObject:user];
                               }
+                          }
+                          if (infoArray.count < 10) {
+                              [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+                          } else {
+                              [self.collectionView.mj_footer endRefreshing];
+                          }
+                          [self.collectionView reloadData];
+                      }
+                  }
+              }];
+}
+
+- (void)loadMoreData {
+    WeakSelf
+    [HttpRequest postPath:XFFriendHomeUrl
+                   params:[self getTheParams]
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0) {
+                          weakSelf.currentPage ++;
+                          NSArray *infoArray = responseObject[@"info"];
+                          if ([infoArray isKindOfClass:[NSArray class]] && infoArray.count) {
+                              weakSelf.currentPage ++;
+                              for (int i = 0 ; i < infoArray.count; i++) {
+                                  NSDictionary *dict = infoArray[i];
+                                  User *user = [User mj_objectWithKeyValues:dict];
+                                  [weakSelf.dataArray addObject:user];
+                              }
+                          }
+                          if (infoArray.count < 10) {
+                              [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+                          } else {
+                              [self.collectionView.mj_footer endRefreshing];
                           }
                           [self.collectionView reloadData];
                       }
@@ -173,7 +211,9 @@
         dict[@"lat"] = latitude;
         dict[@"long"] = longitude;
     }
-    FFLog(@"%@", dict);
+    
+    dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
+    dict[@"size"] = XFDefaultPageSize;
     return dict;
 }
 
@@ -225,7 +265,12 @@
         }
     } else if (view.tag == 1) {
         if (![text isEqualToString:@"不限"]) {
-            self.normalDict[@"sex"] = text;
+            if ([text isEqualToString:@"男"]) {
+                self.normalDict[@"sex"] = @"1";
+            } else {
+                self.normalDict[@"sex"] = @"2";
+            }
+            
             [self loadData];
         } else {
             self.normalDict[@"sex"] = @"";
@@ -262,10 +307,11 @@
     } else if (button.tag == 1) {
         NSInteger index = 0;
         NSString *text = self.normalDict[@"sex"];
-        NSArray *array = @[@"不限性别", @"男", @"女"];
         if (text.length) {
-            if ([array containsObject:text]) {
-                index = [array indexOfObject:text];
+            if ([text isEqualToString:@"1"]) {
+                index = 1;
+            } else if ([text isEqualToString:@"2"]) {
+                index = 2;
             }
         }
         XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithDataArray:@[@"不限性别", @"男", @"女"]
@@ -303,8 +349,6 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [self.view endEditing:YES];
 }
-
-#pragma mark ----------Private----------
 
 #pragma mark ----------Lazy----------
 - (UICollectionView *)collectionView {

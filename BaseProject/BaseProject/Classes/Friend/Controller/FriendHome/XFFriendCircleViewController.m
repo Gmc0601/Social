@@ -101,7 +101,36 @@
 }
 
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickZanBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
+    Circle *circle = model.circle;
+    if (circle.id) {
+        NSString *type = circle.like_status.integerValue == 2 ? @"1" : @"2";
+        [HttpRequest postPath:XFCircleZanUrl
+                       params:@{@"real_id" : circle.id,
+                                @"type" : type}
+                  resultBlock:^(id responseObject, NSError *error) {
+                      if (!error) {
+                          NSNumber *errorCode = responseObject[@"error"];
+                          if (errorCode.integerValue == 0){
+                              NSDictionary *info = responseObject[@"info"];
+                              NSNumber *type = info[@"type"];
+                              circle.like_status = type;
+                              if (type.integerValue == 2) {
+                                  circle.like_num = @(circle.like_num.integerValue + 1);
+                              } else {
+                                  if (circle.like_num.integerValue > 1) {
+                                      circle.like_num = @(circle.like_num.integerValue - 1);
+                                  }
+                              }
+                              [SVProgressHUD showSuccessWithStatus:info[@"message"]];
+                              [self.tableView reloadData];
+                          }
+                      }
+                  }];
+    }
 }
 
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickCommentBtn:(XFCircleContentCellModel *)model {

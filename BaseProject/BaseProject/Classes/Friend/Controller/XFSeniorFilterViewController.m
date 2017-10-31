@@ -106,8 +106,7 @@
 
 #pragma mark ----------<XFSelectItemViewDelegate>----------
 - (void)selectItemView:(XFSelectItemView *)itemView selectLeftInfo:(NSString *)leftInfo rightInfo:(NSString *)rightInfo {
-    UILabel *label = (UILabel *)[self.currentTapView viewWithTag:300];
-    [self setupRightLabel:label info:[NSString stringWithFormat:@"%@-%@", leftInfo, rightInfo]];
+    
     if (self.currentTapView.tag == SeniorFilterBaseTag) {
         if ([self isNoLimit:leftInfo]) {
             self.dict[@"age1"] = leftInfo;
@@ -130,6 +129,8 @@
             self.dict[@"weight2"] = rightInfo;
         }
     }
+    UILabel *label = (UILabel *)[self.currentTapView viewWithTag:300];
+    [self setupRightLabel:label info:[NSString stringWithFormat:@"%@-%@", leftInfo, rightInfo]];
 }
 
 - (BOOL)isNoLimit:(NSString *)text {

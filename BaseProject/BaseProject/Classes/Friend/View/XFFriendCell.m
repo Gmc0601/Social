@@ -22,9 +22,15 @@
 - (void)setUser:(User *)user {
     _user = user;
     self.picView.backgroundColor = [UIColor lightGrayColor];
+    if (user.avatar_url) {
+        [self.picView setImageURL:[NSURL URLWithString:user.avatar_url]];
+    }
     self.nameLabel.text = user.nickname;
+    if (user.nickname.length == 0) {
+        self.nameLabel.text = @"名字(服务器没数据)";
+    }
     self.idLabel.text = [NSString stringWithFormat:@"ID:%@", user.id.stringValue];
-    self.cityLabel.text = user.distance;
+    self.cityLabel.text = [NSString stringWithFormat:@"%@km", user.distance];
 }
 
 - (void)layoutSubviews {

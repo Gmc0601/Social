@@ -11,12 +11,12 @@
 
 @interface BaseTableView : BaseViewController
 
-@property (nonatomic, retain) UITableView *CC_table;
-
-- (void)back:(UIButton *)sender ;
-
-- (void)more:(UIButton *)sender ;
-
-- (void)CC_reloadDate;
+//@property (nonatomic, retain) UITableView *CC_table;
+//
+//- (void)back:(UIButton *)sender ;
+//
+//- (void)more:(UIButton *)sender ;
+//
+//- (void)CC_reloadDate;
 
 @end

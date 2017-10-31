@@ -84,7 +84,6 @@
     [self addChildViewController:albumController];
     
     XFCircleZanViewController *infocontroller = [[XFCircleZanViewController alloc] init];
-    infocontroller.circleId = self.circleId;
     [self addChildViewController:infocontroller];
 }
 
@@ -235,6 +234,9 @@
     int index = scrollView.contentOffset.x / scrollView.width;
     XFViewController *controller = self.childViewControllers[index];
     if (controller.isViewLoaded) return;
+    if (index == 2) {
+        ((XFCircleZanViewController *)controller).zanArray = self.circle.like;
+    }
     UIView *view = controller.view;
     view.frame = self.scrollView.bounds;
     [self.scrollView addSubview:view];

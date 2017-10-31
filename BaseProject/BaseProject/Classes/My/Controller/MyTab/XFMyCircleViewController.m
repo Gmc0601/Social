@@ -165,8 +165,7 @@
     [browser setCurrentPhotoIndex:index];
     [browser showNextPhotoAnimated:YES];
     [browser showPreviousPhotoAnimated:YES];
-    
-    // Present
+
     [self.navigationController pushViewController:browser animated:YES];
 }
 

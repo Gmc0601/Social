@@ -10,11 +10,13 @@
 #import "XFCirclePicView.h"
 #import "XFCircleContentCellModel.h"
 
-@interface XFFriendCircleCell ()
+@interface XFFriendCircleCell ()<XFCirclePicViewDelegate>
 
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *descLabel;
 @property (nonatomic, strong) XFCirclePicView *picView;
+@property (nonatomic, strong) UIImageView *videoImageView;
+@property (nonatomic, strong) UIImageView *videoIconView;
 
 @property (nonatomic, strong) UIButton *rewardBtn;
 @property (nonatomic, strong) UIButton *shareBtn;
@@ -33,7 +35,7 @@
     _model = model;
     Circle *circle = model.circle;
     
-    self.timeLabel.text = circle.create_time;
+    self.timeLabel.text = circle.upload_time;
     self.timeLabel.frame = model.timeLabelFrame;
     
     self.descLabel.frame = model.descLabelFrame;
@@ -42,6 +44,14 @@
     self.picView.frame = model.picViewFrame;
     self.picView.model = model;
     self.picView.hidden = !(circle.upload_type.integerValue == 1 && circle.image.count);
+    
+    self.videoImageView.hidden = circle.upload_type.integerValue != 2;
+    self.videoImageView.frame = model.videoFrame;
+    if (circle.image.count) {
+        NSString *url = circle.image.firstObject;
+        [self.videoImageView setImageURL:[NSURL URLWithString:url]];
+    }
+    self.videoIconView.center = CGPointMake(self.videoImageView.width * 0.5, self.videoImageView.height * 0.5);
     
     self.rewardBtn.frame = model.rewardBtnFrame;
     [self.rewardBtn setTitle:[NSString stringWithFormat:@" %d", circle.reward_num.intValue] forState:UIControlStateNormal];
@@ -90,6 +100,19 @@
     }
 }
 
+- (void)videoViewTap {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(friendCircleCell:didClickVideoView:)]) {
+        [self.delegate friendCircleCell:self didClickVideoView:self.model];
+    }
+}
+
+#pragma mark - -------------------<XFCirclePicViewDelegate>-------------------
+- (void)circlePicView:(XFCirclePicView *)picView didTapPicView:(NSInteger)index model:(XFCircleContentCellModel *)model {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(friendCircleCell:didTapPicView:model:)]) {
+        [self.delegate friendCircleCell:self didTapPicView:index model:model];
+    }
+}
+
 #pragma mark ----------Lazy----------
 - (UILabel *)timeLabel {
     if (_timeLabel == nil) {
@@ -116,6 +139,7 @@
 - (XFCirclePicView *)picView {
     if (_picView == nil) {
         _picView = [[XFCirclePicView alloc] init];
+        _picView.delegate = self;
         [self.contentView addSubview:_picView];
     }
     return _picView;
@@ -191,6 +215,27 @@
         [self.contentView addSubview:_splitView];
     }
     return _splitView;
+}
+
+- (UIImageView *)videoImageView {
+    if (_videoImageView == nil) {
+        _videoImageView = [[UIImageView alloc] init];
+        _videoImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _videoImageView.backgroundColor = [UIColor lightGrayColor];
+        _videoImageView.userInteractionEnabled = YES;
+        [_videoImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoViewTap)]];
+        _videoImageView.clipsToBounds = YES;
+        [self.contentView addSubview:_videoImageView];
+    }
+    return _videoImageView;
+}
+
+- (UIImageView *)videoIconView {
+    if (_videoIconView == nil) {
+        _videoIconView = [[UIImageView alloc] initWithImage:Image(@"icon_yfq_bf")];
+        [self.videoImageView addSubview:_videoIconView];
+    }
+    return _videoIconView;
 }
 
 @end
