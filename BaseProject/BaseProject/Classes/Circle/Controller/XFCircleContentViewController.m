@@ -173,6 +173,10 @@
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickFollowBtn:(XFCircleContentCellModel *)model {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     Circle *circle = model.circle;
     if (circle.id) {
         NSString *type = circle.attention_status.integerValue == 2 ? @"1" : @"2";
@@ -195,6 +199,10 @@
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickRewardBtn:(XFCircleContentCellModel *)model {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     FFLogFunc
 }
 
@@ -203,6 +211,10 @@
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickZanBtn:(XFCircleContentCellModel *)model {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     Circle *circle = model.circle;
     if (circle.id) {
         NSString *type = circle.like_status.integerValue == 2 ? @"1" : @"2";
@@ -232,6 +244,10 @@
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickCommentBtn:(XFCircleContentCellModel *)model {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     FFLogFunc
 }
 

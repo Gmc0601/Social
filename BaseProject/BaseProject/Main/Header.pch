@@ -37,6 +37,7 @@
 #import "XFRefreshTool.h"
 
 #import "MainApi.h"
+#import "LoginViewController.h"
 
 #import "User.h"
 #import "TradeRecord.h"

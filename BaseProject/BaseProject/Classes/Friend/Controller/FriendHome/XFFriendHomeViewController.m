@@ -222,6 +222,10 @@
 }
 
 - (void)chatBtnClick {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     [HttpRequest postPath:XFFriendSuggestMoneyUrl
                    params:@{@"id" : self.friendId}
               resultBlock:^(id responseObject, NSError *error) {
@@ -230,7 +234,6 @@
                       if (errorCode.integerValue == 0) {
                           NSDictionary *infoDict = responseObject[@"info"];
                           if (!IsNULL(infoDict)) {
-                              
                           }
                       }
                   }
@@ -243,6 +246,10 @@
 }
 
 - (void)followBtnClick {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     FFLogFunc
     NSString *type = self.user.guanzhu.integerValue == 2 ? @"1" : @"2";
     if (self.user.id) {

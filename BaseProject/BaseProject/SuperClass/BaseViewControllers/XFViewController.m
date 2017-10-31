@@ -23,6 +23,17 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)showLoginController {
+    LoginViewController *controller = [[LoginViewController alloc] init];
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
+    return;
+
+}
+
+- (BOOL)isNotLogin {
+    return ![[NSUserDefaults standardUserDefaults] boolForKey:IsLogin];
+}
+
 - (void)pushController:(UIViewController *)controller {
     [self.navigationController pushViewController:controller animated:YES];
 }

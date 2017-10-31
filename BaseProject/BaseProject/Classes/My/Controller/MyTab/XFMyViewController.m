@@ -41,6 +41,19 @@
     [self setupChildControllers];
     [self setupUI];
     [self loadData];
+    [self setupNotification];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([self isNotLogin]) {
+            [self showLoginController];
+        }
+    });
+}
+
+- (void)setupNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLoginSuccessNotification
+                                               object:nil];
 }
 
 - (void)setupChildControllers {
@@ -123,6 +136,10 @@
     self.scrollView.contentSize = CGSizeMake(kScreenWidth * self.childViewControllers.count, 0);
     
     [self scrollViewDidEndScrollingAnimation:self.scrollView];
+}
+
+- (void)loginSuccess {
+    [self loadData];
 }
 
 - (void)loadData {

@@ -63,6 +63,7 @@ NSString *const XFMyAboutUsUrl              = @"_guanyuwomen_001";
 NSString *const XFDefaultPageSize           = @"10";
 
 NSString *const XFBindAliPaySuccessNotification = @"XFBindAliPaySuccessNotification";
+NSString *const XFLoginSuccessNotification = @"XFLoginSuccessNotification";
 
 
 NSString *const XFCurrentLatitudeKey        = @"XFCurrentLatitudeKey";

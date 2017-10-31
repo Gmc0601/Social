@@ -26,10 +26,11 @@
     self.view.backgroundColor = [UIColor blackColor];
     
     if (self.localUrl.absoluteString.length) {
-        _player = [AVPlayer playerWithURL:self.localUrl];
+        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.localUrl];
+        _player = [AVPlayer playerWithPlayerItem:playerItem];
     } else {
-        NSURL *url = [NSURL fileURLWithPath:self.videoUrl];
-        _player = [AVPlayer playerWithURL:url];
+        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.videoUrl]];
+        _player = [AVPlayer playerWithPlayerItem:playerItem];
     }
     AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);

@@ -215,7 +215,7 @@
             }
             
             NSDictionary *dic = @{
-                                  @"mobile" : self.mobile.text,
+                                  @"username" : self.mobile.text,
                                   @"loginPass" : self.pwd.text,
                                   @"user_type" : type
                                   };
@@ -237,6 +237,8 @@
 //                    }else {
 //                        [ConfigModel saveBoolObject:NO forKey:PersonNow];
 //                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
+                    [self dismissViewControllerAnimated:YES completion:nil];
                 }else {
                     NSString *str = datadic[@"info"];
                     [ConfigModel mbProgressHUD:str andView:nil];

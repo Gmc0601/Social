@@ -53,6 +53,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNotification];
+    [self loadData];
+}
+
+- (void)setupNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLoginSuccessNotification
+                                               object:nil];
+}
+
+- (void)loginSuccess {
     [self loadData];
 }
 
@@ -69,10 +81,17 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          NSDictionary *info = responseObject[@"info"];
-                          if ([info isKindOfClass:[NSDictionary class]]) {
-                              NSArray *dataArray = info[@"img"];
-                              [weakSelf.dataArray addObjectsFromArray:dataArray];
+                          NSArray *infoArray = responseObject[@"info"];
+                          if ([infoArray isKindOfClass:[NSArray class]] && infoArray.count) {
+                              for (int i = 0; i < infoArray.count; i++) {
+                                  NSDictionary *imgDict = infoArray[i];
+                                  if ([imgDict isKindOfClass:[NSDictionary class]] && imgDict.allKeys.count) {
+                                      NSString *img = imgDict[@"img"];
+                                      if (img.length) {
+                                          [self.dataArray addObject:img];
+                                      }
+                                  }
+                              }
                           }
                       }
                       [self.collectionView reloadData];

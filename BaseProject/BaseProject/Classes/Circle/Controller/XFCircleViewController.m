@@ -124,6 +124,10 @@
 
 #pragma mark ----------Action----------
 - (void)publishBtnClick {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     XFPublishViewController *controller = [[XFPublishViewController alloc] init];
     [self pushController:controller];
 }

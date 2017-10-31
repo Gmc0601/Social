@@ -146,10 +146,12 @@
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
                           NSArray *infoArray = responseObject[@"info"];
-                          for (int i = 0 ; i < infoArray.count; i++) {
-                              NSDictionary *dict = infoArray[i];
-                              User *user = [User mj_objectWithKeyValues:dict];
-                              [weakSelf.dataArray addObject:user];
+                          if ([infoArray isKindOfClass:[NSArray class]] && infoArray.count) {
+                              for (int i = 0 ; i < infoArray.count; i++) {
+                                  NSDictionary *dict = infoArray[i];
+                                  User *user = [User mj_objectWithKeyValues:dict];
+                                  [weakSelf.dataArray addObject:user];
+                              }
                           }
                           [self.collectionView reloadData];
                       }

@@ -22,6 +22,18 @@
     [super viewDidLoad];
     self.view.backgroundColor = WhiteColor;
     [self loadData];
+    [self setupNotification];
+}
+
+- (void)setupNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLoginSuccessNotification
+                                               object:nil];
+}
+
+- (void)loginSuccess {
+    [self loadData];
 }
 
 - (void)loadData {

@@ -11,6 +11,8 @@
 @interface XFViewController : UIViewController
 
 - (void)backBtnClick;
+- (void)showLoginController;
+- (BOOL)isNotLogin;
 - (void)pushController:(UIViewController *)controller;
 
 @end

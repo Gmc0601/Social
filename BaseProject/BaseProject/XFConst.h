@@ -62,6 +62,7 @@ UIKIT_EXTERN NSString *const XFMyAboutUsUrl;            // 关于我们---
 UIKIT_EXTERN NSString *const XFDefaultPageSize;
 
 UIKIT_EXTERN NSString *const XFBindAliPaySuccessNotification;
+UIKIT_EXTERN NSString *const XFLoginSuccessNotification;
 
 
 UIKIT_EXTERN NSString *const XFCurrentLatitudeKey;

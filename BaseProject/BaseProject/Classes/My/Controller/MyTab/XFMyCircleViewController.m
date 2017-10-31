@@ -27,6 +27,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self setupNotification];
+}
+
+- (void)setupNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLoginSuccessNotification
+                                               object:nil];
+}
+
+- (void)loginSuccess {
+    [self loadData];
 }
 
 - (CGFloat)scrollOffset {
@@ -123,6 +135,7 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
+                          [SVProgressHUD showSuccessWithStatus:responseObject[@"info"]];
                           [self.dataArray removeObject:model];
                           [self.tableView reloadData];
                       }
