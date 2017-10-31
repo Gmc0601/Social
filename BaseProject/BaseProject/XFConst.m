@@ -48,8 +48,8 @@ NSString *const XFMyCarUpdateUrl            = @"_mycar_001";
 NSString *const XFMyHouseUpdataUrl          = @"_myhouse_001";
 NSString *const XFMyInfoUrl                 = @"_personal_information_001";
 NSString *const XFMyAliPayBackUrl           = @"_rechargeback_001";
-NSString *const XFMyAlbumDeleteUrl         = @"_deletemyimg_001";
-NSString *const XFMyAlbumUploadUrl         = @"_scmyimg_001";
+NSString *const XFMyAlbumDeleteUrl          = @"_deletemyimg_001";
+NSString *const XFMyAlbumUploadUrl          = @"_scmyimg_001";
 NSString *const XFMyHouseCheckUrl           = @"_checkhouse_001";
 NSString *const XFMyCarCheckUrl             = @"_checkcar_001";
 NSString *const XFMyCircleDeleteUrl         = @"_deletemyyuanfenquan_001";
@@ -57,6 +57,9 @@ NSString *const XFMyBuyIntegralSuccessUrl   = @"_buymemberok_001";
 NSString *const XFMyRecharegListUrl         = @"_chongzhilist_001";
 NSString *const XFMyIntegralDetailUrl       = @"_tixianjf_001";
 NSString *const XFMyAboutUsUrl              = @"_guanyuwomen_001";
+NSString *const XFPushSettingUrl            = @"_xianshidelay_001";
+NSString *const XFResetPushSettingUrl       = @"_delay_001";
+
 
 
 #pragma mark ----------Const Str----------

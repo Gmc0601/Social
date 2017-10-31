@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) UIPickerView *pickView;
 @property (nonatomic, strong) XFSelectItemView *selectItemView;
+@property (nonatomic, strong) NSArray *pushArray;
+@property (nonatomic, strong) NSString *pushStr;
 
 @end
 
@@ -22,11 +24,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self loadData];
 }
 
 - (void)setupUI {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
+    self.pushArray = @[@"不延迟推送", @"延迟1小时", @"延迟3小时", @"延迟6小时", @"延迟12小时", @"延迟24消失"];
     UIView *navView = [UIView xf_navView:@"设置"
                               backTarget:self
                               backAction:@selector(backBtnClick)];
@@ -65,9 +69,35 @@
     [self.view addSubview:logoutBtn];
 }
 
+- (void)loadData {
+    WeakSelf
+    [HttpRequest postPath:XFPushSettingUrl
+                   params:nil
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0) {
+                          NSDictionary *infoDict = responseObject[@"info"];
+                          if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
+                              NSString *xianshi = infoDict[@"xianshi"];
+                              if (self.pushArray.count > xianshi.integerValue) {
+                                  self.selectItemView = self.pushArray[xianshi.integerValue];
+                                  [weakSelf setupPushSettingItem];
+                              }
+                          }
+                          
+                      }
+                  }
+              }];
+}
+
+- (void)setupPushSettingItem {
+    
+}
+
 #pragma mark ----------<XFSelectItemViewDelegate>----------
 - (void)selectItemView:(XFSelectItemView *)itemView selectInfo:(NSString *)info {
-    FFLog(@"%@", info);
+    
 }
 
 #pragma mark ----------Action----------
@@ -78,9 +108,8 @@
 - (void)viewTap:(UIGestureRecognizer *)ges {
     FFLog(@"%zd", ges.view.tag);
     if (ges.view.tag == 0) {
-        NSArray *array = @[@"不延迟推送", @"延迟1小时", @"延迟24消失"];
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"推送设置"
-                                                                     dataArray:array
+                                                                     dataArray:self.pushArray
                                                                     selectText:nil];
         selectItem.delegate = self;
         [self.view addSubview:selectItem];
