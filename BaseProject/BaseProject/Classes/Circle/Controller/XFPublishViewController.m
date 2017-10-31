@@ -18,7 +18,6 @@
 @property (nonatomic, weak) UILabel *countLabel;
 
 @property (nonatomic, strong) NSMutableArray *photos;
-@property (nonatomic, strong) NSMutableArray *assets;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSURL *videoPath;
@@ -41,7 +40,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
     self.photos = [NSMutableArray array];
-    self.assets = [NSMutableArray array];
     UIView *navView = [UIView xf_themeNavView:@"发布动态"
                                    backTarget:self
                                    backAction:@selector(backBtnClick)];
@@ -142,7 +140,6 @@
             imgView.contentMode = UIViewContentModeScaleAspectFill;
             imgView.userInteractionEnabled = YES;
             imgView.tag = i;
-            [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgViewTap:)]];
             imgView.clipsToBounds = YES;
             imgView.image = self.photos[i];
             imgView.size = CGSizeMake(itemH, itemH);
@@ -196,7 +193,6 @@
 
 - (void)deleteImgBtnClick:(UIButton *)btn {
     [self.photos removeObjectAtIndex:btn.tag];
-    [self.assets removeObjectAtIndex:btn.tag];
     [self setupScrollView];
 }
 
@@ -218,19 +214,6 @@
     return img;
 }
 
-- (void)imgViewTap:(UITapGestureRecognizer *)ges {
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithSelectedAssets:self.assets
-                                                                                      selectedPhotos:self.photos
-                                                                                               index:ges.view.tag];
-    imagePickerVc.maxImagesCount = 9;
-    [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
-        self.photos = [NSMutableArray arrayWithArray:photos];
-        self.assets = [NSMutableArray arrayWithArray:assets];
-        [self setupScrollView];
-    }];
-    [self presentViewController:imagePickerVc animated:YES completion:nil];
-}
-
 - (void)videoViewTap {
     XFPlayVideoController *controller = [[XFPlayVideoController alloc] init];
     controller.localUrl = self.videoPath;
@@ -250,7 +233,7 @@
     FFLogFunc
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if (self.textView.text.length == 0) {
-        FFLog(@"内容为空");
+        [SVProgressHUD showErrorWithStatus:@"内容为空"];
         return;
     }
     dict[@"talk_content"] = self.textView.text;
@@ -301,10 +284,6 @@
 
 - (void)addBtnClick {
     [self.textView resignFirstResponder];
-    if (self.photos.count) {
-        [self shoeImagePickerViewController];
-        return;
-    }
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择上传类型"
                                                                              message:nil
                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
@@ -312,8 +291,20 @@
                                                            style:UIAlertActionStyleCancel
                                    
                                                          handler:^(UIAlertAction * action) {}];
-    UIAlertAction *libraryAction = [UIAlertAction actionWithTitle:@"传照片" style:UIAlertActionStyleDefault                                                                 handler:^(UIAlertAction * action) {
-        [self shoeImagePickerViewController];
+    UIAlertAction *libraryAction = [UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault                                                                 handler:^(UIAlertAction * action) {
+        UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+        controller.delegate = self;
+        controller.allowsEditing = NO;
+        controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:controller animated:YES completion:nil];
+    }];
+    
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"拍摄照片" style:UIAlertActionStyleDefault                                                                 handler:^(UIAlertAction * action) {
+        UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+        controller.delegate = self;
+        controller.allowsEditing = NO;
+        controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:controller animated:YES completion:nil];
     }];
     
     UIAlertAction *movieAction = [UIAlertAction actionWithTitle:@"拍摄视频" style:UIAlertActionStyleDefault                                                             handler:^(UIAlertAction * action) {
@@ -330,40 +321,8 @@
     [alertController addAction:cancelAction];
     [alertController addAction:libraryAction];
     [alertController addAction:movieAction];
+    [alertController addAction:cameraAction];
     [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)shoeImagePickerViewController {
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:9
-                                                                                        columnNumber:4
-                                                                                            delegate:self
-                                                                                   pushPhotoPickerVc:YES];
-    if (self.assets.count) {
-        imagePickerVc.selectedAssets = self.assets;
-    }
-    imagePickerVc.isSelectOriginalPhoto = YES;
-    imagePickerVc.allowTakePicture = YES; // 在内部显示拍照按钮
-    imagePickerVc.navigationBar.barTintColor = ThemeColor;
-    imagePickerVc.navigationBar.translucent = NO;
-    imagePickerVc.allowPickingVideo = NO;
-    imagePickerVc.allowPickingImage = YES;
-    imagePickerVc.allowPickingOriginalPhoto = YES;
-    imagePickerVc.allowPickingGif = NO;
-//    imagePickerVc.allowPickingMultipleVideo = NO;
-    imagePickerVc.sortAscendingByModificationDate = NO;
-    imagePickerVc.showSelectBtn = NO;
-//    imagePickerVc.isStatusBarDefault = NO;
-    [self presentViewController:imagePickerVc animated:YES completion:nil];
-}
-
-#pragma mark - -------------------TZImagePickerControllerDelegate-------------------
-- (void)imagePickerController:(TZImagePickerController *)picker
-       didFinishPickingPhotos:(NSArray<UIImage *> *)photos
-                 sourceAssets:(NSArray *)assets
-        isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
-    self.photos = [NSMutableArray arrayWithArray:photos];
-    self.assets = [NSMutableArray arrayWithArray:assets];
-    [self setupScrollView];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
@@ -376,16 +335,19 @@
                                           completionBlock:^(NSURL *assetURL, NSError *error) {
                                               self.videoPath = assetURL;
                                               self.photos = [NSMutableArray array];
-                                              self.assets = [NSMutableArray array];
                                               [self setupScrollView];
                                           }];
+    } else {
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [self.photos addObject:image];
+        [self setupScrollView];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
