@@ -8,7 +8,10 @@
 
 #import "RegistViewController.h"
 #import "CCTextField.h"
-#import "MobileViewController.h"
+#import "XFMyInfoViewController.h"
+#import "AddInfoViewController.h"
+
+//#import "MobileViewController.h"
 
 @interface RegistViewController ()<BaseTextFieldDelegate,UIGestureRecognizerDelegate>
 
@@ -24,6 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.rightBar.hidden = YES;
     
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
     gesture.numberOfTapsRequired = 1;
@@ -44,7 +49,8 @@
         [self.view addSubview:line];
     }
     
-    [self setCustomerTitle:@"注册"];
+//    [self setCustomerTitle:@"注册"];
+    self.titleLab.text = @"注册";
     
     [self.view addSubview:self.loginBtn];
 
@@ -56,11 +62,13 @@
     
     [self.view addSubview:self.code];
     
-    self.pwd2 = [[CCTextField alloc] initWithFrame:FRAME(40, 200 * k_screenH, kScreenW - 80, 50 *k_screenH) PlaceholderStr:@"确认密码" isBorder:NO withLeftImage:@""];
+    self.pwd2 = [[CCTextField alloc] initWithFrame:FRAME(40, 250 * k_screenH, kScreenW - 80, 50 *k_screenH) PlaceholderStr:@"确认密码" isBorder:NO withLeftImage:@""];
     
+//    if (self.type == Forget) {
     [self.view addSubview:self.pwd2];
-    
-    self.pwd1 = [[CCTextField alloc] initWithFrame:FRAME(40, 250 * k_screenH, kScreenW - 80, 50 * k_screenH) PlaceholderStr:@"设置6-12位字母或数字" isBorder:NO withLeftImage:@""];
+//    }
+
+    self.pwd1 = [[CCTextField alloc] initWithFrame:FRAME(40, 200 * k_screenH, kScreenW - 80, 50 * k_screenH) PlaceholderStr:@"设置6-12位字母或数字" isBorder:NO withLeftImage:@""];
     
     [self.view addSubview:self.pwd1];
     
@@ -69,6 +77,7 @@
 }
 
 - (void)buttonClick:(UIButton *)sender {
+    
     if (self.type == Regist) {
         
         if (self.mobile.text.length == 0) {
@@ -80,25 +89,30 @@
         if (self.pwd1.text.length == 0) {
             [ConfigModel mbProgressHUD:@"请输入密码" andView:nil];
         }
-        if (self.pwd2.text.length == 0) {
-            [ConfigModel mbProgressHUD:@"请确认输入密码" andView:nil];
-        }
         
         NSDictionary *dic = @{
                               @"mobile" : self.mobile.text,
                               @"code" : self.code.text,
                               @"loginPass" : self.pwd1.text,
-                              @"loginPass1" : self.pwd2.text,
                               };
         
         [HttpRequest postPath:@"_register_001" params:dic resultBlock:^(id responseObject, NSError *error) {
-            
+            NSLog(@".....%@", responseObject);
             if([error isEqual:[NSNull null]] || error == nil){
                 NSLog(@"success");
             }
             NSDictionary *datadic = responseObject;
             if ([datadic[@"error"] intValue] == 0) {
-                [self.navigationController popViewControllerAnimated:YES];
+                NSDictionary *infoDic = datadic[@"info"];
+                NSString *usertoken = infoDic[@"userToken"];
+                NSString *userId = infoDic[@"userId"];
+                
+                [ConfigModel saveBoolObject:YES forKey:IsLogin];
+                [ConfigModel saveString:usertoken forKey:UserToken];
+                [ConfigModel saveString:userId forKey:UserId];
+                AddInfoViewController *vc = [[AddInfoViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+                
             }else {
                 NSString *str = datadic[@"info"];
                 [ConfigModel mbProgressHUD:str andView:nil];
@@ -116,18 +130,14 @@
         if (self.pwd1.text.length == 0) {
             [ConfigModel mbProgressHUD:@"请输入密码" andView:nil];
         }
-        if (self.pwd2.text.length == 0) {
-            [ConfigModel mbProgressHUD:@"请确认输入密码" andView:nil];
-        }
-        
+
         NSDictionary *dic = @{
                               @"mobile" : self.mobile.text,
                               @"code" : self.code.text,
-                              @"newPwd" : self.pwd1.text,
-                              @"sureNewPwd" : self.pwd2.text,
+                              @"loginPass" : self.pwd1.text,
                               };
         
-        [HttpRequest postPath:@"_set_pwd_003" params:dic resultBlock:^(id responseObject, NSError *error) {
+        [HttpRequest postPath:@"_set_pwd_001" params:dic resultBlock:^(id responseObject, NSError *error) {
             
             if([error isEqual:[NSNull null]] || error == nil){
                 NSLog(@"success");
@@ -159,11 +169,11 @@
         _codeBtn = [[UIButton alloc] initWithFrame:FRAME(kScreenW - 40 - SizeWidth(100), SizeHeigh(105), SizeWidth(100), SizeHeigh(35))];
         _codeBtn.backgroundColor = [UIColor clearColor];
         [_codeBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
-        [_codeBtn setTitleColor:UIColorFromHex(0xfb785a) forState:UIControlStateNormal];
+        [_codeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _codeBtn.tag = 108;
         _codeBtn.layer.masksToBounds = YES;
         _codeBtn.layer.borderWidth = 1;
-        _codeBtn.layer.borderColor = [UIColorFromHex(0xfb785a) CGColor];
+        _codeBtn.layer.borderColor = [[UIColor blackColor] CGColor];
         [_codeBtn addTarget:self action:@selector(codeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         _codeBtn.titleLabel.font = NormalFont(14);
     }
@@ -235,7 +245,7 @@
 -(UIButton *)loginBtn {
     if (!_loginBtn) {
         _loginBtn = [[UIButton alloc] initWithFrame:FRAME(40, SizeHeigh(315), kScreenW - 80, SizeHeigh(43))];
-        _loginBtn.backgroundColor = UIColorFromHex(0xfb785a);
+        _loginBtn.backgroundColor = ThemeColor;
         _loginBtn.layer.masksToBounds = YES;
         _loginBtn.layer.cornerRadius = SizeHeigh(5);
         [_loginBtn setTitle:@"确认" forState:UIControlStateNormal];

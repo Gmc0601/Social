@@ -84,10 +84,6 @@
 		42A444431EF133E000F90791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42A444411EF133E000F90791 /* LaunchScreen.storyboard */; };
 		42A4444E1EF133E000F90791 /* BaseProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A4444D1EF133E000F90791 /* BaseProjectTests.m */; };
 		42A444591EF133E100F90791 /* BaseProjectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A444581EF133E100F90791 /* BaseProjectUITests.m */; };
-		42B434931FA075EF00F2DED5 /* RegistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4348F1FA075EE00F2DED5 /* RegistViewController.m */; };
-		42B434941FA075EF00F2DED5 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B434901FA075EE00F2DED5 /* LoginViewController.m */; };
-		42B434951FA075EF00F2DED5 /* MobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B434921FA075EF00F2DED5 /* MobileViewController.m */; };
-		42B434981FA0761400F2DED5 /* CCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B434971FA0761400F2DED5 /* CCTextField.m */; };
 		42B4349B1FA076E000F2DED5 /* CCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4349A1FA076DF00F2DED5 /* CCBaseViewController.m */; };
 		42C84EAF1EF2DB060008189D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C84EA51EF2DB060008189D /* ViewController.m */; };
 		42C84EB01EF2DB060008189D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C84EAC1EF2DB060008189D /* AppDelegate.m */; };
@@ -137,6 +133,14 @@
 		42F795DA1F00CC3E00A11A69 /* TBRefreshFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F795D31F00CC3E00A11A69 /* TBRefreshFootView.m */; };
 		42F795DB1F00CC3E00A11A69 /* TBRefreshHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F795D51F00CC3E00A11A69 /* TBRefreshHeadView.m */; };
 		42F795DC1F00CC3E00A11A69 /* UIScrollView+TBRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F795D71F00CC3E00A11A69 /* UIScrollView+TBRefresh.m */; };
+		42FFD7671FA96D0700704591 /* AddInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD75C1FA96D0700704591 /* AddInfoViewController.m */; };
+		42FFD7681FA96D0700704591 /* AppAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD75E1FA96D0700704591 /* AppAlertViewController.m */; };
+		42FFD7691FA96D0700704591 /* CCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7601FA96D0700704591 /* CCTextField.m */; };
+		42FFD76A1FA96D0700704591 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7621FA96D0700704591 /* LoginViewController.m */; };
+		42FFD76B1FA96D0700704591 /* MobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7641FA96D0700704591 /* MobileViewController.m */; };
+		42FFD76C1FA96D0700704591 /* RegistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7661FA96D0700704591 /* RegistViewController.m */; };
+		42FFD7711FA96E2B00704591 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42FFD76E1FA96E2A00704591 /* city.plist */; };
+		42FFD7721FA96E2B00704591 /* CityPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7701FA96E2A00704591 /* CityPickView.m */; };
 		B79A5CFD6299881CB3643ACB /* libPods-BaseProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */; };
 /* End PBXBuildFile section */
 
@@ -313,14 +317,6 @@
 		42A444541EF133E100F90791 /* BaseProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaseProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A444581EF133E100F90791 /* BaseProjectUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseProjectUITests.m; sourceTree = "<group>"; };
 		42A4445A1EF133E100F90791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		42B4348D1FA075EE00F2DED5 /* RegistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistViewController.h; sourceTree = "<group>"; };
-		42B4348E1FA075EE00F2DED5 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		42B4348F1FA075EE00F2DED5 /* RegistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistViewController.m; sourceTree = "<group>"; };
-		42B434901FA075EE00F2DED5 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		42B434911FA075EF00F2DED5 /* MobileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileViewController.h; sourceTree = "<group>"; };
-		42B434921FA075EF00F2DED5 /* MobileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileViewController.m; sourceTree = "<group>"; };
-		42B434961FA0761400F2DED5 /* CCTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTextField.h; sourceTree = "<group>"; };
-		42B434971FA0761400F2DED5 /* CCTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTextField.m; sourceTree = "<group>"; };
 		42B434991FA076DF00F2DED5 /* CCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBaseViewController.h; sourceTree = "<group>"; };
 		42B4349A1FA076DF00F2DED5 /* CCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBaseViewController.m; sourceTree = "<group>"; };
 		42C84EA41EF2DB060008189D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -421,6 +417,21 @@
 		42F795D51F00CC3E00A11A69 /* TBRefreshHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBRefreshHeadView.m; sourceTree = "<group>"; };
 		42F795D61F00CC3E00A11A69 /* UIScrollView+TBRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TBRefresh.h"; sourceTree = "<group>"; };
 		42F795D71F00CC3E00A11A69 /* UIScrollView+TBRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TBRefresh.m"; sourceTree = "<group>"; };
+		42FFD75B1FA96D0700704591 /* AddInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddInfoViewController.h; sourceTree = "<group>"; };
+		42FFD75C1FA96D0700704591 /* AddInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddInfoViewController.m; sourceTree = "<group>"; };
+		42FFD75D1FA96D0700704591 /* AppAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppAlertViewController.h; sourceTree = "<group>"; };
+		42FFD75E1FA96D0700704591 /* AppAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppAlertViewController.m; sourceTree = "<group>"; };
+		42FFD75F1FA96D0700704591 /* CCTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTextField.h; sourceTree = "<group>"; };
+		42FFD7601FA96D0700704591 /* CCTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTextField.m; sourceTree = "<group>"; };
+		42FFD7611FA96D0700704591 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		42FFD7621FA96D0700704591 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		42FFD7631FA96D0700704591 /* MobileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileViewController.h; sourceTree = "<group>"; };
+		42FFD7641FA96D0700704591 /* MobileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileViewController.m; sourceTree = "<group>"; };
+		42FFD7651FA96D0700704591 /* RegistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistViewController.h; sourceTree = "<group>"; };
+		42FFD7661FA96D0700704591 /* RegistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistViewController.m; sourceTree = "<group>"; };
+		42FFD76E1FA96E2A00704591 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
+		42FFD76F1FA96E2A00704591 /* CityPickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityPickView.h; sourceTree = "<group>"; };
+		42FFD7701FA96E2A00704591 /* CityPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityPickView.m; sourceTree = "<group>"; };
 		65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BaseProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.release.xcconfig"; sourceTree = "<group>"; };
 		F79BCDCE7109E930EA932FB6 /* Pods-BaseProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.debug.xcconfig"; sourceTree = "<group>"; };
@@ -868,21 +879,6 @@
 			path = BaseProjectUITests;
 			sourceTree = "<group>";
 		};
-		42B4348C1FA075B200F2DED5 /* Login&&Regist */ = {
-			isa = PBXGroup;
-			children = (
-				42B434961FA0761400F2DED5 /* CCTextField.h */,
-				42B434971FA0761400F2DED5 /* CCTextField.m */,
-				42B4348E1FA075EE00F2DED5 /* LoginViewController.h */,
-				42B434901FA075EE00F2DED5 /* LoginViewController.m */,
-				42B434911FA075EF00F2DED5 /* MobileViewController.h */,
-				42B434921FA075EF00F2DED5 /* MobileViewController.m */,
-				42B4348D1FA075EE00F2DED5 /* RegistViewController.h */,
-				42B4348F1FA075EE00F2DED5 /* RegistViewController.m */,
-			);
-			path = "Login&&Regist";
-			sourceTree = "<group>";
-		};
 		42C84EA21EF2DB060008189D /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -939,7 +935,7 @@
 		42C84EA31EF2DB060008189D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				42B4348C1FA075B200F2DED5 /* Login&&Regist */,
+				42FFD75A1FA96D0700704591 /* Login&&Regist */,
 				4264C0961F72172E00F54499 /* Message(消息) */,
 				2E4151C91F945BDE00B53486 /* Circle(缘分圈) */,
 				2E4151EC1F945BDE00B53486 /* Friend(有缘人) */,
@@ -983,6 +979,7 @@
 		42C84EA91EF2DB060008189D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				42FFD76D1FA96E2A00704591 /* CityPickView */,
 				42F795CE1F00CC3E00A11A69 /* MJRefresh */,
 				42C84F141EF2EB650008189D /* Json */,
 				42C84EBA1EF2DD1A0008189D /* Base64 */,
@@ -1110,6 +1107,35 @@
 				42F795D71F00CC3E00A11A69 /* UIScrollView+TBRefresh.m */,
 			);
 			path = MJRefresh;
+			sourceTree = "<group>";
+		};
+		42FFD75A1FA96D0700704591 /* Login&&Regist */ = {
+			isa = PBXGroup;
+			children = (
+				42FFD75B1FA96D0700704591 /* AddInfoViewController.h */,
+				42FFD75C1FA96D0700704591 /* AddInfoViewController.m */,
+				42FFD75D1FA96D0700704591 /* AppAlertViewController.h */,
+				42FFD75E1FA96D0700704591 /* AppAlertViewController.m */,
+				42FFD75F1FA96D0700704591 /* CCTextField.h */,
+				42FFD7601FA96D0700704591 /* CCTextField.m */,
+				42FFD7611FA96D0700704591 /* LoginViewController.h */,
+				42FFD7621FA96D0700704591 /* LoginViewController.m */,
+				42FFD7631FA96D0700704591 /* MobileViewController.h */,
+				42FFD7641FA96D0700704591 /* MobileViewController.m */,
+				42FFD7651FA96D0700704591 /* RegistViewController.h */,
+				42FFD7661FA96D0700704591 /* RegistViewController.m */,
+			);
+			path = "Login&&Regist";
+			sourceTree = "<group>";
+		};
+		42FFD76D1FA96E2A00704591 /* CityPickView */ = {
+			isa = PBXGroup;
+			children = (
+				42FFD76E1FA96E2A00704591 /* city.plist */,
+				42FFD76F1FA96E2A00704591 /* CityPickView.h */,
+				42FFD7701FA96E2A00704591 /* CityPickView.m */,
+			);
+			path = CityPickView;
 			sourceTree = "<group>";
 		};
 		7F5FE81AF3930B1D8AB68F96 /* Frameworks */ = {
@@ -1241,6 +1267,7 @@
 			files = (
 				42F795D81F00CC3E00A11A69 /* arrowdown@2x.png in Resources */,
 				42F795D91F00CC3E00A11A69 /* arrowup@2x.png in Resources */,
+				42FFD7711FA96E2B00704591 /* city.plist in Resources */,
 				42A444431EF133E000F90791 /* LaunchScreen.storyboard in Resources */,
 				42A444401EF133E000F90791 /* Assets.xcassets in Resources */,
 			);
@@ -1329,7 +1356,6 @@
 				2E4152461F945BDE00B53486 /* XFCircleContentCell.m in Sources */,
 				42C84F031EF2E97D0008189D /* NSString+DisplayTime.m in Sources */,
 				42C84ECA1EF2DD1A0008189D /* NSDictionary+Smart.m in Sources */,
-				42B434931FA075EF00F2DED5 /* RegistViewController.m in Sources */,
 				4264C0A01F72182F00F54499 /* MessageListViewController.m in Sources */,
 				42C84EC81EF2DD1A0008189D /* DIc.m in Sources */,
 				2E41528B1F945C0B00B53486 /* UIView+XFExtension.m in Sources */,
@@ -1342,6 +1368,7 @@
 				42F795CD1F00CBDF00A11A69 /* FactorySet.m in Sources */,
 				2E41525E1F945BDE00B53486 /* XFNickNameViewController.m in Sources */,
 				2E4152A61F945C6500B53486 /* User.m in Sources */,
+				42FFD7671FA96D0700704591 /* AddInfoViewController.m in Sources */,
 				2EBDF3C31F9F23FA00D7C686 /* XFLocationViewController.m in Sources */,
 				2E4152551F945BDE00B53486 /* XFPrepareChatView.m in Sources */,
 				42F795BF1F00C8B200A11A69 /* TBTabBar.m in Sources */,
@@ -1363,8 +1390,10 @@
 				42C84EFE1EF2E97D0008189D /* NSDictionary+Category.m in Sources */,
 				42F795C01F00C8B200A11A69 /* UINavigationBar+Awesome.m in Sources */,
 				2E4152511F945BDE00B53486 /* XFFriendCell.m in Sources */,
+				42FFD7721FA96E2B00704591 /* CityPickView.m in Sources */,
 				2E41523E1F945BDE00B53486 /* XFCircleRewardViewController.m in Sources */,
 				2E4152471F945BDE00B53486 /* XFCircleContentView.m in Sources */,
+				42FFD76C1FA96D0700704591 /* RegistViewController.m in Sources */,
 				2E41523C1F945BDE00B53486 /* XFCircleCommentViewController.m in Sources */,
 				2E4152521F945BDE00B53486 /* XFFriendCircleCell.m in Sources */,
 				2E41525D1F945BDE00B53486 /* XFMyInfoViewController.m in Sources */,
@@ -1372,9 +1401,10 @@
 				2E41528F1F945C0B00B53486 /* MLBlackTransition.m in Sources */,
 				42C84EFC1EF2E97D0008189D /* NSData+Category.m in Sources */,
 				42C84EFB1EF2E97D0008189D /* NSAttributedString+Category.m in Sources */,
+				42FFD7681FA96D0700704591 /* AppAlertViewController.m in Sources */,
+				42FFD7691FA96D0700704591 /* CCTextField.m in Sources */,
 				2E41524F1F945BDE00B53486 /* XFFriendViewController.m in Sources */,
 				42C84EAF1EF2DB060008189D /* ViewController.m in Sources */,
-				42B434981FA0761400F2DED5 /* CCTextField.m in Sources */,
 				42C84EB91EF2DCD90008189D /* MainApi.m in Sources */,
 				2E41524C1F945BDE00B53486 /* XFFriendCircleViewController.m in Sources */,
 				2E4152691F945BDE00B53486 /* XFMyInfoView.m in Sources */,
@@ -1404,8 +1434,10 @@
 				42C84F0B1EF2E97D0008189D /* UIMenuItem+Category.m in Sources */,
 				2E4152891F945C0B00B53486 /* UIColor+XFExtension.m in Sources */,
 				2E4152661F945BDE00B53486 /* XFSettingViewController.m in Sources */,
+				42FFD76B1FA96D0700704591 /* MobileViewController.m in Sources */,
 				42C84EB61EF2DCBC0008189D /* ConfigModel.m in Sources */,
 				2E4152A41F945C6500B53486 /* CircleComment.m in Sources */,
+				42FFD76A1FA96D0700704591 /* LoginViewController.m in Sources */,
 				2E41523F1F945BDE00B53486 /* XFCircleZanViewController.m in Sources */,
 				42C84EB11EF2DB060008189D /* main.m in Sources */,
 				2E4152421F945BDE00B53486 /* XFPublishViewController.m in Sources */,
@@ -1413,7 +1445,6 @@
 				2E4152601F945BDE00B53486 /* XFMyAlbumViewController.m in Sources */,
 				2E4152641F945BDE00B53486 /* XFCharmRuleViewController.m in Sources */,
 				2E41528A1F945C0B00B53486 /* UILabel+XFExtension.m in Sources */,
-				42B434951FA075EF00F2DED5 /* MobileViewController.m in Sources */,
 				2E4152991F945C5700B53486 /* XFViewController.m in Sources */,
 				2E4152681F945BDE00B53486 /* XFMyFollowUserCell.m in Sources */,
 				2E41526A1F945BDE00B53486 /* XFSelectInterestView.m in Sources */,
@@ -1426,7 +1457,6 @@
 				4264C0A91F72401B00F54499 /* ChatViewController.m in Sources */,
 				42C84EB01EF2DB060008189D /* AppDelegate.m in Sources */,
 				2E4152961F945C1E00B53486 /* XFConst.m in Sources */,
-				42B434941FA075EF00F2DED5 /* LoginViewController.m in Sources */,
 				2E4152A51F945C6500B53486 /* TradeRecord.m in Sources */,
 				42C84F1E1EF2EB650008189D /* SBJSON.m in Sources */,
 				2E4152A31F945C6500B53486 /* Circle.m in Sources */,

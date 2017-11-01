@@ -7,7 +7,7 @@
 //
 
 #import "XFViewController.h"
-
+#import "TBNavigationController.h"
 @interface XFViewController ()
 
 @end
@@ -25,7 +25,8 @@
 
 - (void)showLoginController {
     LoginViewController *controller = [[LoginViewController alloc] init];
-    [self.navigationController presentViewController:controller animated:YES completion:nil];
+    TBNavigationController *na = [[TBNavigationController alloc] initWithRootViewController:controller];
+    [self.navigationController presentViewController:na animated:YES completion:nil];
     return;
 
 }

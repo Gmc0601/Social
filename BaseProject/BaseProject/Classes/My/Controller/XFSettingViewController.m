@@ -79,7 +79,13 @@
                       if (errorCode.integerValue == 0) {
                           NSDictionary *infoDict = responseObject[@"info"];
                           if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
+                              
+                             
                               NSString *xianshi = infoDict[@"xianshi"];
+                              if([xianshi isEqual:[NSNull null]] || xianshi == nil){
+                                  [ConfigModel mbProgressHUD:@"xianshi  >>   null" andView:nil];
+                                  return ;
+                              }
                               if (self.pushArray.count > xianshi.integerValue) {
                                   self.selectItemView = self.pushArray[xianshi.integerValue];
                                   [weakSelf setupPushSettingItem];
@@ -102,7 +108,23 @@
 
 #pragma mark ----------Action----------
 - (void)logoutBtnClick {
-    
+    WeakSelf
+    [HttpRequest postPath:@"_logout_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+        if([error isEqual:[NSNull null]] || error == nil){
+            NSLog(@"success");
+        }
+        NSDictionary *datadic = responseObject;
+        if ([datadic[@"error"] intValue] == 0) {
+            [ConfigModel mbProgressHUD:@"退出成功" andView:nil];
+            [ConfigModel saveBoolObject:NO forKey:IsLogin];
+            [ConfigModel saveString:@"" forKey:UserToken];
+            [ConfigModel saveString:@"" forKey:UserId];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }else {
+            NSString *str = datadic[@"info"];
+            [ConfigModel mbProgressHUD:str andView:nil];
+        }
+    }];
 }
 
 - (void)viewTap:(UIGestureRecognizer *)ges {
