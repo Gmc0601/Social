@@ -13,8 +13,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    [ConfigModel saveBoolObject:NO forKey:IsLogin];
-//    [ConfigModel saveString:@"88d7009129e5ef5ba7fb88112db30ee6" forKey:UserToken];
+    
     [SVProgressHUD setMinimumDismissTimeInterval:1];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[TBTabBarController alloc] init];

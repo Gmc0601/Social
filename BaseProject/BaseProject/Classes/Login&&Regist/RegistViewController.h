@@ -6,14 +6,14 @@
 //  Copyright © 2017年 cc. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "CCBaseViewController.h"
 
 typedef enum RegistType{
     Regist,
     Forget,
 }RegistType;
 
-@interface RegistViewController : BaseViewController
+@interface RegistViewController : CCBaseViewController
 
 @property (nonatomic, assign) RegistType type;
 

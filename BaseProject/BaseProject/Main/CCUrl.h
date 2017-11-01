@@ -46,5 +46,7 @@
 
 #define UserToken @"userTOken"
 
+#define UserId @"UserId"
+
 
 #endif /* CCUrl_h */

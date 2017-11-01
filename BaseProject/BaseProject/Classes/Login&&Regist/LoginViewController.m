@@ -16,11 +16,13 @@
     BOOL person;
 }
 
-@property (nonatomic, retain) UIButton *personBtn, *storeBtn, *loginBtn, *forgetBtn, *weichatBtn, *qqBtn;
+@property (nonatomic, retain) UIButton *personBtn, *storeBtn, *loginBtn, *forgetBtn, *weichatBtn, *qqBtn , *registBtn;
 
 @property (nonatomic, retain) CCTextField *mobile, *pwd;
 
 @property (nonatomic, retain) UILabel *thirdlab, *line1, *line2, *line3;
+
+@property (nonatomic, retain) UIImageView *logo;
 
 
 
@@ -39,6 +41,7 @@
     [self.leftBar setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.rightBar setTitle:@"注册" forState:UIControlStateNormal];
     self.leftBar.titleLabel.font = [UIFont systemFontOfSize:12];
+    self.rightBar.hidden = YES;
 
     [self addview];
 }
@@ -59,11 +62,12 @@
     [self.view addSubview:self.line2];
     [self.view addSubview:self.line3];
     [self.view addSubview:self.thirdlab];
-    [self.view addSubview:self.personBtn];
-    [self.view addSubview:self.storeBtn];
+    [self.view addSubview:self.logo];
+    [self.view addSubview:self.registBtn];
     [self.view addSubview:self.loginBtn];
     [self.view addSubview:self.forgetBtn];
     [self.view addSubview:self.weichatBtn];
+
     [self.view addSubview:self.qqBtn];
     
     self.mobile = [[CCTextField alloc] initWithFrame:FRAME(40, 240 * k_screenH, kScreenW - 80, 50 *k_screenH) PlaceholderStr:@"手机号" isBorder:NO withLeftImage:@"icon_sjh"];
@@ -74,8 +78,6 @@
     
     [self.view addSubview:self.pwd];
     
-    
-    
 }
 
 - (void)back:(UIButton *)sender {
@@ -84,7 +86,7 @@
     }];
 }
 - (void)more:(UIButton *)sender {
-    [self.navigationController pushViewController:[RegistViewController new] animated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -170,7 +172,6 @@
 
                 NSDictionary *dic = datadic[@"info"];
                 [ConfigModel saveBoolObject:YES forKey:IsLogin];
-
                 NSString *usertoken = dic[@"userToken"];
                 [ConfigModel saveString:usertoken forKey:UserToken];
                 
@@ -184,7 +185,6 @@
             }else {
                 NSString *str = datadic[@"info"];
                 if ([datadic[@"error"] intValue] == 1 && [str isEqualToString:@"请绑定手机号"]) {
-                    
                     [weakSelf.navigationController pushViewController:vc animated:YES];
                 }else {
                     [ConfigModel mbProgressHUD:str andView:nil];
@@ -205,6 +205,10 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
+        case 111: {
+            [self.navigationController pushViewController:[RegistViewController new] animated:YES];
+        }
+            break;
         case 11:{
             //  登录
             NSString *type;
@@ -217,7 +221,6 @@
             NSDictionary *dic = @{
                                   @"username" : self.mobile.text,
                                   @"loginPass" : self.pwd.text,
-                                  @"user_type" : type
                                   };
             
             [HttpRequest postPath:@"_login_001" params:dic resultBlock:^(id responseObject, NSError *error) {
@@ -231,13 +234,9 @@
                     NSDictionary *dic = datadic[@"info"];
                     [ConfigModel saveBoolObject:YES forKey:IsLogin];
                     NSString *usertoken = dic[@"userToken"];
+                    NSString *userId =  dic[@"userId"];
+                    [ConfigModel saveString:userId forKey:UserId];
                     [ConfigModel saveString:usertoken forKey:UserToken];
-//                    if (person) {
-//                        [ConfigModel saveBoolObject:YES forKey:PersonNow];
-//                    }else {
-//                        [ConfigModel saveBoolObject:NO forKey:PersonNow];
-//                    }
-                    [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }else {
                     NSString *str = datadic[@"info"];
@@ -316,10 +315,10 @@
 -(UIButton *)loginBtn {
     if (!_loginBtn) {
         _loginBtn = [[UIButton alloc] initWithFrame:FRAME(40, SizeHeigh(375), kScreenW - 80, SizeHeigh(43))];
-        _loginBtn.backgroundColor = UIColorFromHex(0xfb785a);
+        _loginBtn.backgroundColor = ThemeColor;
         _loginBtn.layer.masksToBounds = YES;
         _loginBtn.layer.cornerRadius = SizeHeigh(5);
-        [_loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+        [_loginBtn setTitle:@"确认" forState:UIControlStateNormal];
         [_loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _loginBtn.tag = 11;
         [_loginBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -332,7 +331,7 @@
     if (!_qqBtn) {
         _qqBtn = [[UIButton alloc] initWithFrame:FRAME(kScreenW - SizeWidth(85) - SizeWidth(22), SizeHeigh(570), SizeWidth(18), SizeHeigh(18))];
         _qqBtn.backgroundColor = [UIColor clearColor];
-        _qqBtn .tag = 105;
+        _qqBtn.tag = 105;
         [_qqBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [_qqBtn setImage:[UIImage imageNamed:@"icon_qq"] forState:UIControlStateNormal];
     }
@@ -358,6 +357,18 @@
         [_forgetBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _forgetBtn;
+}
+
+-(UIButton *)registBtn {
+    if (!_registBtn) {
+        _registBtn = [[UIButton alloc] initWithFrame:FRAME(20, SizeHeigh(425), SizeWidth(70), SizeHeigh(30))];
+        [_registBtn setTitle:@"立即注册" forState:UIControlStateNormal];
+        [_registBtn setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+        _registBtn.titleLabel.font = NormalFont(13);
+        _registBtn.tag = 111;
+        [_registBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _registBtn;
 }
 
 - (UILabel *)line3 {
@@ -408,4 +419,13 @@
     return _storeBtn;
     
 }
+- (UIImageView *)logo {
+    if (!_logo) {
+        _logo = [[UIImageView alloc] initWithFrame:FRAME(kScreenW/2 - SizeWidth(36), SizeHeigh(62), SizeWidth(36), SizeWidth(36))];
+        _logo.backgroundColor = [UIColor clearColor];
+        _logo.image = [UIImage imageNamed:@""];
+    }
+    return _logo;
+}
+
 @end
