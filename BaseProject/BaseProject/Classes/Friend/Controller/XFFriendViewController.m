@@ -14,7 +14,7 @@
 #import "XFMapViewController.h"
 #import "XFLocationViewController.h"
 
-@interface XFFriendViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, XFFriendFilterViewDelegate, AMapLocationManagerDelegate>
+@interface XFFriendViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, XFFriendFilterViewDelegate, AMapLocationManagerDelegate, AMapSearchDelegate>
 
 @property (nonatomic, strong) AMapLocationManager *locationManager;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -22,6 +22,11 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UILabel *locationLabel;
 @property (nonatomic, assign) NSInteger currentPage;
+
+
+@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, strong) AMapReGeocodeSearchRequest *codeSearch;
+@property (nonatomic, strong) AMapSearchAPI *search;
 
 @property (nonatomic, strong) NSMutableDictionary *seniorDict; // 普通筛选字典
 @property (nonatomic, strong) NSMutableDictionary *normalDict; // 高级筛选字典
@@ -33,7 +38,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    [self loadData];
     [self getLocation];
 }
 
@@ -76,10 +80,22 @@
     UIView *splitView = [UIView xf_createSplitView];
     splitView.frame = CGRectMake(0, fileterView.height - 0.5, fileterView.width, 0.5);
     [fileterView addSubview:splitView];
-    self.collectionView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
-    self.collectionView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
+    
     self.seniorDict = [NSMutableDictionary dictionary];
     self.normalDict = [NSMutableDictionary dictionary];
+    
+    NSString *lat = [UserDefaults objectForKey:XFCurrentLatitudeKey];
+    NSString *lon = [UserDefaults objectForKey:XFCurrentLongitudeKey];
+    self.location = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+    self.collectionView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
+    self.collectionView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
+    [self loadData];
+    
+    UIButton *mapBtn = [UIButton xf_imgButtonWithImgName:@"btn_yyr_dt" target:self action:@selector(mapBtnClick)];
+    mapBtn.size = CGSizeMake(50, 50);
+    mapBtn.right = kScreenWidth - 30;
+    mapBtn.bottom = kScreenHeight - 75;
+    [self.view addSubview:mapBtn];
 }
 
 - (void)setupNavView {
@@ -125,14 +141,20 @@
     [navView addSubview:locationLabel];
 }
 
+- (void)mapBtnClick {
+    XFMapViewController *controller = [[XFMapViewController alloc] init];
+    [self pushController:controller];
+}
+
 - (void)locationViewTap {
-    //    XFMapViewController *controller = [[XFMapViewController alloc] init];
-    //    [self pushController:controller];
     XFLocationViewController *controller = [[XFLocationViewController alloc] init];
     controller.titleStr = @"选择地址";
     controller.selectAddress = ^(NSDictionary *dict) {
         NSString *name = dict[@"name"];
         self.locationLabel.text = name;
+        AMapGeoPoint *point = dict[@"location"];
+        self.location = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+        [self loadData];
     };
     [self pushController:controller];
 }
@@ -205,13 +227,12 @@
     if (self.normalDict.allKeys.count) {
         [dict addEntriesFromDictionary:self.normalDict];
     }
-    NSString *latitude = [UserDefaults stringForKey:XFCurrentLatitudeKey];
-    NSString *longitude = [UserDefaults stringForKey:XFCurrentLongitudeKey];
+    NSString *latitude = [NSString stringWithFormat:@"%f", self.location.coordinate.latitude];
+    NSString *longitude = [NSString stringWithFormat:@"%f", self.location.coordinate.longitude];
     if (latitude.length && longitude.length) {
         dict[@"lat"] = latitude;
         dict[@"long"] = longitude;
     }
-    
     dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
     dict[@"size"] = XFDefaultPageSize;
     return dict;
@@ -223,9 +244,24 @@
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     [self.locationManager setLocationTimeout:10];
     [self.locationManager setReGeocodeTimeout:5];
-    [self.locationManager requestLocationWithReGeocode:NO completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
-        FFLog(@"%@", regeocode.street);
-    }];
+    [self.locationManager startUpdatingLocation];
+    self.search = [[AMapSearchAPI alloc] init];
+    self.search.delegate = self;
+}
+
+- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location {
+    self.location = location;
+    self.codeSearch = [[AMapReGeocodeSearchRequest alloc] init];
+    self.codeSearch.location = [AMapGeoPoint locationWithLatitude:self.location.coordinate.latitude longitude:self.location.coordinate.longitude];
+    self.codeSearch.requireExtension = YES;
+    [self.search AMapReGoecodeSearch:self.codeSearch];
+    [self.locationManager stopUpdatingLocation];
+}
+
+- (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response {
+    if (response.regeocode != nil) {
+        self.locationLabel.text = response.regeocode.formattedAddress;
+    }
 }
 
 #pragma mark ----------<UICollectionViewDataSource>----------

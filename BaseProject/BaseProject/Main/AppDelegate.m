@@ -14,6 +14,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [AMapServices sharedServices].apiKey = XFAMapKey; // 测试时换成跟Bundld id 对应的高德地图Key
     [SVProgressHUD setMinimumDismissTimeInterval:1];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[TBTabBarController alloc] init];

@@ -144,6 +144,7 @@
                    params:[self getTheParams]
               resultBlock:^(id responseObject, NSError *error) {
                   weakSelf.dataArray = [NSMutableArray array];
+                  FFLog(@"没有信息，没有坐标信息，无法定义大头针");
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
@@ -173,7 +174,6 @@
         dict[@"long"] = longitude;
     }
     
-    FFLog(@"%@", dict);
     return dict;
 }
 
