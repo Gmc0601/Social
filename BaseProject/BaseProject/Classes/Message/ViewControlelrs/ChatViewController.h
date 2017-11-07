@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
-@interface ChatViewController : BaseViewController
+#import "CCMessageViewController.h"
+@interface ChatViewController : CCMessageViewController
 
 @end

@@ -1,27 +1,29 @@
 //
-//  ChatViewController.m
+//  SystemMessageViewController.m
 //  BaseProject
 //
-//  Created by cc on 2017/9/20.
+//  Created by cc on 2017/11/6.
 //  Copyright © 2017年 cc. All rights reserved.
 //
 
-#import "ChatViewController.h"
+#import "SystemMessageViewController.h"
 
-@interface ChatViewController ()
+@interface SystemMessageViewController ()
 
 @end
 
-@implementation ChatViewController
+@implementation SystemMessageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.titleLab.text = @"系统消息";
+    self.rightBtn.hidden= YES;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

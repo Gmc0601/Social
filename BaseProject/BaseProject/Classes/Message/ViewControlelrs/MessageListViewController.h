@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
+#import "CCMessageViewController.h"
 
-@interface MessageListViewController : BaseViewController
+@interface MessageListViewController : CCMessageViewController
 
 @end

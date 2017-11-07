@@ -8,6 +8,7 @@
 
 #import "XFViewController.h"
 #import "TBNavigationController.h"
+
 @interface XFViewController ()
 
 @end
@@ -16,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 
 - (void)backBtnClick {

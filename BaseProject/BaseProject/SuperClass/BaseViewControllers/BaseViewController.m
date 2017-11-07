@@ -24,6 +24,7 @@
 {
     [super viewDidLoad];
     
+    
     if (iOS7) {
         self.automaticallyAdjustsScrollViewInsets = NO;
         

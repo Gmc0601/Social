@@ -11,7 +11,7 @@
 #import "ViewController.h"
 #import "TBNavigationController.h"
 #import "TBTabBar.h"
-#import "XFMessageViewController.h"
+//#import "XFMessageViewController.h"
 #import "XFFriendViewController.h"
 #import "XFCircleViewController.h"
 #import "XFMyViewController.h"
@@ -34,9 +34,10 @@
 #pragma mark -初始化所有控制器 
 
 - (void)setUpChildVC {
-
-    XFMessageViewController *newsVc = [[XFMessageViewController alloc] init];
-    [self setChildVC:newsVc title:@"消息" image:@"icon_xx_tab-拷贝" selectedImage:@"icon_xx_tab"];
+    UIStoryboard  * message = [UIStoryboard  storyboardWithName :@"MessageStoryBoard"  bundle :nil ];
+    
+    UIViewController  * messageVC = [message  instantiateViewControllerWithIdentifier :@"MessageList"];
+    [self setChildVC:messageVC title:@"消息" image:@"icon_xx_tab-拷贝" selectedImage:@"icon_xx_tab"];
 
     XFFriendViewController *investment = [[XFFriendViewController alloc] init];
     [self setChildVC:investment title:@"有缘人" image:@"icon_yyr_tab_pre" selectedImage:@"icon_yyr_tab"];
