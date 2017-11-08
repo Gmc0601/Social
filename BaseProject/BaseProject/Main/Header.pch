@@ -75,8 +75,6 @@
 
 #define IsNULL(_ref)   (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]) || ([(_ref) isKindOfClass:[NSNull class]]) )
 
-
-
 #import "CCUrl.h"
 #import "ConfigModel.h"
 #import "MainApi.h"

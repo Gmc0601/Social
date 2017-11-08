@@ -11,6 +11,9 @@
 #import "LoginViewController.h"
 #import "TBNavigationController.h"
 #import "SystemMessageViewController.h"
+#import "ContactsViewController.h"
+#import "ChatRequestViewController.h"
+
 @interface MessageListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *logoImage;
 @property (weak, nonatomic) IBOutlet UIButton *LoginBtn;
@@ -44,6 +47,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
     return 3;
 }
 
@@ -67,10 +71,18 @@
     return indexPath.section == 2 ? 70 : 48;
 }
 
-
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0) {
+        ContactsViewController *vc = [[ContactsViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    if (indexPath.section == 1) {
+        ChatRequestViewController *vc = [[ChatRequestViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     
 }
 - (UITableView *)noUseTableView {
@@ -80,7 +92,7 @@
         _noUseTableView.delegate = self;
         _noUseTableView.dataSource = self;
         _noUseTableView.tableHeaderView = ({
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0)];
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01)];
             view;
         });
         _noUseTableView.tableFooterView = ({
