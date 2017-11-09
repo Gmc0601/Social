@@ -13,6 +13,7 @@
 #import "SystemMessageViewController.h"
 #import "ContactsViewController.h"
 #import "ChatRequestViewController.h"
+#import "ChatInfoTableViewCell.h"
 
 @interface MessageListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *logoImage;
@@ -46,8 +47,7 @@
     }
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
 
@@ -57,12 +57,36 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellId = [NSString stringWithFormat:@"%lu%lu", indexPath.section, indexPath.row];
-    UITableViewCell *cell = [self.noUseTableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell ) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+    
+    if (indexPath.section < 2) {
+        UITableViewCell *cell = [self.noUseTableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell ) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+        }
+        switch (indexPath.section) {
+            case 0:{
+                cell.textLabel.text = @"好友通讯录";
+            }
+                break;
+            case 1:{
+                cell.textLabel.text = @"聊天请求";
+            }
+                break;
+                
+            default:
+                break;
+        }
+        return cell;
+    }else {
+        ChatInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if  (!cell){
+            NSArray  * nibs = [[ NSBundle mainBundle ] loadNibNamed :@"ChatInfoTableViewCell" owner :nil options :nil ];
+            cell = [  nibs lastObject ];
+        }
+        return cell;
     }
-    cell.textLabel.text = @"hello";
-    return cell;
+    
+    
     
 }
 
@@ -91,6 +115,7 @@
         _noUseTableView.backgroundColor = RGBColor(239, 240, 241);
         _noUseTableView.delegate = self;
         _noUseTableView.dataSource = self;
+        _noUseTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _noUseTableView.tableHeaderView = ({
             UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01)];
             view;

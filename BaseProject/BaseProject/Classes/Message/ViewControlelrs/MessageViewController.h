@@ -8,6 +8,13 @@
 
 #import "CCMessageViewController.h"
 
+typedef enum MessageType {
+    NormalMessage,
+    PredestinationMessage,
+}MessageType;
+
 @interface MessageViewController : CCMessageViewController
+
+@property (nonatomic, assign) MessageType type;
 
 @end

@@ -78,6 +78,8 @@
 		2EBDF3D11F9F257700D7C686 /* XFMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDF3D01F9F257700D7C686 /* XFMapViewController.m */; };
 		4264C0A01F72182F00F54499 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264C09F1F72182F00F54499 /* MessageListViewController.m */; };
 		4264C0A91F72401B00F54499 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264C0A81F72401B00F54499 /* ChatViewController.m */; };
+		42A0E3C21FB3FA600079F744 /* ChatInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A0E3C01FB3FA600079F744 /* ChatInfoTableViewCell.m */; };
+		42A0E3C31FB3FA600079F744 /* ChatInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A0E3C11FB3FA600079F744 /* ChatInfoTableViewCell.xib */; };
 		42A4443E1EF133E000F90791 /* BaseProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 42A4443C1EF133E000F90791 /* BaseProject.xcdatamodeld */; };
 		42A444401EF133E000F90791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42A4443F1EF133E000F90791 /* Assets.xcassets */; };
 		42A444431EF133E000F90791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42A444411EF133E000F90791 /* LaunchScreen.storyboard */; };
@@ -125,7 +127,6 @@
 		42C84F1E1EF2EB650008189D /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C84F1B1EF2EB650008189D /* SBJSON.m */; };
 		42D858F81FB2F79E00C1B7D2 /* ChatRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D858F71FB2F79E00C1B7D2 /* ChatRequestViewController.m */; };
 		42D858FB1FB2F7D200C1B7D2 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D858FA1FB2F7D200C1B7D2 /* MessageViewController.m */; };
-		42D858FE1FB2F88900C1B7D2 /* PredestinationMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D858FD1FB2F88900C1B7D2 /* PredestinationMessageViewController.m */; };
 		42D859011FB2F8F200C1B7D2 /* AnnouncementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D859001FB2F8F100C1B7D2 /* AnnouncementViewController.m */; };
 		42D859041FB2F99400C1B7D2 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D859031FB2F99400C1B7D2 /* ContactsViewController.m */; };
 		42F795BC1F00C8B200A11A69 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F795B01F00C8B200A11A69 /* BaseViewController.m */; };
@@ -310,6 +311,9 @@
 		4264C09F1F72182F00F54499 /* MessageListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
 		4264C0A71F72401B00F54499 /* ChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		4264C0A81F72401B00F54499 /* ChatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		42A0E3BF1FB3FA600079F744 /* ChatInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatInfoTableViewCell.h; sourceTree = "<group>"; };
+		42A0E3C01FB3FA600079F744 /* ChatInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatInfoTableViewCell.m; sourceTree = "<group>"; };
+		42A0E3C11FB3FA600079F744 /* ChatInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatInfoTableViewCell.xib; sourceTree = "<group>"; };
 		42A4442D1EF133E000F90791 /* BaseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A4443D1EF133E000F90791 /* BaseProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BaseProject.xcdatamodel; sourceTree = "<group>"; };
 		42A4443F1EF133E000F90791 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -407,8 +411,6 @@
 		42D858F71FB2F79E00C1B7D2 /* ChatRequestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatRequestViewController.m; sourceTree = "<group>"; };
 		42D858F91FB2F7D200C1B7D2 /* MessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		42D858FA1FB2F7D200C1B7D2 /* MessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
-		42D858FC1FB2F88900C1B7D2 /* PredestinationMessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PredestinationMessageViewController.h; sourceTree = "<group>"; };
-		42D858FD1FB2F88900C1B7D2 /* PredestinationMessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PredestinationMessageViewController.m; sourceTree = "<group>"; };
 		42D858FF1FB2F8F100C1B7D2 /* AnnouncementViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnnouncementViewController.h; sourceTree = "<group>"; };
 		42D859001FB2F8F100C1B7D2 /* AnnouncementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnnouncementViewController.m; sourceTree = "<group>"; };
 		42D859021FB2F99400C1B7D2 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
@@ -808,6 +810,7 @@
 		4264C0961F72172E00F54499 /* Message(消息) */ = {
 			isa = PBXGroup;
 			children = (
+				42A0E3BB1FB3F34F0079F744 /* Views */,
 				42AAFED51FB061D700F2E13F /* MessageStoryboard */,
 				4264C0981F72172E00F54499 /* ViewControlelrs */,
 			);
@@ -828,14 +831,22 @@
 				42D858F71FB2F79E00C1B7D2 /* ChatRequestViewController.m */,
 				42D858F91FB2F7D200C1B7D2 /* MessageViewController.h */,
 				42D858FA1FB2F7D200C1B7D2 /* MessageViewController.m */,
-				42D858FC1FB2F88900C1B7D2 /* PredestinationMessageViewController.h */,
-				42D858FD1FB2F88900C1B7D2 /* PredestinationMessageViewController.m */,
 				42D858FF1FB2F8F100C1B7D2 /* AnnouncementViewController.h */,
 				42D859001FB2F8F100C1B7D2 /* AnnouncementViewController.m */,
 				42D859021FB2F99400C1B7D2 /* ContactsViewController.h */,
 				42D859031FB2F99400C1B7D2 /* ContactsViewController.m */,
 			);
 			path = ViewControlelrs;
+			sourceTree = "<group>";
+		};
+		42A0E3BB1FB3F34F0079F744 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				42A0E3BF1FB3FA600079F744 /* ChatInfoTableViewCell.h */,
+				42A0E3C01FB3FA600079F744 /* ChatInfoTableViewCell.m */,
+				42A0E3C11FB3FA600079F744 /* ChatInfoTableViewCell.xib */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		42A444241EF133E000F90791 = {
@@ -1304,6 +1315,7 @@
 				42F795D81F00CC3E00A11A69 /* arrowdown@2x.png in Resources */,
 				42AAFED71FB061FB00F2E13F /* MessageStoryBoard.storyboard in Resources */,
 				42F795D91F00CC3E00A11A69 /* arrowup@2x.png in Resources */,
+				42A0E3C31FB3FA600079F744 /* ChatInfoTableViewCell.xib in Resources */,
 				42FFD7711FA96E2B00704591 /* city.plist in Resources */,
 				42A444431EF133E000F90791 /* LaunchScreen.storyboard in Resources */,
 				42A444401EF133E000F90791 /* Assets.xcassets in Resources */,
@@ -1410,7 +1422,6 @@
 				2EBDF3C31F9F23FA00D7C686 /* XFLocationViewController.m in Sources */,
 				2E4152551F945BDE00B53486 /* XFPrepareChatView.m in Sources */,
 				42F795BF1F00C8B200A11A69 /* TBTabBar.m in Sources */,
-				42D858FE1FB2F88900C1B7D2 /* PredestinationMessageViewController.m in Sources */,
 				2E41528C1F945C0B00B53486 /* XFLRButton.m in Sources */,
 				42C84F081EF2E97D0008189D /* UIColor+BGHexColor.m in Sources */,
 				2E41526C1F945BDE00B53486 /* XFTradeRecordCell.m in Sources */,
@@ -1484,6 +1495,7 @@
 				2E4152601F945BDE00B53486 /* XFMyAlbumViewController.m in Sources */,
 				2E4152641F945BDE00B53486 /* XFCharmRuleViewController.m in Sources */,
 				42AAFED41FB05ED700F2E13F /* CCMessageViewController.m in Sources */,
+				42A0E3C21FB3FA600079F744 /* ChatInfoTableViewCell.m in Sources */,
 				2E41528A1F945C0B00B53486 /* UILabel+XFExtension.m in Sources */,
 				2E4152991F945C5700B53486 /* XFViewController.m in Sources */,
 				2E4152681F945BDE00B53486 /* XFMyFollowUserCell.m in Sources */,
