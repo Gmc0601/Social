@@ -253,7 +253,6 @@
         [self showLoginController];
         return;
     }
-    FFLogFunc
     NSString *type = self.user.guanzhu.integerValue == 2 ? @"1" : @"2";
     if (self.user.id) {
         [HttpRequest postPath:XFFriendFollowUrl

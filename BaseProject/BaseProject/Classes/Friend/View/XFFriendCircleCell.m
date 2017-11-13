@@ -58,7 +58,7 @@
     self.shareBtn.frame = model.shareBtnFrame;
     [self.shareBtn setTitle:[NSString stringWithFormat:@" %d", circle.reward_num.intValue] forState:UIControlStateNormal];
     self.zanBtn.frame = model.zanBtnFrame;
-    [self.zanBtn setTitle:[NSString stringWithFormat:@" %d", circle.transmit_num.intValue] forState:UIControlStateNormal];
+    [self.zanBtn setTitle:[NSString stringWithFormat:@" %d", circle.like_num.intValue] forState:UIControlStateNormal];
     self.commentBtn.frame = model.commentBtnFrame;
     [self.commentBtn setTitle:[NSString stringWithFormat:@" %d", circle.comment_num.intValue] forState:UIControlStateNormal];
     

@@ -12,9 +12,11 @@
 #import "XFCircleContentCellModel.h"
 #import "XFCircleDetailViewController.h"
 #import "XFPlayVideoController.h"
+#import "XFFriendHomeViewController.h"
+#import "XFCircleShareView.h"
 
 
-@interface XFCircleContentViewController ()<UITableViewDelegate, UITableViewDataSource, XFCircleContentCellDelegate, MWPhotoBrowserDelegate, XFCircleSuggestCellDelegate>
+@interface XFCircleContentViewController ()<UITableViewDelegate, UITableViewDataSource, XFCircleContentCellDelegate, MWPhotoBrowserDelegate, XFCircleSuggestCellDelegate, XFCircleShareViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *suggestArray;
@@ -171,7 +173,11 @@
 
 #pragma mark ----------<XFCircleContentCellDelegate>----------
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickIconView:(XFCircleContentCellModel *)model {
-    FFLogFunc
+    if (model.circle.uid.length) {
+        XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+        controller.friendId = @(model.circle.uid.integerValue);
+        [self pushController:controller];
+    }
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickFollowBtn:(XFCircleContentCellModel *)model {
@@ -191,7 +197,15 @@
                           if (errorCode.integerValue == 0){
                               NSDictionary *info = responseObject[@"info"];
                               NSNumber *type = info[@"type"];
-                              circle.attention_status = type;
+                              
+                              NSString *circleId = circle.uid;
+                              for (XFCircleContentCellModel *model in self.dataArray) {
+                                  NSString *uid = model.circle.uid;
+                                  if ([uid isEqualToString:circleId]) {
+                                      model.circle.attention_status = type;
+                                  }
+                              }
+                              
                               [SVProgressHUD showSuccessWithStatus:info[@"message"]];
                               [self.tableView reloadData];
                           }
@@ -205,11 +219,24 @@
         [self showLoginController];
         return;
     }
-    FFLogFunc
+    [HttpRequest postPath:XFCircleRewardUrl
+                   params:@{@"real_id" : model.circle.id.stringValue,
+                            @"reward" : @"1"
+                            }
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSString *info = responseObject[@"info"];
+                      [SVProgressHUD showInfoWithStatus:info];
+                  } else {
+                      [SVProgressHUD showErrorWithStatus:@"打赏失败"];
+                  }
+              }];
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickShareBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
+    XFCircleShareView *shareView = [[XFCircleShareView alloc] init];
+    shareView.delegate = self;
+    [[UIApplication sharedApplication].keyWindow addSubview:shareView];
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickZanBtn:(XFCircleContentCellModel *)model {
@@ -231,11 +258,11 @@
                               NSNumber *type = info[@"type"];
                               circle.like_status = type;
                               if (type.integerValue == 2) {
-                                  circle.like_num = @(circle.like_num.integerValue + 1);
-                              } else {
                                   if (circle.like_num.integerValue > 1) {
                                       circle.like_num = @(circle.like_num.integerValue - 1);
                                   }
+                              } else {
+                                  circle.like_num = @(circle.like_num.integerValue + 1);
                               }
                               [SVProgressHUD showSuccessWithStatus:info[@"message"]];
                               [self.tableView reloadData];
@@ -250,7 +277,10 @@
         [self showLoginController];
         return;
     }
-    FFLogFunc
+    XFCircleDetailViewController *controller = [[XFCircleDetailViewController alloc] init];
+    controller.circleId = model.circle.id;
+    controller.showComment = YES;
+    [self pushController:controller];
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickVideoView:(XFCircleContentCellModel *)model {
@@ -286,6 +316,14 @@
     [self.tableView reloadData];
 }
 
+- (void)circleSuggestCell:(XFCircleSuggestCell *)cell didClickUserIcon:(NSInteger)index {
+    User *user = self.suggestArray[index];
+    NSNumber *userId = user.id;
+    XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+    controller.friendId = userId;
+    [self pushController:controller];
+}
+
 #pragma mark - -------------------<MWPhotoBrowserDelegate>-------------------
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
     return self.photosArray.count;
@@ -296,6 +334,16 @@
         return [self.photosArray objectAtIndex:index];
     }
     return nil;
+}
+
+#pragma mark - -------------------<XFCircleShareViewDelegate>-------------------
+- (void)circleShareView:(XFCircleShareView *)view didClick:(CircleShareBtnType)type {
+    FFLog(@"---------");
+//    CircleShareBtnType_friendBtn = 0,
+//    CircleShareBtnType_wechatBtn = 1,
+//    CircleShareBtnType_qqBtn     = 2,
+//    CircleShareBtnType_qzoneBtn  = 3,
+//    CircleShareBtnType_weiboBtn  = 4
 }
 
 #pragma mark ----------Private----------

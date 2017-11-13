@@ -230,7 +230,6 @@
 
 #pragma mark ----------Action----------
 - (void)publishBtnClick {
-    FFLogFunc
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if (self.textView.text.length == 0) {
         [SVProgressHUD showErrorWithStatus:@"内容为空"];
@@ -272,7 +271,9 @@
                 }
             }
         }
-        dict[@"image"] = str.copy;
+        if (str.length) {
+            dict[@"image"] = str.copy;
+        }
         [HttpRequest postPath:XFCirclePublishUrl
                        params:dict
                   resultBlock:^(id responseObject, NSError *error) {

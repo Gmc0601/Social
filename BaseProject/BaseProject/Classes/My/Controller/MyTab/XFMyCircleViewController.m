@@ -108,22 +108,6 @@
 }
 
 #pragma mark ----------<XFFriendCircleCellDelegate>----------
-- (void)friendCircleCell:(XFFriendCircleCell *)cell didClickRewardBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
-}
-
-- (void)friendCircleCell:(XFFriendCircleCell *)cell didClickShareBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
-}
-
-- (void)friendCircleCell:(XFFriendCircleCell *)cell didClickZanBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
-}
-
-- (void)friendCircleCell:(XFFriendCircleCell *)cell didClickCommentBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
-}
-
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickDeleteBtn:(XFCircleContentCellModel *)model {
     NSNumber *circleId = model.circle.id;
     if (circleId.integerValue <= 0) {

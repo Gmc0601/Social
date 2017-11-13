@@ -11,5 +11,6 @@
 @interface XFCircleDetailViewController : XFViewController
 
 @property (nonatomic, strong) NSNumber *circleId;
+@property (nonatomic, assign) BOOL showComment;
 
 @end

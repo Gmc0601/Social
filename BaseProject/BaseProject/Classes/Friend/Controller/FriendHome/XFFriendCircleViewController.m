@@ -11,8 +11,10 @@
 #import "XFFriendCircleCell.h"
 #import "XFCircleDetailViewController.h"
 #import "XFPlayVideoController.h"
+#import "XFCircleShareView.h"
+#import "XFCircleDetailViewController.h"
 
-@interface XFFriendCircleViewController ()<UITableViewDataSource, UITableViewDelegate, XFFriendCircleCellDelegate, MWPhotoBrowserDelegate>
+@interface XFFriendCircleViewController ()<UITableViewDataSource, UITableViewDelegate, XFFriendCircleCellDelegate, MWPhotoBrowserDelegate, XFCircleShareViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -93,11 +95,28 @@
 
 #pragma mark ----------<XFFriendCircleCellDelegate>----------
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickRewardBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
+    [HttpRequest postPath:XFCircleRewardUrl
+                   params:@{@"real_id" : model.circle.id.stringValue,
+                            @"reward" : @"1"
+                            }
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSString *info = responseObject[@"info"];
+                      [SVProgressHUD showInfoWithStatus:info];
+                  } else {
+                      [SVProgressHUD showErrorWithStatus:@"打赏失败"];
+                  }
+              }];
 }
 
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickShareBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
+    XFCircleShareView *shareView = [[XFCircleShareView alloc] init];
+    shareView.delegate = self;
+    [[UIApplication sharedApplication].keyWindow addSubview:shareView];
 }
 
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickZanBtn:(XFCircleContentCellModel *)model {
@@ -119,11 +138,11 @@
                               NSNumber *type = info[@"type"];
                               circle.like_status = type;
                               if (type.integerValue == 2) {
-                                  circle.like_num = @(circle.like_num.integerValue + 1);
-                              } else {
                                   if (circle.like_num.integerValue > 1) {
                                       circle.like_num = @(circle.like_num.integerValue - 1);
                                   }
+                              } else {
+                                  circle.like_num = @(circle.like_num.integerValue + 1);
                               }
                               [SVProgressHUD showSuccessWithStatus:info[@"message"]];
                               [self.tableView reloadData];
@@ -134,7 +153,14 @@
 }
 
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickCommentBtn:(XFCircleContentCellModel *)model {
-    FFLogFunc
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
+    XFCircleDetailViewController *controller = [[XFCircleDetailViewController alloc] init];
+    controller.circleId = model.circle.id;
+    controller.showComment = YES;
+    [self pushController:controller];
 }
 
 - (void)friendCircleCell:(XFFriendCircleCell *)cell didClickVideoView:(XFCircleContentCellModel *)model {
@@ -173,6 +199,11 @@
         return [self.photosArray objectAtIndex:index];
     }
     return nil;
+}
+
+#pragma mark - -------------------<XFCircleShareViewDelegate>-------------------
+- (void)circleShareView:(XFCircleShareView *)view didClick:(CircleShareBtnType)type {
+    FFLogFunc
 }
 
 #pragma mark ----------Lazy----------

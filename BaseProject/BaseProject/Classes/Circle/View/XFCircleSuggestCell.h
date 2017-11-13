@@ -13,6 +13,7 @@
 
 @optional
 - (void)circleSuggestCellClickCloseBtn:(XFCircleSuggestCell *)cell;
+- (void)circleSuggestCell:(XFCircleSuggestCell *)cell didClickUserIcon:(NSInteger)index;
 
 @end
 

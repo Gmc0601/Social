@@ -108,6 +108,12 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circleSuggestCell:didClickUserIcon:)]) {
+        [self.delegate circleSuggestCell:self didClickUserIcon:indexPath.item];
+    }
+}
+
 #pragma mark - -------------------Action-------------------
 - (void)closeBtnClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(circleSuggestCellClickCloseBtn:)]) {

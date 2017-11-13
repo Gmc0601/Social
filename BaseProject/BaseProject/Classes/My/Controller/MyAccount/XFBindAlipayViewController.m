@@ -58,7 +58,6 @@
 }
 
 - (void)bindBtnClick {
-    FFLogFunc
     if (self.nameField.text.length == 0) {
         FFLog(@"真实姓名为空");
         return;

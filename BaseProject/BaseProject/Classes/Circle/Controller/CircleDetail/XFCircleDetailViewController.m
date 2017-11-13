@@ -14,6 +14,7 @@
 #import "XFCircleCommentViewController.h"
 #import "XFCircleZanViewController.h"
 #import "XFPlayVideoController.h"
+#import "XFFriendHomeViewController.h"
 
 @interface XFCircleDetailViewController ()<UIScrollViewDelegate, UIGestureRecognizerDelegate, XFCircleContentViewDelegate, XFCircleShareViewDelegate, MWPhotoBrowserDelegate>
 
@@ -22,6 +23,9 @@
 @property (nonatomic, strong) UIView *tabView;
 @property (nonatomic, strong) UIView *tabSignView;
 @property (nonatomic, strong) UIButton *currentTabBtn;
+@property (nonatomic, strong) UIButton *rewardBtn;
+@property (nonatomic, strong) UIButton *commentBtn;
+@property (nonatomic, strong) UIButton *zanBtn;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 
@@ -45,6 +49,9 @@
     self.view.backgroundColor = WhiteColor;
     [self setupNotification];
     [self loadData];
+    if (self.showComment) {
+        [self performSelector:@selector(commentBtnClick) withObject:nil afterDelay:0.7];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -145,8 +152,11 @@
     _tabView.frame = CGRectMake(0, self.topView.bottom, kScreenWidth, XFCircleTabHeight);
     
     UIButton *rewardBtn = [self createTabBtn:[NSString stringWithFormat:@"打赏 %@", self.circle.reward_num.stringValue] andTag:0];
+    self.rewardBtn = rewardBtn;
     UIButton *commentBtn = [self createTabBtn:[NSString stringWithFormat:@"评论 %@", self.circle.comment_num.stringValue] andTag:1];
+    self.commentBtn = commentBtn;
     UIButton *zanBtn = [self createTabBtn:[NSString stringWithFormat:@"点赞 %@", self.circle.like_num.stringValue] andTag:2];
+    self.zanBtn = zanBtn;
     rewardBtn.size = commentBtn.size = zanBtn.size = CGSizeMake(kScreenWidth / 3, XFCircleTabHeight);
     rewardBtn.left = 0;
     commentBtn.left = rewardBtn.right;
@@ -278,7 +288,9 @@
 
 #pragma mark ----------<XFCircleContentViewDelegate>----------
 - (void)circleContentView:(XFCircleContentView *)view didClickIconView:(XFCircleContentCellModel *)model {
-    FFLogFunc
+    XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+    controller.friendId = @(model.circle.uid.integerValue);
+    [self pushController:controller];
 }
 
 - (void)circleContentView:(XFCircleContentView *)view didClickVideoView:(XFCircleContentCellModel *)model {
@@ -395,16 +407,64 @@
 }
 
 - (void)rewardBtnClick {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     
+    [HttpRequest postPath:XFCircleRewardUrl
+                   params:@{@"real_id" : self.circleId.stringValue,
+                            @"reward" : @"1"
+                            }
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSString *info = responseObject[@"info"];
+                      [SVProgressHUD showInfoWithStatus:info];
+                  } else {
+                      [SVProgressHUD showErrorWithStatus:@"打赏失败"];
+                  }
+              }];
 }
 
 - (void)commentBtnClick {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     self.isComment = YES;
     [self commentViewShow];
 }
 
 - (void)zanBtnClick:(UIButton *)btn {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     
+    NSString *type = self.circle.like_status.integerValue == 2 ? @"1" : @"2";
+    [HttpRequest postPath:XFCircleZanUrl
+                   params:@{@"real_id" : self.circle.id,
+                            @"type" : type}
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          NSDictionary *info = responseObject[@"info"];
+                          NSNumber *type = info[@"type"];
+                          self.circle.like_status = type;
+                          if (type.integerValue == 2) {
+                              if (self.circle.like_num.integerValue > 1) {
+                                  self.circle.like_num = @(self.circle.like_num.integerValue - 1);
+                              }
+                          } else {
+                              self.circle.like_num = @(self.circle.like_num.integerValue + 1);
+                          }
+
+                          [self.zanBtn setTitle:[NSString stringWithFormat:@"点赞 %@", self.circle.like_num.stringValue] forState:UIControlStateNormal];
+                          [SVProgressHUD showSuccessWithStatus:info[@"message"]];
+                      }
+                  }
+              }];
 }
 
 - (void)cancelBtnClick {
@@ -418,6 +478,7 @@
                        params:@{@"real_id" : self.circleId,
                                 @"content" : self.textView.text}
                   resultBlock:^(id responseObject, NSError *error) {
+#warning 服务器报错
                       FFLog(@"%@", responseObject);
                   }];
     }
