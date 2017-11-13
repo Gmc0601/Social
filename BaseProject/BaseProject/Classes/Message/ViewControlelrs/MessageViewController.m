@@ -73,8 +73,6 @@
         //  缘分圈
         
     }
-    
-    
 }
 - (UITableView *)noUseTableView {
     if (!_noUseTableView) {
