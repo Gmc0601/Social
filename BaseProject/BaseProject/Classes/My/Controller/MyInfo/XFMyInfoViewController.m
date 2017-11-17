@@ -13,15 +13,18 @@
 #import "XFAssetVerifyViewController.h"
 #import "XFSelectInterestView.h"
 
-@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate>
+@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 
+@property (nonatomic, strong) UIButton *iconBtn;
 @property (nonatomic, strong) XFSelectItemView *selectItem;
+@property (nonatomic, strong) UITextField *field;
 
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) NSArray *jobArray;
 @property (nonatomic, strong) NSArray *incomeArray;
+@property (nonatomic, strong) NSMutableArray *hobbyArray;
 
 @end
 
@@ -45,6 +48,7 @@
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navView.bottom, kScreenWidth, kScreenHeight - XFNavHeight)];
     self.scrollView = scrollView;
+    scrollView.delegate = self;
     [self.view addSubview:scrollView];
 }
 
@@ -59,6 +63,9 @@
     UIView *avatarView = [self createRightIconView:@"头像"];
     avatarView.tag = 100;
     avatarView.top = sectionOneView.bottom;
+    if (self.user.avatar_url.length) {
+        [self.iconBtn setImageWithURL:[NSURL URLWithString:self.user.avatar_url] forState:UIControlStateNormal options:kNilOptions];
+    }
     
     UIView *ageView = [self createRightLabelView:@"年龄" andInfo:self.user.age hiddenSplit:NO];
     ageView.tag = 101;
@@ -103,9 +110,25 @@
     feelingView.tag = 204;
     feelingView.top = interestView.bottom;
     
-    UIView *standardView = [self createRightLabelView:@"择偶标准" andInfo:self.user.spouse hiddenSplit:YES];
+    UIView *standardView = [self createRightLabelView:@"择偶标准" andInfo:@"" hiddenSplit:YES];
+    UITextField *field = [[UITextField alloc] init];
+    self.field = field;
+    field.delegate = self;
+    field.placeholder = @"用一句话来描述";
+    field.textColor = [UIColor blackColor];
+    field.font = Font(15);
+    [standardView addSubview:field];
+    field.width = 200;
+    field.right = kScreenWidth - 15 - 9 - 15;
+    field.top = 0;
+    field.textAlignment = NSTextAlignmentRight;
+    field.height = standardView.height;
+    [standardView addSubview:field];
     standardView.tag = 205;
     standardView.top = feelingView.bottom;
+    if (self.user.spouse.length) {
+        field.text = self.user.spouse;
+    }
     
     UIView *paddingView3 = [UIView xf_createPaddingView];
     paddingView3.frame = CGRectMake(0, standardView.bottom, kScreenWidth, 5);
@@ -137,6 +160,17 @@
     [self.scrollView addSubview:saveBtn];
     
     [self.scrollView setContentSize:CGSizeMake(kScreenWidth, saveBtn.bottom + 10)];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField.text.length > 19) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
 }
 
 - (void)loadData {
@@ -216,6 +250,8 @@
     UILabel *label = [self.selectItem viewWithTag:100];
     label.text = str.copy;
     self.user.hobby = str.copy;
+    self.hobbyArray = [NSMutableArray arrayWithArray:array];
+    
 }
 
 #pragma mark ----------Action----------
@@ -309,6 +345,7 @@
 }
 
 - (void)rightLabelViewTap:(UITapGestureRecognizer *)ges {
+    [self.view endEditing:YES];
     self.selectItem = (XFSelectItemView *)ges.view;
     NSInteger tag = ges.view.tag;
     if (tag == 101) {
@@ -375,7 +412,7 @@
         [self.view addSubview:selectItem];
     } else if (tag == 203) {
         // 兴趣爱好
-        XFSelectInterestView *selectView = [[XFSelectInterestView alloc] initWithSelectArray:@[@"听音乐"]];
+        XFSelectInterestView *selectView = [[XFSelectInterestView alloc] initWithSelectArray:self.hobbyArray];
         selectView.delegate = self;
         [self.view addSubview:selectView];
     } else if (tag == 204) {
@@ -388,7 +425,6 @@
     } else if (tag == 205) {
         // 择偶标准
     } else if (tag == 300) {
-        
         // 工作
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"工作"
                                                                      dataArray:self.jobArray
@@ -510,6 +546,7 @@
     UIButton *iconBtn = [UIButton xf_imgButtonWithImgName:@"bg_tj_tx"
                                                    target:self
                                                    action:@selector(iconBtnClick)];
+    self.iconBtn = iconBtn;
     iconBtn.size = CGSizeMake(34, 34);
     iconBtn.centerY = view.height * 0.5;
     iconBtn.right = arrowView.left - 10;
@@ -538,7 +575,7 @@
     label.frame = CGRectMake(15, 0, 100, view.height);
     [view addSubview:label];
     
-    UIImageView *arrowView = [[UIImageView alloc] initWithImage:Image(@"icon_gd")];
+    UIImageView *arrowView = [[UIImageView alloc] initWithImage:Image(@"icon_gd-拷贝")];
     arrowView.centerY = view.height * 0.5;
     arrowView.right = view.width - 15;
     [view addSubview:arrowView];

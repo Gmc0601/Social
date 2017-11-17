@@ -79,8 +79,6 @@
                       if (errorCode.integerValue == 0) {
                           NSDictionary *infoDict = responseObject[@"info"];
                           if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
-                              
-                             
                               NSString *xianshi = infoDict[@"xianshi"];
                               if([xianshi isEqual:[NSNull null]] || xianshi == nil){
                                   [ConfigModel mbProgressHUD:@"xianshi  >>   null" andView:nil];
@@ -144,7 +142,9 @@
         selectItem.delegate = self;
         [self.view addSubview:selectItem];
     } else if (ges.view.tag == 1) {
-        
+        [[YYWebImageManager sharedManager].cache.memoryCache removeAllObjects];
+        [[YYWebImageManager sharedManager].cache.diskCache removeAllObjects];
+        [SVProgressHUD showSuccessWithStatus:@"清除成功"];
     } else if (ges.view.tag == 2) {
         XFUserAgreementViewController *controller = [[XFUserAgreementViewController alloc] init];
         controller.agreementType = AgreementType_About;

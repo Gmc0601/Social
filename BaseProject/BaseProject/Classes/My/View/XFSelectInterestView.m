@@ -112,6 +112,16 @@
 }
 
 - (void)btnClick:(UIButton *)button {
+    NSMutableArray *arrayM = [NSMutableArray array];
+    for (UIButton *btn in self.btnArray) {
+        if (btn.selected) {
+            [arrayM addObject:btn.currentTitle];
+        }
+    }
+    if (arrayM.count >= 5 && button.selected == NO) {
+        [SVProgressHUD showErrorWithStatus:@"最多只能选择5个"];
+        return;
+    }
     button.selected = !button.selected;
     [self setupButton:button];
 }
