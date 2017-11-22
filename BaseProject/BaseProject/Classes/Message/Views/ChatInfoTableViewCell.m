@@ -14,6 +14,13 @@
     [super awakeFromNib];
 }
 
+- (void)updateChatRequest:(ChatRequestModel *)model {
+    [self.headImage sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:nil];
+    self.nameLab.text = model.nickname;
+    self.infoLab.text = @"发来聊天请求";
+    self.timeLab.text = model.request_time;
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }

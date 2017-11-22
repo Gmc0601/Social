@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   [UIApplication sharedApplication].statusBarStyle =UIStatusBarStyleLightContent;
+   [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIView *navView = [UIView xf_createWhiteView];
@@ -59,6 +59,10 @@
 - (void)moreClick {
     
 }
+
+//- (void)viewWillAppear:(BOOL)animated {
+//    [UIApplication sharedApplication].statusBarStyle =UIStatusBarStyleDefault;
+//}
 
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
