@@ -71,8 +71,10 @@
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
                           NSDictionary *info = responseObject[@"info"];
-                          NSArray *dataArray = info[@"img"];
-                          [weakSelf.dataArray addObjectsFromArray:dataArray];
+                          if ([info isKindOfClass:[NSDictionary class]]) {                          
+                              NSArray *dataArray = info[@"img"];
+                              [weakSelf.dataArray addObjectsFromArray:dataArray];
+                          }
                       }
                       [self.collectionView reloadData];
                   }

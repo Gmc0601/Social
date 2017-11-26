@@ -21,6 +21,7 @@
         for (int i = 0; i < 9; i++) {
             UIImageView *imgView = [[UIImageView alloc] init];
             imgView.contentMode = UIViewContentModeScaleAspectFill;
+            imgView.clipsToBounds = YES;
             imgView.backgroundColor = [UIColor lightGrayColor];
             imgView.tag = i + CirclePicBaseTag;
             imgView.userInteractionEnabled = YES;

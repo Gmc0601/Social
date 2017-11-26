@@ -232,12 +232,14 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
-                          NSString *score = responseObject[@"info"];
-                          [self.view removeGestureRecognizer:self.up];
-                          [self.view removeGestureRecognizer:self.down];
-                          XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:score];
-                          view.delegate = self;
-                          [self.view addSubview:view];
+                          NSDictionary *infoDict = responseObject[@"info"];
+                          if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
+                              [self.view removeGestureRecognizer:self.up];
+                              [self.view removeGestureRecognizer:self.down];
+                              XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:infoDict[@"suggest_earnest"]];
+                              view.delegate = self;
+                              [self.view addSubview:view];
+                          }
                       }
                   }
               }];
