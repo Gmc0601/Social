@@ -8,6 +8,7 @@
 
 #import "XFCircleContentCellModel.h"
 #import "XFCirclePicView.h"
+#import <YYKit/YYKit.h>
 
 @implementation XFCircleContentCellModel
 

@@ -7,10 +7,13 @@
 //
 
 #import "ContactsViewController.h"
+#import "ContactsModel.h"
 
 @interface ContactsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) UITableView *noUseTableView;
+
+@property (nonatomic, retain) NSMutableArray *dataArr;
 
 @end
 
@@ -20,13 +23,40 @@
     [super viewDidLoad];
     self.titleLab.text = @"通讯录";
     self.rightBtn.hidden= YES;
+    [self createData];
     [self.view addSubview:self.noUseTableView];
 }
 
+- (void)createData {
+    [HttpRequest postPath:@"_friend_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+        if([error isEqual:[NSNull null]] || error == nil){
+            NSLog(@"success");
+        }
+        NSDictionary *datadic = responseObject;
+        if ([datadic[@"error"] intValue] == 0) {
+            NSArray *infoArr = datadic[@"info"];
+             NULLReturn(infoArr)
+            for (NSDictionary *dic in infoArr) {
+                ContactsModel *model = [[ContactsModel alloc] init];
+                model.id = dic[@"id"];
+                model.avatar_url = dic[@"avatar_url"];
+                model.mobile = dic[@"mobile"];
+                model.nickname = dic[@"nickname"];
+                [self.dataArr addObject:model];
+            }
+            [self.noUseTableView reloadData];
+    
+            
+        }else {
+            NSString *str = datadic[@"info"];
+            [ConfigModel mbProgressHUD:str andView:nil];
+        }
+    }];
+}
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -37,7 +67,9 @@
         cell.imageView.backgroundColor = [UIColor clearColor];
         cell.imageView.image = [UIImage imageNamed:@"bg_tj_tx"];
     }
-    cell.textLabel.text = @"王小二";
+    ContactsModel *model = self.dataArr[indexPath.row];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:[UIImage imageNamed:@"bg_tj_tx"]];
+    cell.textLabel.text = model.nickname;
     
     return cell;
     
@@ -74,6 +106,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
+- (NSMutableArray *)dataArr {
+    if (!_dataArr) {
+        _dataArr = [NSMutableArray new];
+    }
+    return _dataArr;
+}
 
 @end

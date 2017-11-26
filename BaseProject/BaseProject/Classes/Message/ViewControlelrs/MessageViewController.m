@@ -8,10 +8,12 @@
 
 #import "MessageViewController.h"
 #import "AnnouncementViewController.h"
+#import "MessageModel.h"
 
 @interface MessageViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *noUseTableView;
+@property (nonatomic, retain) NSMutableArray *dataArr;
 
 @end
 
@@ -26,19 +28,102 @@
     }
     [self.rightBtn setTitle:@"清空" forState:UIControlStateNormal];
     [self.view addSubview:self.noUseTableView];
+    
+    [self createData];
+    
+}
+
+- (void)createData {
+    NSString *url ;
+    if (self.type == NormalMessage) {   //  xiaoxi
+        url = @"_notice_001";
+        /*
+         id  公告ID
+         has_read 1已读 2未读
+         "title": "bnvcn",//平台公告内容
+         "create_time": "2017-09-11 21:40:11"//平台公告时间
+         */
+        [HttpRequest postPath:url params:nil resultBlock:^(id responseObject, NSError *error) {
+            if([error isEqual:[NSNull null]] || error == nil){
+                NSLog(@"success");
+            }
+            NSDictionary *datadic = responseObject;
+            if ([datadic[@"error"] intValue] == 0) {
+                NSArray *infoArr = datadic[@"info"];
+                 NULLReturn(infoArr)
+                for (NSDictionary *dic in infoArr) {
+                    MessageModel *model = [[MessageModel alloc] init];
+                    model.id = dic[@"id"];
+                    model.nickname = dic[@"nickname"];
+                    model.title = dic[@"title"];
+                    model.has_read = dic[@"has_read"];
+                    [self.dataArr addObject:model];
+                }
+            }else {
+                NSString *str = datadic[@"info"];
+                [ConfigModel mbProgressHUD:str andView:nil];
+            }
+        }];
+        
+    }else {  //  缘分圈
+        url = @"_lot_messages_001";
+        /*
+         "id"//缘分圈id
+         "nickname": "\u6765\u6765\u6765\u8bc4\u8bba\u4f60\u7684\u670b\u53cb\u5708\u52a8\u6001",//昵称+评论你的缘分圈动态/赞你的缘分圈动态/打赏你缘分圈动态
+         "create_time": "2017-09-19 15:46:06"//时间
+         “has_read” 1已读 2未读
+         */
+        [HttpRequest postPath:url params:nil resultBlock:^(id responseObject, NSError *error) {
+            if([error isEqual:[NSNull null]] || error == nil){
+                NSLog(@"success");
+            }
+            NSDictionary *datadic = responseObject;
+            if ([datadic[@"error"] intValue] == 0) {
+                NSArray *infoArr = datadic[@"info"];
+                 NULLReturn(infoArr)
+                for (NSDictionary *dic in infoArr) {
+                    MessageModel *model = [[MessageModel alloc] init];
+                    model.id = dic[@"id"];
+                    model.nickname = dic[@"nickname"];
+                    model.create_time = dic[@"create_time"];
+                    model.has_read = dic[@"has_read"];
+                    [self.dataArr addObject:model];
+                }
+            }else {
+                NSString *str = datadic[@"info"];
+                [ConfigModel mbProgressHUD:str andView:nil];
+            }
+        }];
+    }
+    
+    [self.noUseTableView reloadData];
+    
+    
 }
 
 - (void)moreClick {
     if (self.type == NormalMessage) {
         
     }else {
-        
+        [HttpRequest postPath:@"_delete_lotmessages_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+            if([error isEqual:[NSNull null]] || error == nil){
+                NSLog(@"success");
+            }
+            NSDictionary *datadic = responseObject;
+            if ([datadic[@"error"] intValue] == 0) {
+                [ConfigModel mbProgressHUD:@"清空成功" andView:nil];
+                [self.navigationController popViewControllerAnimated:YES];
+            }else {
+                NSString *str = datadic[@"info"];
+                [ConfigModel mbProgressHUD:str andView:nil];
+            }
+        }];
     }
 }
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -48,11 +133,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
         
     }
-    
-    cell.textLabel.text = @"潇潇拒绝了你的消息";
+    NSString *title;
+    MessageModel *model = [[MessageModel alloc] init];
+    model = self.dataArr[indexPath.row];
+    if (self.type == NormalMessage) {
+        title = model.title;
+    }else {
+        title = model.nickname;
+    }
+    cell.textLabel.text = title;
     cell.detailTextLabel.textColor = UIColorFromHex(0x999999);
     cell.detailTextLabel.font = Font(12);
-    cell.detailTextLabel.text = @"10:30";
+    cell.detailTextLabel.text = model.create_time;
     return cell;
     
 }
@@ -96,6 +188,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSMutableArray *)dataArr {
+    if (!_dataArr) {
+        _dataArr = [NSMutableArray new];
+    }
+    return _dataArr;
 }
 
 @end

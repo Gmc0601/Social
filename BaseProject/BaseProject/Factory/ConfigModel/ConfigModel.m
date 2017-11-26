@@ -7,7 +7,7 @@
 //
 
 #import "ConfigModel.h"
-#import <MBProgressHUD.h>
+#import "MBProgressHUD.h"
 @implementation ConfigModel
 
 + (void)showHud:(UIViewController *)vc {

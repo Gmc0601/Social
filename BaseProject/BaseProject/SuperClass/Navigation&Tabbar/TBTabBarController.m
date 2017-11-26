@@ -34,6 +34,7 @@
 #pragma mark -初始化所有控制器 
 
 - (void)setUpChildVC {
+    
     UIStoryboard  * message = [UIStoryboard  storyboardWithName :@"MessageStoryBoard"  bundle :nil ];
     
     UIViewController  * messageVC = [message  instantiateViewControllerWithIdentifier :@"MessageList"];

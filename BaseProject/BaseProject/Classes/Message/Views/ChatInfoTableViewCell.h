@@ -8,10 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ChatRequestModel.h"
+
 @interface ChatInfoTableViewCell : UITableViewCell
+
+
 @property (weak, nonatomic) IBOutlet UIImageView *headImage;
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
 @property (weak, nonatomic) IBOutlet UILabel *infoLab;
 @property (weak, nonatomic) IBOutlet UILabel *timeLab;
+
+- (void)updateChatRequest:(ChatRequestModel *)model;
 
 @end

@@ -7,17 +7,23 @@
 //
 
 #import "MessageListViewController.h"
-#import "ChatViewController.h"
+//#import "ChatViewController.h"
 #import "LoginViewController.h"
 #import "TBNavigationController.h"
 #import "SystemMessageViewController.h"
 #import "ContactsViewController.h"
 #import "ChatRequestViewController.h"
 #import "ChatInfoTableViewCell.h"
+#import "ChatRequestModel.h"
+#define FetchChatroomPageSize   20
 
 @interface MessageListViewController ()<UITableViewDelegate, UITableViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UIImageView *logoImage;
 @property (weak, nonatomic) IBOutlet UIButton *LoginBtn;
+@property (nonatomic, retain) NSMutableArray *dateArr;
+@property (nonatomic, retain) NSMutableArray *nickArr;
+
 @property (nonatomic, retain) UITableView *noUseTableView;
 
 @end
@@ -28,7 +34,61 @@
     [super viewDidLoad];
     self.titleLab.text = @"消息";
     [self.rightBtn setTitle:@"系统消息" forState:UIControlStateNormal];
+    [self createDate ];
+    
 }
+- (void)createDate {
+    EMError *error = nil;
+    error = [[EMClient sharedClient] loginWithUsername:[ConfigModel getStringforKey:Mobile] password:ChatPWD];
+    
+    NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
+    self.dateArr = (NSMutableArray *)conversations;
+    NSString *arrimg ;
+    NULLReturn(conversations);
+    for (int i = 0; i < conversations.count; i++) {
+        EMConversation *conversation = conversations[i];
+        NSString *imgStr = conversation.conversationId;
+        if (i == 0) {
+            arrimg = imgStr;
+        }else {
+            NSString *str = [NSString stringWithFormat:@",%@", imgStr];
+            arrimg = [arrimg stringByAppendingString:str];
+        }
+    }
+    
+    NSLog(@".....%@", arrimg);
+    //  请求头像 昵称
+    
+    NULLReturn(arrimg)
+    NSDictionary *dic = @{
+                          @"username" :arrimg,
+                          };
+    
+    [HttpRequest postPath:@"_chitchatlist_001" params:dic resultBlock:^(id responseObject, NSError *error) {
+        if([error isEqual:[NSNull null]] || error == nil){
+            NSLog(@"success");
+        }
+        NSDictionary *datadic = responseObject;
+        if ([datadic[@"error"] intValue] == 0) {
+            NSArray *infoArr = datadic[@"info"];
+            NULLReturn(infoArr)
+            for (NSDictionary *dic in infoArr) {
+                ChatRequestModel *model = [[ChatRequestModel alloc] init];
+                model.nickname = dic[@"nickname"];
+                model.avatar_url = dic[@"avatar_url"];
+                [self.nickArr addObject:model];
+            }
+            [self.noUseTableView reloadData];
+        }else {
+            NSString *str = datadic[@"info"];
+            [ConfigModel mbProgressHUD:str andView:nil];
+        }
+    }];
+
+
+    
+}
+
 - (IBAction)loginClick:(id)sender {
     TBNavigationController *na = [[TBNavigationController alloc] initWithRootViewController:[LoginViewController new]];
     [self presentViewController:na animated:YES completion:nil];
@@ -52,7 +112,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 2 ? 10 : 1;
+    return section == 2 ? self.dateArr.count: 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -83,12 +143,114 @@
             NSArray  * nibs = [[ NSBundle mainBundle ] loadNibNamed :@"ChatInfoTableViewCell" owner :nil options :nil ];
             cell = [  nibs lastObject ];
         }
+        
+        ChatRequestModel *model = [[ChatRequestModel alloc] init];
+        if (self.nickArr.count > 0) {
+           model = self.nickArr[indexPath.row];
+        }
+        
+        EMConversation *conversation = self.dateArr[indexPath.row];
+        EMMessage *message = conversation.latestMessage;
+        
+        [self getmessage:message cell:cell];
+        
+        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:nil];
+        cell.nameLab.text = model.nickname;
+
+        
         return cell;
     }
     
     
     
 }
+
+- (void)getmessage:(EMMessage *)message cell:(ChatInfoTableViewCell *)cell {
+    EMMessageBody *msgBody = message.body;
+    switch (msgBody.type) {
+        case EMMessageBodyTypeText:
+        {
+            // 收到的文字消息
+            EMTextMessageBody *textBody = (EMTextMessageBody *)msgBody;
+            NSString *txt = textBody.text;
+            cell.infoLab.text = txt;
+            NSLog(@"收到的文字是 txt -- %@",txt);
+        }
+            break;
+        case EMMessageBodyTypeImage:
+        {
+            // 得到一个图片消息body
+            EMImageMessageBody *body = ((EMImageMessageBody *)msgBody);
+            NSLog(@"大图remote路径 -- %@"   ,body.remotePath);
+            NSLog(@"大图local路径 -- %@"    ,body.localPath); // // 需要使用sdk提供的下载方法后才会存在
+            NSLog(@"大图的secret -- %@"    ,body.secretKey);
+            NSLog(@"大图的W -- %f ,大图的H -- %f",body.size.width,body.size.height);
+            NSLog(@"大图的下载状态 -- %lu",body.downloadStatus);
+            
+            
+            // 缩略图sdk会自动下载
+            NSLog(@"小图remote路径 -- %@"   ,body.thumbnailRemotePath);
+            NSLog(@"小图local路径 -- %@"    ,body.thumbnailLocalPath);
+            NSLog(@"小图的secret -- %@"    ,body.thumbnailSecretKey);
+            NSLog(@"小图的W -- %f ,大图的H -- %f",body.thumbnailSize.width,body.thumbnailSize.height);
+            NSLog(@"小图的下载状态 -- %lu",body.thumbnailDownloadStatus);
+        }
+            break;
+        case EMMessageBodyTypeLocation:
+        {
+            EMLocationMessageBody *body = (EMLocationMessageBody *)msgBody;
+            NSLog(@"纬度-- %f",body.latitude);
+            NSLog(@"经度-- %f",body.longitude);
+            NSLog(@"地址-- %@",body.address);
+        }
+            break;
+        case EMMessageBodyTypeVoice:
+        {
+            // 音频sdk会自动下载
+            EMVoiceMessageBody *body = (EMVoiceMessageBody *)msgBody;
+            NSLog(@"音频remote路径 -- %@"      ,body.remotePath);
+            NSLog(@"音频local路径 -- %@"       ,body.localPath); // 需要使用sdk提供的下载方法后才会存在（音频会自动调用）
+            NSLog(@"音频的secret -- %@"        ,body.secretKey);
+            NSLog(@"音频文件大小 -- %lld"       ,body.fileLength);
+            NSLog(@"音频文件的下载状态 -- %lu"   ,body.downloadStatus);
+            NSLog(@"音频的时间长度 -- %lu"      ,body.duration);
+        }
+            break;
+        case EMMessageBodyTypeVideo:
+        {
+            EMVideoMessageBody *body = (EMVideoMessageBody *)msgBody;
+            
+            NSLog(@"视频remote路径 -- %@"      ,body.remotePath);
+            NSLog(@"视频local路径 -- %@"       ,body.localPath); // 需要使用sdk提供的下载方法后才会存在
+            NSLog(@"视频的secret -- %@"        ,body.secretKey);
+            NSLog(@"视频文件大小 -- %lld"       ,body.fileLength);
+            NSLog(@"视频文件的下载状态 -- %lu"   ,body.downloadStatus);
+            NSLog(@"视频的时间长度 -- %lu"      ,body.duration);
+            NSLog(@"视频的W -- %f ,视频的H -- %f", body.thumbnailSize.width, body.thumbnailSize.height);
+            
+            // 缩略图sdk会自动下载
+            NSLog(@"缩略图的remote路径 -- %@"     ,body.thumbnailRemotePath);
+            NSLog(@"缩略图的local路径 -- %@"      ,body.thumbnailLocalPath);
+            NSLog(@"缩略图的secret -- %@"        ,body.thumbnailSecretKey);
+            NSLog(@"缩略图的下载状态 -- %lu"      ,body.thumbnailDownloadStatus);
+        }
+            break;
+        case EMMessageBodyTypeFile:
+        {
+            EMFileMessageBody *body = (EMFileMessageBody *)msgBody;
+            NSLog(@"文件remote路径 -- %@"      ,body.remotePath);
+            NSLog(@"文件local路径 -- %@"       ,body.localPath); // 需要使用sdk提供的下载方法后才会存在
+            NSLog(@"文件的secret -- %@"        ,body.secretKey);
+            NSLog(@"文件文件大小 -- %lld"       ,body.fileLength);
+            NSLog(@"文件文件的下载状态 -- %lu"   ,body.downloadStatus);
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 #pragma mark - UITableDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -106,6 +268,12 @@
     if (indexPath.section == 1) {
         ChatRequestViewController *vc = [[ChatRequestViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    if (indexPath.section == 2) {
+//        ChatViewController *chatVC = [[ChatViewController alloc] initWithConversation:@"123" type:(EMConversationTypeChat)];
+//        chatVC.title = @"..";
+//        [self.navigationController pushViewController:chatVC animated:YES];
     }
     
 }
@@ -134,6 +302,21 @@
 
 }
 
+
+- (NSMutableArray *)dateArr {
+    if(!_dateArr ){
+        _dateArr = [NSMutableArray new];
+}
+    return _dateArr;
+    
+}
+
+- (NSMutableArray *)nickArr {
+    if (!_nickArr) {
+        _nickArr  = [NSMutableArray new];
+    }
+    return _nickArr;
+}
 
 
 @end
