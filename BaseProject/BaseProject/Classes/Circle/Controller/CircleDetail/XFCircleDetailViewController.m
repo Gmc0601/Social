@@ -466,7 +466,7 @@
                           } else {
                               self.circle.like_num = @(self.circle.like_num.integerValue + 1);
                           }
-
+                          
                           [self.zanBtn setTitle:[NSString stringWithFormat:@"点赞 %@", self.circle.like_num.stringValue] forState:UIControlStateNormal];
                           [SVProgressHUD showSuccessWithStatus:info[@"message"]];
                       }

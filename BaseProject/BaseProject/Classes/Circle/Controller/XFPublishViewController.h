@@ -10,5 +10,7 @@
 
 @interface XFPublishViewController : XFViewController
 
+@property (nonatomic, copy) void (^publishSuccess)();
+
 @end
 

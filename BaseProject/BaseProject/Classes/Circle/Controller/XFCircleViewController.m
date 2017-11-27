@@ -129,6 +129,11 @@
         return;
     }
     XFPublishViewController *controller = [[XFPublishViewController alloc] init];
+    WeakSelf
+    controller.publishSuccess = ^{
+        XFCircleContentViewController *controller = (XFCircleContentViewController *)weakSelf.childViewControllers.firstObject;
+        [controller loadData];
+    };
     [self pushController:controller];
 }
 

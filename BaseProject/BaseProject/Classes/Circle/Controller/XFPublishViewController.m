@@ -243,6 +243,7 @@
     if (self.videoPath.absoluteString.length) {
         dict[@"upload_type"] = @"2";
         ALAssetsLibrary *assetLibrary = [[ALAssetsLibrary alloc] init];
+        [SVProgressHUD show];
         [assetLibrary assetForURL:self.videoPath
                       resultBlock:^(ALAsset *asset) {
                           ALAssetRepresentation *rep = [asset defaultRepresentation];
@@ -253,7 +254,17 @@
                           [HttpRequest postPath:XFCirclePublishUrl
                                          params:dict
                                     resultBlock:^(id responseObject, NSError *error) {
-                                        FFLog(@"%@", responseObject);
+                                        [SVProgressHUD dismiss];
+                                        NSNumber *errorNum = responseObject[@"error"];
+                                        if (errorNum.integerValue == 0) {
+                                            [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
+                                            if (self.publishSuccess) {
+                                                self.publishSuccess();
+                                            }
+                                            [self backBtnClick];
+                                        } else {
+                                            [ConfigModel mbProgressHUD:@"发布失败" andView:nil];
+                                        }
                                     }];
                           
                       } failureBlock:^(NSError *error) {
@@ -274,10 +285,21 @@
         if (str.length) {
             dict[@"image"] = str.copy;
         }
+        [SVProgressHUD show];
         [HttpRequest postPath:XFCirclePublishUrl
                        params:dict
                   resultBlock:^(id responseObject, NSError *error) {
-                      FFLog(@"%@", responseObject);
+                      [SVProgressHUD dismiss];
+                      NSNumber *errorNum = responseObject[@"error"];
+                      if (errorNum.integerValue == 0) {
+                          [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
+                          if (self.publishSuccess) {
+                              self.publishSuccess();
+                          }
+                          [self backBtnClick];
+                      } else {
+                          [ConfigModel mbProgressHUD:@"发布失败" andView:nil];
+                      }
                   }];
     }
     
