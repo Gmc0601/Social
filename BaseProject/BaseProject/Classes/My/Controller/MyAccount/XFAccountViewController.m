@@ -122,15 +122,15 @@
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
                   NSDictionary *info = responseObject[@"info"];
-                  NSNumber *integral = info[@"integral"];
-                  weakSelf.integralLabel.text = integral.stringValue;
-                  
+                  NSString *integral = info[@"integral"];
+                  weakSelf.integralLabel.text = integral;
+
                   NSNumber *income = info[@"income"];
                   weakSelf.incomeLabel.text = income.stringValue;
                   
                   NSNumber *expend = info[@"expend"];
                   weakSelf.expendLabel.text = expend.stringValue;
-                  
+
                   NSNumber *pay = info[@"pay"];
                   weakSelf.payLabel.text = pay.stringValue;
               }];

@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSArray *incomeArray;
 @property (nonatomic, strong) NSMutableArray *hobbyArray;
 
+@property (nonatomic, strong) NSMutableArray *resultArray;
+
 @end
 
 @implementation XFMyInfoViewController
@@ -260,6 +262,8 @@
 }
 
 - (void)saveBtnClick {
+    self.resultArray = [NSMutableArray array];
+    
     NSMutableDictionary *dict1 = [NSMutableDictionary dictionary];
     if (self.user.sex) {
         dict1[@"sex"] = self.user.sex;
@@ -280,8 +284,11 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"123");
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
                       }
+                      [self overRequest];
                   }
               }];
     
@@ -311,8 +318,11 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"456");
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
                       }
+                      [self overRequest];
                   }
               }];
     
@@ -338,10 +348,30 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"789");
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
                       }
+                      [self overRequest];
                   }
               }];
+}
+
+- (void)overRequest {
+    BOOL success = YES;
+    for (int i = 0; i < self.resultArray.count; i++) {
+        NSString *info = self.resultArray[i];
+        if ([info isEqualToString:@"0"]) {
+            success = NO;
+            break;
+        }
+    }
+    if (success) {
+        [ConfigModel mbProgressHUD:@"修改成功" andView:nil];
+        [self backBtnClick];
+    } else {
+        [ConfigModel mbProgressHUD:@"修改失败" andView:nil];
+    }
 }
 
 - (void)rightLabelViewTap:(UITapGestureRecognizer *)ges {

@@ -453,7 +453,7 @@
                           NSNumber *type = info[@"type"];
                           self.circle.like_status = type;
                           if (type.integerValue == 2) {
-                              if (self.circle.like_num.integerValue > 1) {
+                              if (self.circle.like_num.integerValue >= 1) {
                                   self.circle.like_num = @(self.circle.like_num.integerValue - 1);
                               }
                           } else {

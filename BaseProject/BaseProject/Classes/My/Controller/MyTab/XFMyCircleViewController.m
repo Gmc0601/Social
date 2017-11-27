@@ -35,6 +35,10 @@
                                              selector:@selector(loginSuccess)
                                                  name:XFLoginSuccessNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLogoutSuccessNotification
+                                               object:nil];
 }
 
 - (void)loginSuccess {
@@ -69,9 +73,9 @@
                               XFCircleContentCellModel *model = [[XFCircleContentCellModel alloc] initWithCircle:circle andType:CircleContentModelType_My];
                               [weakSelf.dataArray addObject:model];
                           }
-                          [self.tableView reloadData];
                       }
                   }
+                  [self.tableView reloadData];
               }];
 }
 

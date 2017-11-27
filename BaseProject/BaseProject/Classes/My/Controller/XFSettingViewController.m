@@ -81,7 +81,7 @@
                           if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
                               NSString *xianshi = infoDict[@"xianshi"];
                               if([xianshi isEqual:[NSNull null]] || xianshi == nil){
-                                  [ConfigModel mbProgressHUD:@"xianshi  >>   null" andView:nil];
+//                                  [ConfigModel mbProgressHUD:@"xianshi  >>   null" andView:nil];
                                   return ;
                               }
                               if (self.pushArray.count > xianshi.integerValue) {
@@ -126,6 +126,7 @@
             [ConfigModel saveBoolObject:NO forKey:IsLogin];
             [ConfigModel saveString:@"" forKey:UserToken];
             [ConfigModel saveString:@"" forKey:UserId];
+            [[NSNotificationCenter defaultCenter] postNotificationName:XFLogoutSuccessNotification object:nil];
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }else {
             NSString *str = datadic[@"info"];
@@ -144,7 +145,7 @@
     } else if (ges.view.tag == 1) {
         [[YYWebImageManager sharedManager].cache.memoryCache removeAllObjects];
         [[YYWebImageManager sharedManager].cache.diskCache removeAllObjects];
-        [SVProgressHUD showSuccessWithStatus:@"清除成功"];
+        [ConfigModel mbProgressHUD:@"清除成功" andView:nil];
     } else if (ges.view.tag == 2) {
         XFUserAgreementViewController *controller = [[XFUserAgreementViewController alloc] init];
         controller.agreementType = AgreementType_About;

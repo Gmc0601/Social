@@ -91,6 +91,8 @@
         [attrStr appendAttributedString:[NSAttributedString attachmentStringWithEmojiImage:Image([user.sex isEqualToString:@"1"] ? @"icon_boy" : @"icon_girl")
                                                                                   fontSize:16]];
         self.nameLabel.attributedText = attrStr.copy;
+    } else {
+        self.nameLabel.attributedText = nil;
     }
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -99,9 +101,9 @@
         self.signLabel.text = @"还没有个性签名";
     }
     
-    self.fansLabel.text = user.guanzhumy_num.stringValue;
-    self.followLabel.text = user.myguanzhu_num.stringValue;
-    self.friendLabel.text = user.mutual_attention_num.stringValue;
+    self.fansLabel.text = [NSString stringWithFormat:@"%d", user.guanzhumy_num.intValue];
+    self.followLabel.text = [NSString stringWithFormat:@"%d", user.myguanzhu_num.intValue];
+    self.friendLabel.text = [NSString stringWithFormat:@"%d", user.mutual_attention_num.intValue];
 }
 
 #pragma mark ----------Private----------

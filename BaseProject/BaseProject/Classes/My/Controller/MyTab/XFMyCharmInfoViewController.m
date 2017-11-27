@@ -30,6 +30,10 @@
                                              selector:@selector(loginSuccess)
                                                  name:XFLoginSuccessNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLogoutSuccessNotification
+                                               object:nil];
 }
 
 - (void)loginSuccess {

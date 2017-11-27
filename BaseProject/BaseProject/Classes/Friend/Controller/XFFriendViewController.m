@@ -112,6 +112,8 @@
     UIImageView *imgView = [[UIImageView alloc] initWithImage:Image(@"icon_nav_ss")];
     imgView.centerY = searchView.height * 0.5;
     imgView.right = searchView.width - 15;
+    imgView.userInteractionEnabled = YES;
+    [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchViewTap)]];
     [searchView addSubview:imgView];
     
     UITextField *textField = [[UITextField alloc] init];
@@ -139,6 +141,10 @@
     locationLabel.height = 13;
     locationLabel.centerY = locationView.centerY;
     [navView addSubview:locationLabel];
+}
+
+- (void)searchViewTap {
+    
 }
 
 - (void)mapBtnClick {

@@ -12,9 +12,7 @@
 
 @property (nonatomic, strong) UIImageView *picView;
 @property (nonatomic, strong) YYLabel *nameLabel;
-@property (nonatomic, strong) UILabel *idLabel;
-@property (nonatomic, strong) UILabel *charmLabel;
-@property (nonatomic, strong) UIView *splitView;
+@property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, strong) UILabel *signLabel;
 
 @end
@@ -41,35 +39,21 @@
         _signLabel.bottom = self.height - 15;
         [self addSubview:_signLabel];
         
-        _splitView = [UIView xf_createViewWithColor:BlueColor];
-        _splitView.size = CGSizeMake(0.5, 9);
-        _splitView.centerX = self.width * 0.5;
-        _splitView.bottom = _signLabel.top - 15;
-        [self addSubview:_splitView];
-        
-        _idLabel = [UILabel xf_labelWithFont:Font(14)
-                                   textColor:BlueColor
-                               numberOfLines:1
-                                   alignment:NSTextAlignmentRight];
-        _idLabel.height = 20;
-        _idLabel.left = 15;
-        _idLabel.width = _splitView.left - 30;
-        _idLabel.centerY = _splitView.centerY;
-        [self addSubview:_idLabel];
-        
-        _charmLabel = [UILabel xf_labelWithFont:Font(14)
-                                   textColor:BlueColor
-                               numberOfLines:1
-                                   alignment:NSTextAlignmentLeft];
-        _charmLabel.frame = _idLabel.frame;
-        _charmLabel.left = _splitView.right + 15;
-        [self addSubview:_charmLabel];
+        _infoLabel = [UILabel xf_labelWithFont:Font(14)
+                                     textColor:BlueColor
+                                 numberOfLines:1
+                                     alignment:NSTextAlignmentCenter];
+        _infoLabel.left = 0;
+        _infoLabel.height = 20;
+        _infoLabel.width = kScreenWidth;
+        _infoLabel.bottom = _signLabel.top - 25;
+        [self addSubview:_infoLabel];
         
         _nameLabel = [YYLabel new];
         _nameLabel.height = 35;
         _nameLabel.left = 20;
         _nameLabel.width = kScreenWidth - 40;
-        _nameLabel.bottom = _idLabel.top;
+        _nameLabel.bottom = _infoLabel.top;
         [self addSubview:_nameLabel];
     }
     return self;
@@ -96,8 +80,15 @@
     }
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
     
-    self.idLabel.text = [NSString stringWithFormat:@"ID：%@", user.id.stringValue];
-    self.charmLabel.text = [NSString stringWithFormat:@"魅力分：%@", [NSString stringWithFormat:@"%d", user.coolpoint.intValue]];
+    NSMutableString *str = [NSMutableString string];
+    [str appendString:[NSString stringWithFormat:@"ID：%@", user.id.stringValue]];
+    [str appendString:@"  |  "];
+    [str appendString:[NSString stringWithFormat:@"魅力分：%@", [NSString stringWithFormat:@"%d", user.coolpoint.intValue]]];
+    if ([user.sex isEqualToString:@"1"]) {
+        [str appendString:@"  |  "];
+        [str appendString:[NSString stringWithFormat:@"金龟分：%@", [NSString stringWithFormat:@"%d", user.beetlepoint.intValue]]];
+    }
+    self.infoLabel.text = str.copy;
 }
 
 @end

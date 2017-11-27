@@ -67,6 +67,7 @@ NSString *const XFDefaultPageSize           = @"10";
 
 NSString *const XFBindAliPaySuccessNotification = @"XFBindAliPaySuccessNotification";
 NSString *const XFLoginSuccessNotification = @"XFLoginSuccessNotification";
+NSString *const XFLogoutSuccessNotification = @"XFLogoutSuccessNotification";
 
 
 NSString *const XFCurrentLatitudeKey        = @"XFCurrentLatitudeKey";

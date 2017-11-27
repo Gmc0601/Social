@@ -70,10 +70,9 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          NSDictionary *info = responseObject[@"info"];
-                          if ([info isKindOfClass:[NSDictionary class]]) {                          
-                              NSArray *dataArray = info[@"img"];
-                              [weakSelf.dataArray addObjectsFromArray:dataArray];
+                          NSArray *infoArray = responseObject[@"info"];
+                          if ([infoArray isKindOfClass:[NSArray class]] && infoArray.count) {
+                              [weakSelf.dataArray addObjectsFromArray:infoArray];
                           }
                       }
                       [self.collectionView reloadData];
@@ -91,7 +90,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     XFFriendAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendAlbumCell" forIndexPath:indexPath];
-    cell.url = self.dataArray[indexPath.item];
+    NSDictionary *dict = self.dataArray[indexPath.item];
+    cell.url = dict[@"img"];
     cell.backgroundColor = RandomColor;
     return cell;
 }
@@ -100,7 +100,8 @@
     self.photosArray = [NSMutableArray array];
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     for (int i = 0; i < self.dataArray.count; i++) {
-        [self.photosArray addObject:[MWPhoto photoWithURL:[NSURL URLWithString:self.dataArray[i]]]];
+        NSDictionary *picDict = self.dataArray[i];
+        [self.photosArray addObject:[MWPhoto photoWithURL:[NSURL URLWithString:picDict[@"img"]]]];
     }
     browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
     browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)

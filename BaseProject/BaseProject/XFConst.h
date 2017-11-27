@@ -44,8 +44,8 @@ UIKIT_EXTERN NSString *const XFMyRechrgeUrl;            // 我的积分充值---
 UIKIT_EXTERN NSString *const XFMyRechrgeOrderUrl;       // 积分购买生成订单
 UIKIT_EXTERN NSString *const XFMyUserAgreementUrl;      // 用户协议--
 UIKIT_EXTERN NSString *const XFMyCharmRuleUrl;          // 我的魅力值规则说明---
-UIKIT_EXTERN NSString *const XFMyCarUpdateUrl;          // 我的详细信息车产修改---没有界面需求
-UIKIT_EXTERN NSString *const XFMyHouseUpdataUrl;        // 我的详细信息房产修改---没有界面需求
+UIKIT_EXTERN NSString *const XFMyCarUpdateUrl;          // 我的详细信息车产修改---
+UIKIT_EXTERN NSString *const XFMyHouseUpdataUrl;        // 我的详细信息房产修改---
 UIKIT_EXTERN NSString *const XFMyInfoUrl;               // 获取用户信息---
 UIKIT_EXTERN NSString *const XFMyAliPayBackUrl;         // 支付宝回调---没有界面需求
 UIKIT_EXTERN NSString *const XFMyAlbumDeleteUrl;        // 我的相册删除
@@ -65,6 +65,7 @@ UIKIT_EXTERN NSString *const XFDefaultPageSize;
 
 UIKIT_EXTERN NSString *const XFBindAliPaySuccessNotification;
 UIKIT_EXTERN NSString *const XFLoginSuccessNotification;
+UIKIT_EXTERN NSString *const XFLogoutSuccessNotification;
 
 
 UIKIT_EXTERN NSString *const XFCurrentLatitudeKey;
