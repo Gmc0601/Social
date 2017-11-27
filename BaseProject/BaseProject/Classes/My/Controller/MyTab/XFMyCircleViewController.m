@@ -50,7 +50,7 @@
 }
 
 - (void)setupUI {
-    self.view.backgroundColor = RandomColor;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - XFCircleTabHeight - XFNavHeight);
     [self loadData];

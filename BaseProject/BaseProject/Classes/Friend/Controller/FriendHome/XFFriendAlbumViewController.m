@@ -92,7 +92,7 @@
     XFFriendAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendAlbumCell" forIndexPath:indexPath];
     NSDictionary *dict = self.dataArray[indexPath.item];
     cell.url = dict[@"img"];
-    cell.backgroundColor = RandomColor;
+    cell.backgroundColor = [UIColor lightGrayColor];
     return cell;
 }
 

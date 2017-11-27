@@ -69,7 +69,7 @@
     [self.scrollView addSubview:splitView1];
     
 #warning 需要判断是不是好友，不知道哪个字段
-    BOOL isFriend = YES;
+    BOOL isFriend = self.user.guanzhu.integerValue == 2;
     UIView *personView = [self createSectionView:@"个人信息" isFriend:isFriend];
     personView.top = splitView1.bottom;
     

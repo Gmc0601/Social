@@ -12,8 +12,9 @@
 #import "XFAssetViewController.h"
 #import "XFAssetVerifyViewController.h"
 #import "XFSelectInterestView.h"
+#import "XFSelectAddressView.h"
 
-@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
+@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, XFSelectAddressViewDelegate>
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 
@@ -173,6 +174,13 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [self.view endEditing:YES];
+}
+
+#pragma mark - -------------------<XFSelectAddressViewDelegate>-------------------
+- (void)selectAddressView:(XFSelectAddressView *)itemView selectInfo:(NSString *)info {
+    UILabel *label = [self.selectItem viewWithTag:100];
+    label.text = info;
+    self.user.address = info;
 }
 
 - (void)loadData {
@@ -409,7 +417,9 @@
         [self.view addSubview:selectItem];
     } else if (tag == 104) {
         // 居住地
-        
+        XFSelectAddressView *addressView = [[XFSelectAddressView alloc] init];
+        addressView.delegate = self;
+        [self.view addSubview:addressView];
     } else if (tag == 200) {
         // 身高
         NSMutableArray *arrayM = [NSMutableArray array];
@@ -578,6 +588,8 @@
                                                    action:@selector(iconBtnClick)];
     self.iconBtn = iconBtn;
     iconBtn.size = CGSizeMake(34, 34);
+    iconBtn.layer.cornerRadius = 17;
+    iconBtn.layer.masksToBounds = YES;
     iconBtn.centerY = view.height * 0.5;
     iconBtn.right = arrowView.left - 10;
     iconBtn.tag = 100;

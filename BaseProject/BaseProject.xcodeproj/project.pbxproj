@@ -149,6 +149,8 @@
 		42FFD7711FA96E2B00704591 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42FFD76E1FA96E2A00704591 /* city.plist */; };
 		42FFD7721FA96E2B00704591 /* CityPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7701FA96E2A00704591 /* CityPickView.m */; };
 		B79A5CFD6299881CB3643ACB /* libPods-BaseProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */; };
+		B81B28411FCBCA500015AF25 /* XFSelectAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B81B28401FCBCA500015AF25 /* XFSelectAddressView.m */; };
+		B81B28431FCBE3840015AF25 /* XFAddress.plist in Resources */ = {isa = PBXBuildFile; fileRef = B81B28421FCBE3840015AF25 /* XFAddress.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -453,6 +455,9 @@
 		42FFD7701FA96E2A00704591 /* CityPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityPickView.m; sourceTree = "<group>"; };
 		65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BaseProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.release.xcconfig"; sourceTree = "<group>"; };
+		B81B283F1FCBCA500015AF25 /* XFSelectAddressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XFSelectAddressView.h; sourceTree = "<group>"; };
+		B81B28401FCBCA500015AF25 /* XFSelectAddressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XFSelectAddressView.m; sourceTree = "<group>"; };
+		B81B28421FCBE3840015AF25 /* XFAddress.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = XFAddress.plist; sourceTree = "<group>"; };
 		F79BCDCE7109E930EA932FB6 /* Pods-BaseProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -716,8 +721,11 @@
 				2E4152371F945BDE00B53486 /* XFSelectInterestView.m */,
 				2E4152381F945BDE00B53486 /* XFSelectItemView.h */,
 				2E4152391F945BDE00B53486 /* XFSelectItemView.m */,
+				B81B283F1FCBCA500015AF25 /* XFSelectAddressView.h */,
+				B81B28401FCBCA500015AF25 /* XFSelectAddressView.m */,
 				2E41523A1F945BDE00B53486 /* XFTradeRecordCell.h */,
 				2E41523B1F945BDE00B53486 /* XFTradeRecordCell.m */,
+				B81B28421FCBE3840015AF25 /* XFAddress.plist */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1317,6 +1325,7 @@
 				42F795D91F00CC3E00A11A69 /* arrowup@2x.png in Resources */,
 				42A0E3C31FB3FA600079F744 /* ChatInfoTableViewCell.xib in Resources */,
 				42FFD7711FA96E2B00704591 /* city.plist in Resources */,
+				B81B28431FCBE3840015AF25 /* XFAddress.plist in Resources */,
 				42A444431EF133E000F90791 /* LaunchScreen.storyboard in Resources */,
 				42A444401EF133E000F90791 /* Assets.xcassets in Resources */,
 			);
@@ -1510,6 +1519,7 @@
 				42D858FB1FB2F7D200C1B7D2 /* MessageViewController.m in Sources */,
 				42C84EB01EF2DB060008189D /* AppDelegate.m in Sources */,
 				2E4152961F945C1E00B53486 /* XFConst.m in Sources */,
+				B81B28411FCBCA500015AF25 /* XFSelectAddressView.m in Sources */,
 				2E4152A51F945C6500B53486 /* TradeRecord.m in Sources */,
 				42C84F1E1EF2EB650008189D /* SBJSON.m in Sources */,
 				42D859041FB2F99400C1B7D2 /* ContactsViewController.m in Sources */,

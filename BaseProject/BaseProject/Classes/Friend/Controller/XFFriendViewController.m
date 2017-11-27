@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UILabel *locationLabel;
 @property (nonatomic, assign) NSInteger currentPage;
 
+@property (nonatomic, strong) UITextField *textField;
+
 
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, strong) AMapReGeocodeSearchRequest *codeSearch;
@@ -117,6 +119,7 @@
     [searchView addSubview:imgView];
     
     UITextField *textField = [[UITextField alloc] init];
+    self.textField = textField;
     textField.font = Font(13);
     textField.placeholder = @"输入ID号搜索";
     [searchView addSubview:textField];
@@ -144,7 +147,7 @@
 }
 
 - (void)searchViewTap {
-    
+    [self loadData];
 }
 
 - (void)mapBtnClick {
@@ -227,17 +230,21 @@
 
 - (NSDictionary *)getTheParams {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    if (self.seniorDict.allKeys.count) {
-        [dict addEntriesFromDictionary:self.seniorDict];
-    }
-    if (self.normalDict.allKeys.count) {
-        [dict addEntriesFromDictionary:self.normalDict];
-    }
-    NSString *latitude = [NSString stringWithFormat:@"%f", self.location.coordinate.latitude];
-    NSString *longitude = [NSString stringWithFormat:@"%f", self.location.coordinate.longitude];
-    if (latitude.length && longitude.length) {
-        dict[@"lat"] = latitude;
-        dict[@"long"] = longitude;
+    if (self.textField.text.length) {
+        dict[@"id"] = self.textField.text;
+    } else {
+        if (self.seniorDict.allKeys.count) {
+            [dict addEntriesFromDictionary:self.seniorDict];
+        }
+        if (self.normalDict.allKeys.count) {
+            [dict addEntriesFromDictionary:self.normalDict];
+        }
+        NSString *latitude = [NSString stringWithFormat:@"%f", self.location.coordinate.latitude];
+        NSString *longitude = [NSString stringWithFormat:@"%f", self.location.coordinate.longitude];
+        if (latitude.length && longitude.length) {
+            dict[@"lat"] = latitude;
+            dict[@"long"] = longitude;
+        }
     }
     dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
     dict[@"size"] = XFDefaultPageSize;
@@ -378,11 +385,10 @@
         [[UIApplication sharedApplication].keyWindow addSubview:view];
     } else if (button.tag == 3) {
         XFSeniorFilterViewController *controller = [[XFSeniorFilterViewController alloc] init];
+        controller.orignDict = self.seniorDict;
         controller.confirmBack = ^(NSDictionary *dict) {
             self.seniorDict = dict.mutableCopy;
-            if (dict.allKeys.count) {
-                [self loadData];
-            }
+            [self loadData];
         };
         [self pushController:controller];
     }
