@@ -79,6 +79,7 @@
     nickNameView.top = ageView.bottom;
     
     UIView *genderView = [self createRightLabelView:@"性别" andInfo:self.user.sex hiddenSplit:NO];
+    [genderView viewWithTag:999].hidden = YES;
     genderView.tag = 103;
     genderView.top = nickNameView.bottom;
     
@@ -410,11 +411,11 @@
         [self pushController:controller];
     } else if (tag == 103) {
         // 性别
-        XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"性别"
-                                                                     dataArray:@[@"男", @"女"]
-                                                                    selectText:nil];
-        selectItem.delegate = self;
-        [self.view addSubview:selectItem];
+//        XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"性别"
+//                                                                     dataArray:@[@"男", @"女"]
+//                                                                    selectText:nil];
+//        selectItem.delegate = self;
+//        [self.view addSubview:selectItem];
     } else if (tag == 104) {
         // 居住地
         XFSelectAddressView *addressView = [[XFSelectAddressView alloc] init];
@@ -620,6 +621,7 @@
     UIImageView *arrowView = [[UIImageView alloc] initWithImage:Image(@"icon_gd-拷贝")];
     arrowView.centerY = view.height * 0.5;
     arrowView.right = view.width - 15;
+    arrowView.tag = 999;
     [view addSubview:arrowView];
     
     UILabel *rightLabel = [UILabel xf_labelWithFont:Font(15)

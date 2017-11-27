@@ -12,8 +12,8 @@
 @protocol XFMyFollowUserCellDelegate <NSObject>
 
 @optional
-- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickUserBtn:(NSInteger)index;
-- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickFollowBtn:(NSInteger)index;
+- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickUserBtn:(User *)user;
+- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickFollowBtn:(User *)user;
 @end
 
 typedef NS_ENUM(NSInteger, MyFollowUserType) {

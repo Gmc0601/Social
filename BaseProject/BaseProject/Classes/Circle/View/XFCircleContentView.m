@@ -45,6 +45,9 @@
         [self.followBtn setTitle:@"+关注" forState:UIControlStateNormal];
         self.followBtn.layer.borderColor = BlackColor.CGColor;
     }
+    
+    NSString *currentUid = [[NSUserDefaults standardUserDefaults] objectForKey:UserId];
+    self.followBtn.hidden = [model.circle.uid isEqualToString:currentUid];
     self.timeLabel.text = circle.upload_time;
     self.nameLabel.text = circle.nickname;
     

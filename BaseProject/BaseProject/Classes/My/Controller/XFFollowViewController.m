@@ -8,6 +8,7 @@
 
 #import "XFFollowViewController.h"
 #import "XFMyFollowUserCell.h"
+#import "XFFriendHomeViewController.h"
 
 @interface XFFollowViewController ()<UITableViewDelegate, UITableViewDataSource, XFMyFollowUserCellDelegate>
 
@@ -94,12 +95,29 @@
 }
 
 #pragma mark ----------<XFMyFollowUserCellDelegate>----------
-- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickUserBtn:(NSInteger)index {
-    FFLog(@"头像");
+- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickUserBtn:(User *)user {
+    XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+    controller.friendId = user.id;
+    [self pushController:controller];
 }
 
-- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickFollowBtn:(NSInteger)index {
-    FFLog(@"关注");
+- (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickFollowBtn:(User *)user {
+    NSString *type = user.guanzhu.integerValue == 2 ? @"1" : @"2";
+    [HttpRequest postPath:XFFriendFollowUrl
+                   params:@{@"id" : user.id,
+                            @"type" : type}
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          NSDictionary *info = responseObject[@"info"];
+                          NSNumber *type = info[@"type"];
+                          user.guanzhu = type;
+                          [ConfigModel mbProgressHUD:info[@"message"] andView:nil];
+                          [self.tableView reloadData];
+                      }
+                  }
+              }];
 }
 
 

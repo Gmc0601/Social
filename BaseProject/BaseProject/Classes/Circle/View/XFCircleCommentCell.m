@@ -22,13 +22,13 @@
 - (void)setModel:(XFCircleCommentCellModel *)model {
     _model = model;
     self.nameLabel.frame = model.nameLabelFrame;
-    self.nameLabel.text = @"拉大锯";
+    self.nameLabel.text = model.comment.nickname;
     
     self.timeLabel.frame = model.timeLabelFrame;
-    self.timeLabel.text = @"16:12";
+    self.timeLabel.text = model.comment.create_time;
     
     self.commentLabel.frame = model.commentLabelFrame;
-    self.commentLabel.text = @"奥地利；放假啊算了；都放假啊啥的；立法局；两岸三地；立法局啊；三闾大夫叫阿萨市领导；放假啊手机地方了；加";
+    self.commentLabel.text = model.comment.content;
     
     self.splitView.frame = model.splitViewFrame;
 }
@@ -50,7 +50,7 @@
         _timeLabel = [UILabel xf_labelWithFont:Font(13)
                                      textColor:RGBGray(153)
                                  numberOfLines:1
-                                     alignment:NSTextAlignmentLeft];
+                                     alignment:NSTextAlignmentRight];
         [self.contentView addSubview:_timeLabel];
     }
     return _timeLabel;

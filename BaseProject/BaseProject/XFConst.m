@@ -72,6 +72,7 @@ NSString *const XFLogoutSuccessNotification = @"XFLogoutSuccessNotification";
 
 NSString *const XFCurrentLatitudeKey        = @"XFCurrentLatitudeKey";
 NSString *const XFCurrentLongitudeKey       = @"XFCurrentLongitudeKey";
+NSString *const XFCloseSuggestKey           = @"XFCloseSuggestKey";
 
 
 #pragma mark ----------Const Num----------

@@ -35,10 +35,6 @@
     self.view.backgroundColor = WhiteColor;
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - XFNavHeight - XFCircleTabHeight - XFCircleDetailBottomHeight);
     [self.tableView reloadData];
-//    self.tableView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
-//    self.tableView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
-//    self.currentPage = 1;
-//    self.dataArray = [NSMutableArray array];
 }
 
 - (void)setCommentArray:(NSArray *)commentArray {
@@ -49,73 +45,6 @@
         [self.dataArray addObject:model];
     }
 }
-
-//- (void)loadData {
-//    WeakSelf
-//    self.currentPage = 1;
-//    [HttpRequest postPath:XFCircleCommentListUrl
-//                   params:@{@"page" : [NSString stringWithFormat:@"%zd", self.currentPage],
-//                            @"size" : XFDefaultPageSize,
-//                            @"id"   : self.circleId}
-//              resultBlock:^(id responseObject, NSError *error) {
-//                  [weakSelf.tableView.mj_header endRefreshing];
-//                  weakSelf.dataArray = [NSMutableArray array];
-//                  if (!error) {
-//                      NSNumber *errorCode = responseObject[@"error"];
-//                      if (errorCode.integerValue == 0) {
-//                          weakSelf.currentPage ++;
-//                          NSArray *infoArray = responseObject[@"info"];
-//                          if ([infoArray isKindOfClass:[NSArray class]]) {
-//                              for (int i = 0 ; i < infoArray.count; i++) {
-//                                  NSDictionary *dict = infoArray[i];
-//                                  XFCircleCommentCellModel *model = [[XFCircleCommentCellModel alloc] initWithComment:[CircleComment mj_objectWithKeyValues:dict]];
-//                                  [weakSelf.dataArray addObject:model];
-//                              }
-//                              if (infoArray.count < 10) {
-//                                  [self.tableView.mj_footer endRefreshingWithNoMoreData];
-//                              } else {
-//                                  [self.tableView.mj_footer endRefreshing];
-//                              }
-//                          } else {
-//                              [self.tableView.mj_footer endRefreshingWithNoMoreData];
-//                          }
-//                          [self.tableView reloadData];
-//                      }
-//                  }
-//              }];
-//}
-
-//- (void)loadMoreData {
-//    WeakSelf
-//    [HttpRequest postPath:XFCircleCommentListUrl
-//                   params:@{@"page" : [NSString stringWithFormat:@"%zd", self.currentPage],
-//                            @"size" : XFDefaultPageSize,
-//                            @"id"   : self.circleId}
-//              resultBlock:^(id responseObject, NSError *error) {
-//                  if (!error) {
-//                      NSNumber *errorCode = responseObject[@"error"];
-//                      if (errorCode.integerValue == 0) {
-//                          weakSelf.currentPage ++;
-//                          NSArray *infoArray = responseObject[@"info"];
-//                          if ([infoArray isKindOfClass:[NSArray class]]) {
-//                              for (int i = 0 ; i < infoArray.count; i++) {
-//                                  NSDictionary *dict = infoArray[i];
-//                                  XFCircleCommentCellModel *model = [[XFCircleCommentCellModel alloc] initWithComment:[CircleComment mj_objectWithKeyValues:dict]];
-//                                  [weakSelf.dataArray addObject:model];
-//                              }
-//                              if (infoArray.count < 10) {
-//                                  [self.tableView.mj_footer endRefreshingWithNoMoreData];
-//                              } else {
-//                                  [self.tableView.mj_footer endRefreshing];
-//                              }
-//                          } else {
-//                              [self.tableView.mj_footer endRefreshingWithNoMoreData];
-//                          }
-//                          [self.tableView reloadData];
-//                      }
-//                  }
-//              }];
-//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

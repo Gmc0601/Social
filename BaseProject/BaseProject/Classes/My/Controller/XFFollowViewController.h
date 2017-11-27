@@ -9,8 +9,8 @@
 #import "XFViewController.h"
 
 typedef NS_ENUM(NSInteger, FollowType) {
-    FollowType_Follow,
     FollowType_Fans,
+    FollowType_Follow,
     FollowType_Friends
 };
 

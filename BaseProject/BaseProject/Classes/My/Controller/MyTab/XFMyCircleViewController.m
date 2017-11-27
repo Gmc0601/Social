@@ -53,6 +53,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - XFCircleTabHeight - XFNavHeight);
+    self.tableView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
     [self loadData];
 }
 
@@ -62,6 +63,7 @@
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
                   weakSelf.dataArray = [NSMutableArray array];
+                  [weakSelf.tableView.mj_header endRefreshing];
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {

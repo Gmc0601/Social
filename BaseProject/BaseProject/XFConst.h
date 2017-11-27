@@ -63,13 +63,15 @@ UIKIT_EXTERN NSString *const XFResetPushSettingUrl;     // 我的聊天延迟申
 #pragma mark ----------Const Str----------
 UIKIT_EXTERN NSString *const XFDefaultPageSize;
 
+#pragma mark - -------------------Notification-------------------
 UIKIT_EXTERN NSString *const XFBindAliPaySuccessNotification;
 UIKIT_EXTERN NSString *const XFLoginSuccessNotification;
 UIKIT_EXTERN NSString *const XFLogoutSuccessNotification;
 
-
+#pragma mark - -------------------UserDefault-------------------
 UIKIT_EXTERN NSString *const XFCurrentLatitudeKey;
 UIKIT_EXTERN NSString *const XFCurrentLongitudeKey;
+UIKIT_EXTERN NSString *const XFCloseSuggestKey;
 
 #pragma mark ----------Const Num----------
 UIKIT_EXTERN CGFloat const XFNavHeight;

@@ -14,6 +14,7 @@
 #import "XFPlayVideoController.h"
 #import "XFFriendHomeViewController.h"
 #import "XFCircleShareView.h"
+#import <AddressBook/AddressBook.h>
 
 
 @interface XFCircleContentViewController ()<UITableViewDelegate, UITableViewDataSource, XFCircleContentCellDelegate, MWPhotoBrowserDelegate, XFCircleSuggestCellDelegate, XFCircleShareViewDelegate>
@@ -32,7 +33,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self setupNotification];
     [self loadData];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setupUI {
@@ -43,6 +49,21 @@
     self.tableView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
     self.tableView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
     self.currentPage = 1;
+}
+
+- (void)setupNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLoginSuccessNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLogoutSuccessNotification
+                                               object:nil];
+}
+
+- (void)loginSuccess {
+    [self.tableView reloadData];
 }
 
 - (void)loadData {
@@ -74,23 +95,77 @@
               }];
     
     if (self.type == CircleContentType_Hot) {
-#warning 先写死，后面再获取通讯录
-        [HttpRequest postPath:XFCircleSuggestUrl
-                       params:@{@"mobile" : @"15390431403,15072928719,15020386619,18053540839,18353508335,18354279965,18769773797,18865553039,13153001554,13176168794,13455092116,13561290575,13561294846,13695443956,13780921296,15027997963,15095077694,15166350379,15192193010,15224268628,15224300851,15263519038,15266840014,15564013797,15653595212,15666355845,15668068678,18253575337,18253576799,18253588199,18253590450,18253591830,18253592754,18254589688,18264286848,18363536786,18363882056,18603628292,18663557714,18754382544,18764051773,18766257874,18806352617,18863535218,18953927830,18954708892"}
-                  resultBlock:^(id responseObject, NSError *error) {
-                      weakSelf.suggestArray = [NSMutableArray array];
-                      if (!error) {
-                          NSNumber *errorCode = responseObject[@"error"];
-                          if (errorCode.integerValue == 0) {
-                              NSArray *infoArray = responseObject[@"info"];
-                              if ([infoArray hasContent]) {
-                                  [weakSelf.suggestArray addObjectsFromArray:[User mj_objectArrayWithKeyValuesArray:infoArray]];
-                              }
-                              [self.tableView reloadData];
-                          }
-                      }
-                  }];
+        [self requestAuthorizationAddressBook];
     }
+}
+
+- (void)requestAuthorizationAddressBook {
+    // 判断是否授权
+    ABAddressBookRef addressBook = ABAddressBookCreate();
+    ABAuthorizationStatus authorizationStatus = ABAddressBookGetAuthorizationStatus();
+    if (authorizationStatus == kABAuthorizationStatusNotDetermined) {
+        ABAddressBookRef addressBookRef =  ABAddressBookCreate();
+        ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) {
+            if (granted) {
+                [self loadSuggestData:[self fetchContactWithAddressBook:addressBook]];
+                
+            } else {        // 授权失败
+                NSLog(@"授权失败！");
+            }
+        });
+    } else {
+        [self loadSuggestData:[self fetchContactWithAddressBook:addressBook]];
+    }
+}
+
+- (NSArray *)fetchContactWithAddressBook:(ABAddressBookRef)addressBook{
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {////有权限访问
+        //获取联系人数组
+        NSArray *array = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+        NSMutableArray *contacts = [NSMutableArray array];
+        for (int i = 0; i < array.count; i++) {
+            ABRecordRef people = CFArrayGetValueAtIndex((__bridge ABRecordRef)array, i);
+            ABMutableMultiValueRef phoneNumRef = ABRecordCopyValue(people, kABPersonPhoneProperty);
+            NSString *phoneNumber =  ((__bridge NSArray *)ABMultiValueCopyArrayOfAllValues(phoneNumRef)).lastObject;
+            
+            [contacts addObject:phoneNumber];
+        }
+        return contacts.copy;
+    } else {//无权限访问
+        return nil;
+    }
+}
+
+- (void)loadSuggestData:(NSArray *)array {
+    if (array.count == 0) {
+        return;
+    }
+    if ([UserDefaults boolForKey:XFCloseSuggestKey]) {
+        return;
+    }
+    NSMutableString *str = [NSMutableString string];
+    for (int i = 0; i < array.count; i++) {
+        [str appendString:array[i]];
+        if (i != array.count - 1) {
+            [str appendString:@","];
+        }
+    }
+    WeakSelf
+    [HttpRequest postPath:XFCircleSuggestUrl
+                   params:@{@"mobile" : str}
+              resultBlock:^(id responseObject, NSError *error) {
+                  weakSelf.suggestArray = [NSMutableArray array];
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0) {
+                          NSArray *infoArray = responseObject[@"info"];
+                          if ([infoArray hasContent]) {
+                              [weakSelf.suggestArray addObjectsFromArray:[User mj_objectArrayWithKeyValuesArray:infoArray]];
+                          }
+                          [self.tableView reloadData];
+                      }
+                  }
+              }];
 }
 
 - (void)loadMoreData {
@@ -313,6 +388,8 @@
 #pragma mark - -------------------<XFCircleSuggestCellDelegate>-------------------
 - (void)circleSuggestCellClickCloseBtn:(XFCircleSuggestCell *)cell {
     self.suggestArray = [NSMutableArray array];
+    [UserDefaults setBool:YES forKey:XFCloseSuggestKey];
+    [UserDefaults synchronize];
     [self.tableView reloadData];
 }
 

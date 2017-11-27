@@ -13,14 +13,14 @@
 - (instancetype)initWithComment:(CircleComment *)comment {
     _comment = comment;
     CGRect rect = CGRectZero;
-    rect.size.width = 65;
+    rect.size.width = 180;
     rect.size.height = 45;
     rect.origin.y = 0;
-    rect.origin.x = kScreenWidth - rect.size.width;
+    rect.origin.x = kScreenWidth - rect.size.width - 10;
     self.timeLabelFrame = rect;
     
     rect.origin.x = 15;
-    rect.size.width = CGRectGetMinX(self.timeLabelFrame) - rect.origin.x;
+    rect.size.width = CGRectGetMinX(self.timeLabelFrame) - 10 - rect.origin.x;
     self.nameLabelFrame = rect;
     
     CGFloat commentMaxW = kScreenWidth - 30;

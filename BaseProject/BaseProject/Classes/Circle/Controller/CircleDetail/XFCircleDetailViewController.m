@@ -108,6 +108,9 @@
     [self setupTabView];
     [self setupScrollView];
     [self setupBottomView];
+    if (self.showComment) {
+        [self tabBtnClick:self.commentBtn];
+    }
 }
 
 - (void)setupGesture {
@@ -332,6 +335,10 @@
 }
 
 - (void)circleContentView:(XFCircleContentView *)view didClickFollowBtn:(XFCircleContentCellModel *)model {
+    if ([self isNotLogin]) {
+        [self showLoginController];
+        return;
+    }
     Circle *circle = model.circle;
     if (circle.id) {
         NSString *type = circle.attention_status.integerValue == 2 ? @"1" : @"2";
