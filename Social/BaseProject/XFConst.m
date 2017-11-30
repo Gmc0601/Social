@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 
 #pragma mark ----------BaseInfo----------
-NSString *const XFAMapKey                   = @"71f8eb0b57e455e8bd0e5e36f3b59ae1";
+NSString *const XFAMapKey                   = @"9fec32e1488995b3cdaef7c1f32ba31e";
 
 #pragma mark ----------Url----------
 NSString *const XFCircleHotUrl              = @"_heat_001";
@@ -67,10 +67,12 @@ NSString *const XFDefaultPageSize           = @"10";
 
 NSString *const XFBindAliPaySuccessNotification = @"XFBindAliPaySuccessNotification";
 NSString *const XFLoginSuccessNotification = @"XFLoginSuccessNotification";
+NSString *const XFLogoutSuccessNotification = @"XFLogoutSuccessNotification";
 
 
 NSString *const XFCurrentLatitudeKey        = @"XFCurrentLatitudeKey";
 NSString *const XFCurrentLongitudeKey       = @"XFCurrentLongitudeKey";
+NSString *const XFCloseSuggestKey           = @"XFCloseSuggestKey";
 
 
 #pragma mark ----------Const Num----------

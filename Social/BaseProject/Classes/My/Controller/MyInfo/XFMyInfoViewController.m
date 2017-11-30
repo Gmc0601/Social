@@ -12,8 +12,9 @@
 #import "XFAssetViewController.h"
 #import "XFAssetVerifyViewController.h"
 #import "XFSelectInterestView.h"
+#import "XFSelectAddressView.h"
 
-@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
+@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, XFSelectAddressViewDelegate>
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 
@@ -25,6 +26,8 @@
 @property (nonatomic, strong) NSArray *jobArray;
 @property (nonatomic, strong) NSArray *incomeArray;
 @property (nonatomic, strong) NSMutableArray *hobbyArray;
+
+@property (nonatomic, strong) NSMutableArray *resultArray;
 
 @end
 
@@ -76,6 +79,7 @@
     nickNameView.top = ageView.bottom;
     
     UIView *genderView = [self createRightLabelView:@"性别" andInfo:self.user.sex hiddenSplit:NO];
+    [genderView viewWithTag:999].hidden = YES;
     genderView.tag = 103;
     genderView.top = nickNameView.bottom;
     
@@ -173,6 +177,13 @@
     [self.view endEditing:YES];
 }
 
+#pragma mark - -------------------<XFSelectAddressViewDelegate>-------------------
+- (void)selectAddressView:(XFSelectAddressView *)itemView selectInfo:(NSString *)info {
+    UILabel *label = [self.selectItem viewWithTag:100];
+    label.text = info;
+    self.user.address = info;
+}
+
 - (void)loadData {
     WeakSelf
     [HttpRequest postPath:XFMyInfoUrl
@@ -260,6 +271,8 @@
 }
 
 - (void)saveBtnClick {
+    self.resultArray = [NSMutableArray array];
+    
     NSMutableDictionary *dict1 = [NSMutableDictionary dictionary];
     if (self.user.sex) {
         dict1[@"sex"] = self.user.sex;
@@ -280,8 +293,11 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"123");
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
                       }
+                      [self overRequest];
                   }
               }];
     
@@ -311,8 +327,11 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"456");
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
                       }
+                      [self overRequest];
                   }
               }];
     
@@ -338,10 +357,30 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"789");
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
                       }
+                      [self overRequest];
                   }
               }];
+}
+
+- (void)overRequest {
+    BOOL success = YES;
+    for (int i = 0; i < self.resultArray.count; i++) {
+        NSString *info = self.resultArray[i];
+        if ([info isEqualToString:@"0"]) {
+            success = NO;
+            break;
+        }
+    }
+    if (success) {
+        [ConfigModel mbProgressHUD:@"修改成功" andView:nil];
+        [self backBtnClick];
+    } else {
+        [ConfigModel mbProgressHUD:@"修改失败" andView:nil];
+    }
 }
 
 - (void)rightLabelViewTap:(UITapGestureRecognizer *)ges {
@@ -372,14 +411,16 @@
         [self pushController:controller];
     } else if (tag == 103) {
         // 性别
-        XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"性别"
-                                                                     dataArray:@[@"男", @"女"]
-                                                                    selectText:nil];
-        selectItem.delegate = self;
-        [self.view addSubview:selectItem];
+//        XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"性别"
+//                                                                     dataArray:@[@"男", @"女"]
+//                                                                    selectText:nil];
+//        selectItem.delegate = self;
+//        [self.view addSubview:selectItem];
     } else if (tag == 104) {
         // 居住地
-        
+        XFSelectAddressView *addressView = [[XFSelectAddressView alloc] init];
+        addressView.delegate = self;
+        [self.view addSubview:addressView];
     } else if (tag == 200) {
         // 身高
         NSMutableArray *arrayM = [NSMutableArray array];
@@ -548,6 +589,8 @@
                                                    action:@selector(iconBtnClick)];
     self.iconBtn = iconBtn;
     iconBtn.size = CGSizeMake(34, 34);
+    iconBtn.layer.cornerRadius = 17;
+    iconBtn.layer.masksToBounds = YES;
     iconBtn.centerY = view.height * 0.5;
     iconBtn.right = arrowView.left - 10;
     iconBtn.tag = 100;
@@ -578,6 +621,7 @@
     UIImageView *arrowView = [[UIImageView alloc] initWithImage:Image(@"icon_gd-拷贝")];
     arrowView.centerY = view.height * 0.5;
     arrowView.right = view.width - 15;
+    arrowView.tag = 999;
     [view addSubview:arrowView];
     
     UILabel *rightLabel = [UILabel xf_labelWithFont:Font(15)

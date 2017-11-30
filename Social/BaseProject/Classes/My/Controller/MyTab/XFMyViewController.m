@@ -42,17 +42,16 @@
     [self setupUI];
     [self loadData];
     [self setupNotification];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([self isNotLogin]) {
-            [self showLoginController];
-        }
-    });
 }
 
 - (void)setupNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loginSuccess)
                                                  name:XFLoginSuccessNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(logoutSuccess)
+                                                 name:XFLogoutSuccessNotification
                                                object:nil];
 }
 
@@ -142,6 +141,10 @@
     [self loadData];
 }
 
+- (void)logoutSuccess {
+    [self loadData];
+}
+
 - (void)loadData {
     WeakSelf
     [HttpRequest postPath:XFMyCharmUrl
@@ -155,6 +158,8 @@
                           User *user = [User mj_objectWithKeyValues:userInfo];
                           weakSelf.user = user;
                           weakSelf.myInfoView.user = user;
+                      } else {
+                          self.myInfoView.user = nil;
                       }
                   }
               }];
@@ -175,12 +180,15 @@
         self.myInfoView.user = self.user;
     };
     [self pushController:controller];
-    
 }
 
 - (void)myInfoViewDidClickIconBtn:(XFMyInfoView *)view {
-    XFMyInfoViewController *controller = [[XFMyInfoViewController alloc] init];
-    [self pushController:controller];
+    if ([self isNotLogin]) {
+        [self showLoginController];
+    } else {    
+        XFMyInfoViewController *controller = [[XFMyInfoViewController alloc] init];
+        [self pushController:controller];
+    }
 }
 
 #pragma mark ----------<UIScrollViewDelegate>----------
@@ -206,8 +214,12 @@
 }
 
 - (void)accountBtnClick {
-    XFAccountViewController *controller = [[XFAccountViewController alloc] init];
-    [self pushController:controller];
+    if ([self isNotLogin]) {
+        [self showLoginController];
+    } else {
+        XFAccountViewController *controller = [[XFAccountViewController alloc] init];
+        [self pushController:controller];
+    }
 }
 
 - (void)tabBtnClick:(UIButton *)button {

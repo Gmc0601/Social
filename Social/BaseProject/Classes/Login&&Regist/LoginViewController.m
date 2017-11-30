@@ -176,7 +176,7 @@
                 [ConfigModel saveString:usertoken forKey:UserToken];
                 
                 [weakSelf dismissViewControllerAnimated:YES completion:nil];
-
+                [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
 //                NSString *nickName = dic[@"nickname"];
 //                [ConfigModel saveString:nickName forKey:NickName];
 //                TBTabBarController  *tab = [[TBTabBarController alloc] init];
@@ -246,6 +246,7 @@
                     [ConfigModel saveString:mobile forKey:Mobile];
                     [ConfigModel saveString:userId forKey:UserId];
                     [ConfigModel saveString:usertoken forKey:UserToken];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }else {
                     NSString *str = datadic[@"info"];

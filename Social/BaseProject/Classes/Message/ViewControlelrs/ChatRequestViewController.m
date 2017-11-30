@@ -110,7 +110,7 @@
             NSDictionary *dic = datadic[@"info"];
             NSString *str = [NSString stringWithFormat:@"%@", dic[@"suggest_earnest"]];
             self.money = str;
-            XFPrepareChatView *view = [[XFPrepareChatView alloc] initRequestWithSource:str];
+            XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:str];
             view.delegate = self;
             [self.view addSubview:view];
         }else {

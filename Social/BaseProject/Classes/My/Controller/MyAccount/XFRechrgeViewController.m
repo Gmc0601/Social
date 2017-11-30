@@ -155,7 +155,7 @@
     [HttpRequest postPath:XFMyRechrgeUrl
                    params:dict
               resultBlock:^(id responseObject, NSError *error) {
-#warning 接口失败
+#warning 接口失败,没有界面支持
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){

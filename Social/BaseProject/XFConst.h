@@ -11,7 +11,7 @@ UIKIT_EXTERN NSString *const XFCircleNewUrl;            // 缘分圈最新----
 UIKIT_EXTERN NSString *const XFCirclePublishUrl;        // 缘分圈发布动态********
 UIKIT_EXTERN NSString *const XFCircleDetailUrl;         // 缘分圈详情----
 UIKIT_EXTERN NSString *const XFCircleSendCommentUrl;    // 缘分圈发布评论---
-UIKIT_EXTERN NSString *const XFCircleSuggestUrl;        // 缘分圈推荐区域--- 
+UIKIT_EXTERN NSString *const XFCircleSuggestUrl;        // 缘分圈推荐区域---
 UIKIT_EXTERN NSString *const XFCircleShareUrl;          // 缘分圈分享页面
 UIKIT_EXTERN NSString *const XFCircleZanUrl;            // 缘分圈点赞---
 UIKIT_EXTERN NSString *const XFCircleRewardUrl;         // 缘分圈打赏********
@@ -44,8 +44,8 @@ UIKIT_EXTERN NSString *const XFMyRechrgeUrl;            // 我的积分充值---
 UIKIT_EXTERN NSString *const XFMyRechrgeOrderUrl;       // 积分购买生成订单
 UIKIT_EXTERN NSString *const XFMyUserAgreementUrl;      // 用户协议--
 UIKIT_EXTERN NSString *const XFMyCharmRuleUrl;          // 我的魅力值规则说明---
-UIKIT_EXTERN NSString *const XFMyCarUpdateUrl;          // 我的详细信息车产修改---没有界面需求
-UIKIT_EXTERN NSString *const XFMyHouseUpdataUrl;        // 我的详细信息房产修改---没有界面需求
+UIKIT_EXTERN NSString *const XFMyCarUpdateUrl;          // 我的详细信息车产修改---
+UIKIT_EXTERN NSString *const XFMyHouseUpdataUrl;        // 我的详细信息房产修改---
 UIKIT_EXTERN NSString *const XFMyInfoUrl;               // 获取用户信息---
 UIKIT_EXTERN NSString *const XFMyAliPayBackUrl;         // 支付宝回调---没有界面需求
 UIKIT_EXTERN NSString *const XFMyAlbumDeleteUrl;        // 我的相册删除
@@ -63,12 +63,15 @@ UIKIT_EXTERN NSString *const XFResetPushSettingUrl;     // 我的聊天延迟申
 #pragma mark ----------Const Str----------
 UIKIT_EXTERN NSString *const XFDefaultPageSize;
 
+#pragma mark - -------------------Notification-------------------
 UIKIT_EXTERN NSString *const XFBindAliPaySuccessNotification;
 UIKIT_EXTERN NSString *const XFLoginSuccessNotification;
+UIKIT_EXTERN NSString *const XFLogoutSuccessNotification;
 
-
+#pragma mark - -------------------UserDefault-------------------
 UIKIT_EXTERN NSString *const XFCurrentLatitudeKey;
 UIKIT_EXTERN NSString *const XFCurrentLongitudeKey;
+UIKIT_EXTERN NSString *const XFCloseSuggestKey;
 
 #pragma mark ----------Const Num----------
 UIKIT_EXTERN CGFloat const XFNavHeight;

@@ -14,6 +14,13 @@
 @property (nonatomic, strong) YYLabel *nameLabel;
 @property (nonatomic, strong) UILabel *signLabel;
 
+
+@property (nonatomic, strong) UIView *leftView;
+@property (nonatomic, strong) UIView *middleView;
+@property (nonatomic, strong) UIView *rightView;
+@property (nonatomic, strong) UIView *leftSplitView;
+@property (nonatomic, strong) UIView *rightSplitView;
+
 @property (nonatomic, strong) UILabel *fansLabel;
 @property (nonatomic, strong) UILabel *followLabel;
 @property (nonatomic, strong) UILabel *friendLabel;
@@ -61,19 +68,24 @@
         middleView.left = leftView.right;
         rightView.left = middleView.right;
         [self addSubview:leftView];
+        self.leftView = leftView;
         [self addSubview:middleView];
+        self.middleView = middleView;
         [self addSubview:rightView];
+        self.rightView = rightView;
         
         UIView *splitView1 = [UIView xf_createWhiteView];
         splitView1.size = CGSizeMake(0.5, 21);
         splitView1.left = leftView.right;
         splitView1.centerY = leftView.centerY;
         [self addSubview:splitView1];
+        self.leftSplitView = splitView1;
         
         UIView *splitView2 = [UIView xf_createWhiteView];
         splitView2.frame = splitView1.frame;
         splitView2.left = middleView.right;
         [self addSubview:splitView2];
+        self.rightSplitView = splitView2;
     }
     return self;
 }
@@ -91,6 +103,8 @@
         [attrStr appendAttributedString:[NSAttributedString attachmentStringWithEmojiImage:Image([user.sex isEqualToString:@"1"] ? @"icon_boy" : @"icon_girl")
                                                                                   fontSize:16]];
         self.nameLabel.attributedText = attrStr.copy;
+    } else {
+        self.nameLabel.attributedText = nil;
     }
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -99,9 +113,11 @@
         self.signLabel.text = @"还没有个性签名";
     }
     
-    self.fansLabel.text = user.guanzhumy_num.stringValue;
-    self.followLabel.text = user.myguanzhu_num.stringValue;
-    self.friendLabel.text = user.mutual_attention_num.stringValue;
+    self.fansLabel.text = [NSString stringWithFormat:@"%d", user.guanzhumy_num.intValue];
+    self.followLabel.text = [NSString stringWithFormat:@"%d", user.myguanzhu_num.intValue];
+    self.friendLabel.text = [NSString stringWithFormat:@"%d", user.mutual_attention_num.intValue];
+
+    self.leftView.hidden = self.rightView.hidden = self.middleView.hidden = self.leftSplitView.hidden = self.rightSplitView.hidden = self.signLabel.hidden = self.user == nil;
 }
 
 #pragma mark ----------Private----------

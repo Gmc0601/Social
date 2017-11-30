@@ -14,7 +14,7 @@
 @property (nonatomic, copy) NSString *avatar_id; // 头像字符串（个人信息中）
 @property (nonatomic, copy) NSString *nickname; // 昵称
 @property (nonatomic, copy) NSString *sdf; // 个性签名
-@property (nonatomic, copy) NSString *sex; // 性别
+@property (nonatomic, copy) NSString *sex; // 性别 1男  2女
 @property (nonatomic, strong) NSNumber *guanzhumy_num; // 我关注的
 @property (nonatomic, strong) NSNumber *myguanzhu_num; // 关注我的
 @property (nonatomic, strong) NSNumber *mutual_attention_num; // 互为关注

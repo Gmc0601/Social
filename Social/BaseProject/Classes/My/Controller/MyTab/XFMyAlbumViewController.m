@@ -10,16 +10,16 @@
 
 @interface XFMyAlbumCell : UICollectionViewCell
 
-@property (nonatomic, copy) NSString *url;
+@property (nonatomic, strong) NSDictionary *imgDict;
 @property (nonatomic, strong) UIImageView *imgView;
 
 @end
 
 @implementation XFMyAlbumCell
 
-- (void)setUrl:(NSString *)url {
-    _url = url;
-    [self.imgView setImageURL:[NSURL URLWithString:url]];
+- (void)setImgDict:(NSDictionary *)imgDict {
+    _imgDict = imgDict;
+    [self.imgView setImageURL:[NSURL URLWithString:imgDict[@"img"]]];
 }
 
 - (void)layoutSubviews {
@@ -39,7 +39,7 @@
 
 @end
 
-@interface XFMyAlbumViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, MWPhotoBrowserDelegate>
+@interface XFMyAlbumViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, MWPhotoBrowserDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
@@ -61,6 +61,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loginSuccess)
                                                  name:XFLoginSuccessNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLogoutSuccessNotification
                                                object:nil];
 }
 
@@ -86,10 +90,7 @@
                               for (int i = 0; i < infoArray.count; i++) {
                                   NSDictionary *imgDict = infoArray[i];
                                   if ([imgDict isKindOfClass:[NSDictionary class]] && imgDict.allKeys.count) {
-                                      NSString *img = imgDict[@"img"];
-                                      if (img.length) {
-                                          [self.dataArray addObject:img];
-                                      }
+                                      [self.dataArray addObject:imgDict];
                                   }
                               }
                           }
@@ -104,7 +105,11 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dataArray.count + 1;
+    if ([self isNotLogin]) {
+        return 0;
+    } else {
+        return self.dataArray.count + 1;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -117,20 +122,47 @@
         return cell;
     } else {
         XFMyAlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFMyAlbumCell" forIndexPath:indexPath];
-        cell.url = self.dataArray[indexPath.item - 1];
-        cell.backgroundColor = RandomColor;
+        cell.imgDict = self.dataArray[indexPath.item - 1];
+        cell.backgroundColor = [UIColor lightGrayColor];
         return cell;
     }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.item == 0) {
-        FFLog(@"添加相册");
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择上传类型"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleCancel
+                                       
+                                                             handler:^(UIAlertAction * action) {}];
+        UIAlertAction *libraryAction = [UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault                                                                 handler:^(UIAlertAction * action) {
+            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+            controller.delegate = self;
+            controller.allowsEditing = NO;
+            controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:controller animated:YES completion:nil];
+        }];
+        
+        UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"拍摄照片" style:UIAlertActionStyleDefault                                                                 handler:^(UIAlertAction * action) {
+            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+            controller.delegate = self;
+            controller.allowsEditing = NO;
+            controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:controller animated:YES completion:nil];
+        }];
+        
+        [alertController addAction:cancelAction];
+        [alertController addAction:libraryAction];
+        [alertController addAction:cameraAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     } else {
         self.photosArray = [NSMutableArray array];
         MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
         for (int i = 0; i < self.dataArray.count; i++) {
-            [self.photosArray addObject:[MWPhoto photoWithURL:[NSURL URLWithString:self.dataArray[i]]]];
+            NSDictionary *imgDict = self.dataArray[i];
+            [self.photosArray addObject:[MWPhoto photoWithURL:[NSURL URLWithString:imgDict[@"img"]]]];
         }
         browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
         browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
@@ -146,6 +178,39 @@
         // Present
         [self.navigationController pushViewController:browser animated:YES];
     }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    [SVProgressHUD show];
+    WeakSelf
+    [HttpRequest postPath:XFMyAlbumUploadUrl
+                   params:@{@"img" : [UIImagePNGRepresentation(image) base64EncodedString]}
+              resultBlock:^(id responseObject, NSError *error) {
+                  [SVProgressHUD dismiss];
+                  NSNumber *code = responseObject[@"error"];
+                  if (code.integerValue == 0) {
+                      [ConfigModel mbProgressHUD:@"上传成功" andView:nil];
+                      NSDictionary *infoDict = responseObject[@"info"];
+
+                      if (infoDict && [infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
+                          if (weakSelf.dataArray.count) {
+                              [weakSelf.dataArray insertObject:infoDict atIndex:0];
+                          } else {
+                              weakSelf.dataArray = [NSMutableArray array];
+                              [weakSelf.dataArray insertObject:infoDict atIndex:0];
+                          }
+                      }
+                      [weakSelf.collectionView reloadData];
+                  } else {
+                      [ConfigModel mbProgressHUD:@"上传失败" andView:nil];
+                  }
+              }];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {

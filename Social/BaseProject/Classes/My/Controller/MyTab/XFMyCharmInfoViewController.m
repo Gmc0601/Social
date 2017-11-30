@@ -30,6 +30,10 @@
                                              selector:@selector(loginSuccess)
                                                  name:XFLoginSuccessNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLogoutSuccessNotification
+                                               object:nil];
 }
 
 - (void)loginSuccess {
@@ -70,6 +74,9 @@
 }
 
 - (void)setupUI {
+    if (_scrollView) {
+        [_scrollView removeFromSuperview];
+    }
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - XFNavHeight - XFTabHeight - XFCircleTabHeight - 2)];
     _scrollView.backgroundColor = WhiteColor;
     [self.view addSubview:_scrollView];
@@ -129,15 +136,20 @@
     imgView1.centerX = cooLabel.centerX;
     [view addSubview:imgView1];
     
-    UILabel *beeLabel = [self createInfoLabel:@"金龟分:" count:self.user.beetlepoint.integerValue];
-    beeLabel.frame = cooLabel.frame;
-    beeLabel.left = cooLabel.right + 10;
-    [view addSubview:beeLabel];
-    
-    UIImageView *imgView2 = [[UIImageView alloc] initWithImage:Image(@"list_ic_2_0_0")];
-    imgView2.top = beeLabel.bottom + 10;
-    imgView2.centerX = beeLabel.centerX;
-    [view addSubview:imgView2];
+    if ([self.user.sex isEqualToString:@"1"]) {
+        UILabel *beeLabel = [self createInfoLabel:@"金龟分:" count:self.user.beetlepoint.integerValue];
+        beeLabel.frame = cooLabel.frame;
+        beeLabel.left = cooLabel.right + 10;
+        [view addSubview:beeLabel];
+        
+        UIImageView *imgView2 = [[UIImageView alloc] initWithImage:Image(@"list_ic_2_0_0")];
+        imgView2.top = beeLabel.bottom + 10;
+        imgView2.centerX = beeLabel.centerX;
+        [view addSubview:imgView2];
+    } else {
+        cooLabel.left = cooLabel.width * 1.5 + 20;
+        imgView1.centerX = cooLabel.centerX;
+    }
     
     view.height = imgView1.bottom + 20;
     return view;
@@ -183,11 +195,15 @@
     cooLabel.left = cooLabel.width + 20;
     cooLabel.top = 0;
     [view addSubview:cooLabel];
+    if ([self.user.sex isEqualToString:@"1"]) {
+        UILabel *beeLabel = [self createItemLabel:bee];
+        beeLabel.frame = cooLabel.frame;
+        beeLabel.left = cooLabel.right + 10;
+        [view addSubview:beeLabel];
+    } else {
+        cooLabel.left = cooLabel.width * 1.5 + 20;
+    }
     
-    UILabel *beeLabel = [self createItemLabel:bee];
-    beeLabel.frame = cooLabel.frame;
-    beeLabel.left = cooLabel.right + 10;
-    [view addSubview:beeLabel];
     [self.scrollView addSubview:view];
     return view;
 }

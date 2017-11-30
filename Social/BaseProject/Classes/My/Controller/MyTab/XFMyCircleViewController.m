@@ -35,6 +35,10 @@
                                              selector:@selector(loginSuccess)
                                                  name:XFLoginSuccessNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loginSuccess)
+                                                 name:XFLogoutSuccessNotification
+                                               object:nil];
 }
 
 - (void)loginSuccess {
@@ -46,9 +50,10 @@
 }
 
 - (void)setupUI {
-    self.view.backgroundColor = RandomColor;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - XFCircleTabHeight - XFNavHeight);
+    self.tableView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
     [self loadData];
 }
 
@@ -58,6 +63,7 @@
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
                   weakSelf.dataArray = [NSMutableArray array];
+                  [weakSelf.tableView.mj_header endRefreshing];
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
@@ -69,9 +75,9 @@
                               XFCircleContentCellModel *model = [[XFCircleContentCellModel alloc] initWithCircle:circle andType:CircleContentModelType_My];
                               [weakSelf.dataArray addObject:model];
                           }
-                          [self.tableView reloadData];
                       }
                   }
+                  [self.tableView reloadData];
               }];
 }
 

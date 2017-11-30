@@ -26,7 +26,7 @@
 - (void)setUser:(User *)user {
     _user = user;
     self.imgView.frame = CGRectMake(20, 10, 50, 50);
-    
+    [self.imgView setImageURL:[NSURL URLWithString:user.avatar_url]];
     self.nameLabel.left = self.imgView.right + 10;
     self.nameLabel.top = self.imgView.top + 4;
     self.nameLabel.height = 17;
@@ -59,13 +59,13 @@
 #pragma mark ----------Action----------
 - (void)iconBtnClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(myFollowUserCell:didClickUserBtn:)]) {
-        [self.delegate myFollowUserCell:self didClickUserBtn:0];
+        [self.delegate myFollowUserCell:self didClickUserBtn:self.user];
     }
 }
 
 - (void)followBtnClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(myFollowUserCell:didClickFollowBtn:)]) {
-        [self.delegate myFollowUserCell:self didClickFollowBtn:0];
+        [self.delegate myFollowUserCell:self didClickFollowBtn:self.user];
     }
 }
 

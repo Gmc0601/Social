@@ -244,6 +244,7 @@
     [HttpRequest postPath:@"_myxinxi_001" params:dic resultBlock:^(id responseObject, NSError *error) {
         if([error isEqual:[NSNull null]] || error == nil){
             NSLog(@"success");
+            [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
         }
         NSDictionary *datadic = responseObject;
         if ([datadic[@"error"] intValue] == 0) {
