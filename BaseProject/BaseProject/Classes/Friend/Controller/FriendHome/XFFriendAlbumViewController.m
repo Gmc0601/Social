@@ -8,6 +8,7 @@
 
 #import "XFFriendAlbumViewController.h"
 
+
 @interface XFFriendAlbumCell : UICollectionViewCell
 
 @property (nonatomic, copy) NSString *url;

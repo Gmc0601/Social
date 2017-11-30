@@ -235,7 +235,16 @@
                     NSDictionary *dic = datadic[@"info"];
                     [ConfigModel saveBoolObject:YES forKey:IsLogin];
                     NSString *usertoken = dic[@"userToken"];
+                    NSString *mobile = dic[@"mobile"];
                     NSString *userId =  dic[@"userId"];
+                    //  登录环信
+                    EMError *error = nil;
+                   error = [[EMClient sharedClient] loginWithUsername:mobile password:ChatPWD];
+                    if(!error){
+                        NSLog(@"success");
+                    }
+//                    [[EMClient sharedClient].chatManager:YES];
+                    [ConfigModel saveString:mobile forKey:Mobile];
                     [ConfigModel saveString:userId forKey:UserId];
                     [ConfigModel saveString:usertoken forKey:UserToken];
                     [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];

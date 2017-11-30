@@ -8,10 +8,12 @@
 
 #import "ChatRequestViewController.h"
 #import "ChatInfoTableViewCell.h"
+#import "ChatRequestModel.h"
 
 @interface ChatRequestViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) UITableView *noUseTableView;
+@property (nonatomic, retain) NSMutableArray *dataArr;
 
 @end
 
@@ -21,12 +23,42 @@
     [super viewDidLoad];
     self.titleLab.text = @"聊天请求";
     self.rightBtn.hidden= YES;
+    [self createData];
     [self.view addSubview:self.noUseTableView];
 }
 
 
+- (void)createData {
+    [HttpRequest postPath:@"_chat_request_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+        
+        if([error isEqual:[NSNull null]] || error == nil){
+            NSLog(@"success");
+        }
+        NSDictionary *datadic = responseObject;
+        if ([datadic[@"error"] intValue] == 0) {
+            
+            NSArray *infoArr = datadic[@"info"];
+            NULLReturn(infoArr)
+            for (NSDictionary *dic in infoArr) {
+                ChatRequestModel *model = [[ChatRequestModel alloc] init];
+                model.avatar_url = dic[@"avatar_url"];
+                model.nickname = dic[@"nickname"];
+                model.request_id = dic[@"request_id"];
+                model.request_time = dic[@"request_time"];
+                [self.dataArr addObject:model];
+            }
+            [self.noUseTableView reloadData];
+            
+        }else {
+            NSString *str = datadic[@"info"];
+            [ConfigModel mbProgressHUD:str andView:nil];
+        }
+        
+    }];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -36,6 +68,11 @@
         NSArray  * nibs = [[ NSBundle mainBundle ] loadNibNamed :@"ChatInfoTableViewCell" owner :nil options :nil ];
         cell = [  nibs lastObject ];
     }
+    ChatRequestModel *model = [[ChatRequestModel alloc] init];
+    model = self.dataArr[indexPath.row];
+    
+    [cell updateChatRequest:model];
+    
     return cell;
 }
 
@@ -76,6 +113,13 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (NSMutableArray *)dataArr {
+    if (!_dataArr) {
+        _dataArr = [NSMutableArray new];
+    }
+    return _dataArr;
 }
 
 @end

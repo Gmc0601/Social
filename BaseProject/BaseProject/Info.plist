@@ -6,6 +6,8 @@
 	<string>是否允许App访问您的通讯录</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>ch</string>
+	<key>CFBundleDisplayName</key>
+	<string>嗨聊</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

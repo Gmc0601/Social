@@ -7,6 +7,7 @@
 //
 
 #import "XFCircleCommentCellModel.h"
+#import <YYKit/YYKit.h>
 
 @implementation XFCircleCommentCellModel
 

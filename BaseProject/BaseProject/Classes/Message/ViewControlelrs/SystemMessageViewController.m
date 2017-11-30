@@ -10,9 +10,20 @@
 #import "MessageViewController.h"
 #import "AnnouncementViewController.h"
 
+@interface SystemMsgModel :NSObject
+
+@property (nonatomic, copy) NSString *nickname, *create_time;
+
+@end
+
+@implementation SystemMsgModel
+
+@end
+
 @interface SystemMessageViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *noUseTableView;
+@property (nonatomic, retain) NSMutableArray *dataArr;
 
 @end
 
@@ -22,7 +33,35 @@
     [super viewDidLoad];
     self.titleLab.text = @"系统消息";
     self.rightBtn.hidden= YES;
+    [self createdata];
     [self.view addSubview:self.noUseTableView];
+}
+
+- (void)createdata {
+    [HttpRequest postPath:@"_system_messages_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+        if([error isEqual:[NSNull null]] || error == nil){
+            NSLog(@"success");
+        }
+        NSDictionary *datadic = responseObject;
+        if ([datadic[@"error"] intValue] == 0) {
+            if (IsNULL(datadic[@"info"])) {
+                return ;
+            }
+            
+            
+            NSArray *infoArr = datadic[@"info"];
+            for (NSDictionary *dic in infoArr) {
+                SystemMsgModel *model = [[SystemMsgModel alloc] init];
+                model.nickname = dic[@"nickname"];
+                model.create_time = dic[@"create_time"];
+                [self.dataArr addObject:model];
+            }
+            [self.noUseTableView reloadData];
+        }else {
+            NSString *str = datadic[@"info"];
+            [ConfigModel mbProgressHUD:str andView:nil];
+        }
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -30,7 +69,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 2 ? 10 : 1;
+    return section == 2 ? self.dataArr.count : 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -56,10 +95,12 @@
         }
         cell.textLabel.text = str;
     }else {
-        cell.textLabel.text = @"潇潇拒绝了你的诚意金";
+        SystemMsgModel *model = [[SystemMsgModel alloc] init];
+        model = self.dataArr[indexPath.row];
+        cell.textLabel.text = model.nickname;
         cell.detailTextLabel.font = Font(12);
         cell.detailTextLabel.textColor = UIColorFromHex(0x999999);
-        cell.detailTextLabel.text = @"10：30";
+        cell.detailTextLabel.text = model.create_time;
     }
    
     return cell;
@@ -109,6 +150,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (NSMutableArray *)dataArr {
+    if (!_dataArr) {
+        _dataArr = [NSMutableArray new];
+    }
+    return _dataArr;
+}
 
 @end

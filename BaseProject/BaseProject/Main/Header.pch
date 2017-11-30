@@ -9,19 +9,23 @@
 #ifndef Header_pch
 #define Header_pch
 
+#ifdef __OBJC__
+
 #import "XFConst.h"
+#import "ColorHelper.h"
 #import <YYKit/YYKit.h>
 #import <MJExtension.h>
-#import <MJRefresh.h>
+#import "MJRefresh.h"
 #import <AFNetworking.h>
 #import "MLBlackTransition.h"
 #import <SVProgressHUD.h>
-#import <MBProgressHUD.h>
+//#import <MBProgressHUD.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <TZImagePickerController/TZImagePickerController.h>
-#import <MWPhotoBrowser/MWPhotoBrowser.h>
+//#import <MWPhotoBrowser/MWPhotoBrowser.h>
+#import "MWPhotoBrowser.h"
 
 #import "NSString+XFExtension.h"
 #import "UILabel+XFExtension.h"
@@ -43,7 +47,10 @@
 #import "TradeRecord.h"
 #import "CircleComment.h"
 #import "Circle.h"
-
+#import <Hyphenate/Hyphenate.h>
+#import <UIImageView+WebCache.h>
+#import <UMSocialCore/UMSocialCore.h>
+#import "NSString+RegexExtension.h"
 
 
 #ifdef DEBUG
@@ -74,6 +81,8 @@
 #define FontB(num)                      [UIFont boldSystemFontOfSize:num]
 
 #define IsNULL(_ref)   (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]) || ([(_ref) isKindOfClass:[NSNull class]]) )
+
+#define NULLReturn(_ref)  if (IsNULL(_ref)) {return ;}
 
 #import "CCUrl.h"
 #import "ConfigModel.h"
@@ -165,6 +174,6 @@
 
 #define UserToken @"userTOken"
 
-
+#endif
 
 #endif /* Header_pch */
