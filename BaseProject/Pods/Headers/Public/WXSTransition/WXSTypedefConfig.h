@@ -1,1 +1,0 @@
-../../../WXSTransition/WXSTransition/WXSTransition/WXSTypedefConfig.h
