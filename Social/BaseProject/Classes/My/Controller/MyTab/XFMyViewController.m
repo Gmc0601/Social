@@ -209,8 +209,12 @@
 
 #pragma mark ----------Action----------
 - (void)settingBtnClick {
-    XFSettingViewController *controller = [[XFSettingViewController alloc] init];
-    [self pushController:controller];
+    if ([self isNotLogin]) {
+        [self showLoginController];
+    } else {
+        XFSettingViewController *controller = [[XFSettingViewController alloc] init];
+        [self pushController:controller];
+    }
 }
 
 - (void)accountBtnClick {
