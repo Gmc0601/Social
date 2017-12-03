@@ -493,6 +493,10 @@
 
 - (void)publishBtnClick {
     [self commentViewDismiss];
+    if (self.textView.text.length == 0) {
+        [ConfigModel mbProgressHUD:@"评论内容为空" andView:nil];
+        return;
+    }
     if (self.textView.text.length) {
         [HttpRequest postPath:XFCircleSendCommentUrl
                        params:@{@"real_id" : self.circleId,

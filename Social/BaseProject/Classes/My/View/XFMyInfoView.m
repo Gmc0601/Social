@@ -25,6 +25,8 @@
 @property (nonatomic, strong) UILabel *followLabel;
 @property (nonatomic, strong) UILabel *friendLabel;
 
+@property (nonatomic, strong) UIButton *loginBtn;
+
 @end
 
 @implementation XFMyInfoView
@@ -86,6 +88,16 @@
         splitView2.left = middleView.right;
         [self addSubview:splitView2];
         self.rightSplitView = splitView2;
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.loginBtn = button;
+        [button setTitle:@"登录／注册" forState:UIControlStateNormal];
+        button.titleLabel.font = Font(14);
+        button.size = CGSizeMake(100, 30);
+        button.top = _iconBtn.bottom + 30;
+        button.centerX = _iconBtn.centerX;
+        [button addTarget:self action:@selector(iconBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:button];
     }
     return self;
 }
@@ -118,6 +130,7 @@
     self.friendLabel.text = [NSString stringWithFormat:@"%d", user.mutual_attention_num.intValue];
 
     self.leftView.hidden = self.rightView.hidden = self.middleView.hidden = self.leftSplitView.hidden = self.rightSplitView.hidden = self.signLabel.hidden = self.user == nil;
+    self.loginBtn.hidden = self.user;
 }
 
 #pragma mark ----------Private----------

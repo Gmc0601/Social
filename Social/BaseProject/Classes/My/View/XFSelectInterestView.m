@@ -119,7 +119,7 @@
         }
     }
     if (arrayM.count >= 5 && button.selected == NO) {
-        [SVProgressHUD showErrorWithStatus:@"最多只能选择5个"];
+        [ConfigModel mbProgressHUD:@"最多只能选择5个" andView:nil];
         return;
     }
     button.selected = !button.selected;

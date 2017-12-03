@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSMutableArray *hobbyArray;
 
 @property (nonatomic, strong) NSMutableArray *resultArray;
+@property (nonatomic, assign) NSInteger maxCount;
 
 @end
 
@@ -107,8 +108,16 @@
     educationView.top = weightView.bottom;
     
     UIView *interestView = [self createRightLabelView:@"兴趣爱好" andInfo:self.user.hobby hiddenSplit:NO];
+    UILabel *label = [interestView viewWithTag:100];
+    CGFloat right = label.right;
+    label.height = interestView.height;
+    label.left = 70;
+    label.top = 0;
+    label.width = right - label.left;
     interestView.tag = 203;
     interestView.top = educationView.bottom;
+    
+    self.hobbyArray = [NSMutableArray arrayWithArray:[self.user.hobby componentsSeparatedByString:@" "]];
     
     UIView *feelingView = [self createRightLabelView:@"感情状况" andInfo:self.user.feeling hiddenSplit:NO];
     feelingView.tag = 204;
@@ -117,7 +126,7 @@
     UIView *standardView = [self createRightLabelView:@"择偶标准" andInfo:@"" hiddenSplit:YES];
     UITextField *field = [[UITextField alloc] init];
     self.field = field;
-    field.delegate = self;
+    [field addTarget:self action:@selector(fieldTextChangedMethod:) forControlEvents:UIControlEventEditingChanged];
     field.placeholder = @"用一句话来描述";
     field.textColor = [UIColor blackColor];
     field.font = Font(15);
@@ -166,11 +175,14 @@
     [self.scrollView setContentSize:CGSizeMake(kScreenWidth, saveBtn.bottom + 10)];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (textField.text.length > 19) {
-        return NO;
+- (void)fieldTextChangedMethod:(UITextField *)textField {
+    CGSize size = [textField sizeThatFits:CGSizeZero];
+        // 限制验证码长度
+    if (size.width > textField.width) {
+        textField.text = [textField.text substringToIndex:self.maxCount];
+    } else {
+        self.maxCount = textField.text.length;
     }
-    return YES;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -338,19 +350,19 @@
         dict2[@"spouse"] = self.field.text;
     }
     
-//    [HttpRequest postPath:XFMyPersonalInfoUpdateUrl
-//                   params:dict2
-//              resultBlock:^(id responseObject, NSError *error) {
-//                  if (!error) {
-//                      NSNumber *errorCode = responseObject[@"error"];
-//                      if (errorCode.integerValue == 0){
-//                          [self.resultArray addObject:@"1"];
-//                      } else {
-//                          [self.resultArray addObject:@"0"];
-//                      }
-//                      [self overRequest];
-//                  }
-//              }];
+    [HttpRequest postPath:XFMyPersonalInfoUpdateUrl
+                   params:dict2
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
+                      }
+                      [self overRequest];
+                  }
+              }];
     
     NSMutableDictionary *dict3 = [NSMutableDictionary dictionary];
     if (self.user.job) {
@@ -366,19 +378,19 @@
         }
     }
     
-//    [HttpRequest postPath:XFMyMinuteInfoUpdateUrl
-//                   params:dict3
-//              resultBlock:^(id responseObject, NSError *error) {
-//                  if (!error) {
-//                      NSNumber *errorCode = responseObject[@"error"];
-//                      if (errorCode.integerValue == 0){
-//                          [self.resultArray addObject:@"1"];
-//                      } else {
-//                          [self.resultArray addObject:@"0"];
-//                      }
-//                      [self overRequest];
-//                  }
-//              }];
+    [HttpRequest postPath:XFMyMinuteInfoUpdateUrl
+                   params:dict3
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          [self.resultArray addObject:@"1"];
+                      } else {
+                          [self.resultArray addObject:@"0"];
+                      }
+                      [self overRequest];
+                  }
+              }];
 }
 
 - (void)overRequest {
