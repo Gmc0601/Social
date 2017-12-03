@@ -2107,12 +2107,12 @@
 		B851B2B41FD0F3B100A7BBBE /* FriendHome */ = {
 			isa = PBXGroup;
 			children = (
+				B851B2B91FD0F3B100A7BBBE /* XFFriendHomeViewController.h */,
+				B851B2BA1FD0F3B100A7BBBE /* XFFriendHomeViewController.m */,
 				B851B2B51FD0F3B100A7BBBE /* XFFriendAlbumViewController.h */,
 				B851B2B61FD0F3B100A7BBBE /* XFFriendAlbumViewController.m */,
 				B851B2B71FD0F3B100A7BBBE /* XFFriendCircleViewController.h */,
 				B851B2B81FD0F3B100A7BBBE /* XFFriendCircleViewController.m */,
-				B851B2B91FD0F3B100A7BBBE /* XFFriendHomeViewController.h */,
-				B851B2BA1FD0F3B100A7BBBE /* XFFriendHomeViewController.m */,
 				B851B2BB1FD0F3B100A7BBBE /* XFFriendInfoViewController.h */,
 				B851B2BC1FD0F3B100A7BBBE /* XFFriendInfoViewController.m */,
 			);

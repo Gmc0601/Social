@@ -45,6 +45,9 @@
     UITextField *accountField = [self createField:@"支付宝账号"];
     self.accountField = accountField;
     accountField.top = splitView1.bottom;
+    if (self.account.length) {
+        accountField.text = self.account;
+    }
     
     UIView *splitView2 = [UIView xf_createSplitView];
     splitView2.frame = CGRectMake(10, accountField.bottom, kScreenWidth - 20, 0.5);

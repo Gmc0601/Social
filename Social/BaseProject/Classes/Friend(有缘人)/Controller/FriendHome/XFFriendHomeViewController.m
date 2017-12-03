@@ -23,9 +23,12 @@
 @property (nonatomic, strong) UIView *tabSignView;
 @property (nonatomic, strong) UIButton *currentTabBtn;
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIButton *chatBtn;
 
 @property (nonatomic, strong) UISwipeGestureRecognizer *up;
 @property (nonatomic, strong) UISwipeGestureRecognizer *down;
+
+@property (nonatomic, assign) NSString *friendStatus;
 
 @property (nonatomic, strong) User *user;
 
@@ -153,6 +156,7 @@
     bottomView.frame = CGRectMake(0, kScreenHeight - XFFriendBottomChatHeight, kScreenWidth, XFFriendBottomChatHeight);
     
     UIButton *chatBtn = [UIButton xf_bottomBtnWithTitle:@"聊天" target:self action:@selector(chatBtnClick)];
+    self.chatBtn = chatBtn;
     chatBtn.frame = CGRectMake(10, 3, kScreenWidth - 20, 44);
     [bottomView addSubview:chatBtn];
     [self.view addSubview:bottomView];
@@ -173,6 +177,11 @@
                           user.age = basicinfo[@"age"];
                           weakSelf.user = user;
                           weakSelf.topView.user = user;
+                          weakSelf.friendStatus = infoDict[@"status"];
+                          if ([weakSelf.friendStatus isEqualToString:@"2"]) {
+                              [weakSelf.chatBtn setTitle:@"待对方通过申请" forState:UIControlStateNormal];
+                              weakSelf.chatBtn.userInteractionEnabled = NO;
+                          }
                           [self resetFollowBtn];
                       }
                   }
@@ -226,23 +235,28 @@
         [self showLoginController];
         return;
     }
-    [HttpRequest postPath:XFFriendSuggestMoneyUrl
-                   params:@{@"id" : self.friendId}
-              resultBlock:^(id responseObject, NSError *error) {
-                  if (!error) {
-                      NSNumber *errorCode = responseObject[@"error"];
-                      if (errorCode.integerValue == 0) {
-                          NSDictionary *infoDict = responseObject[@"info"];
-                          if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
-                              [self.view removeGestureRecognizer:self.up];
-                              [self.view removeGestureRecognizer:self.down];
-                              XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:infoDict[@"suggest_earnest"]];
-                              view.delegate = self;
-                              [self.view addSubview:view];
+    if ([self.friendStatus isEqualToString:@"3"]) {
+        FFLog(@"没有mobile字段");
+    } else if ([self.friendStatus isEqualToString:@"1"]) {
+        [HttpRequest postPath:XFFriendSuggestMoneyUrl
+                       params:@{@"id" : self.friendId}
+                  resultBlock:^(id responseObject, NSError *error) {
+                      if (!error) {
+                          NSNumber *errorCode = responseObject[@"error"];
+                          if (errorCode.integerValue == 0) {
+                              NSDictionary *infoDict = responseObject[@"info"];
+                              if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
+                                  [self.view removeGestureRecognizer:self.up];
+                                  [self.view removeGestureRecognizer:self.down];
+                                  XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:infoDict[@"suggest_earnest"]];
+                                  view.delegate = self;
+                                  [self.view addSubview:view];
+                              }
                           }
                       }
-                  }
-              }];
+                  }];
+
+    }
 }
 
 - (void)followBtnClick {
@@ -314,6 +328,8 @@
 
 - (void)resetFollowBtn {
     [self.followBtn setTitle:self.user.guanzhu.integerValue == 2 ? @"已关注" : @"+关注" forState:UIControlStateNormal];
+    NSString *currentUid = [[NSUserDefaults standardUserDefaults] objectForKey:UserId];
+    self.followBtn.hidden = self.chatBtn.hidden = [self.user.id.stringValue isEqualToString:currentUid];
 }
 
 #pragma mark ----------Lazy----------

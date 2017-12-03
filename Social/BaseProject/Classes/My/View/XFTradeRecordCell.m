@@ -7,6 +7,7 @@
 //
 
 #import "XFTradeRecordCell.h"
+#import "TradeRecord.h"
 
 @interface XFTradeRecordCell ()
 
@@ -24,23 +25,30 @@
     return 55;
 }
 
-- (void)setupContent {
+- (void)setRecord:(TradeRecord *)record {
+    _record = record;
+    
     self.infoLabel.frame = CGRectMake(10, 3, 150, self.height * 0.5);
     self.timeLabel.frame = CGRectMake(10, self.height * 0.5 - 3, 150, self.height * 0.5);
     self.recordLabel.frame = CGRectMake(self.width - 160, 3, 150, self.height * 0.5);
     self.stateLabel.frame = CGRectMake(self.width - 160, self.height * 0.5 - 3, 150, self.height * 0.5);
     self.splitView.frame = CGRectMake(10, self.height - 0.5, self.width - 20, 0.5);
     
-    self.infoLabel.text = @"提现";
-    self.timeLabel.text = @"2017-04-09 13:32";
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"-1000积分"];
+    self.infoLabel.text = record.name;
+    self.timeLabel.text = record.time;
+    NSString *integral = record.integral;
+    if (integral.length == 0) {
+        integral = @"";
+    }
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:integral];
     attrStr.font = FontB(15);
     attrStr.color = RGB(87, 173, 104);
     self.recordLabel.attributedText = attrStr;
     self.recordLabel.textAlignment = NSTextAlignmentRight;
     
-    self.stateLabel.text = @"提现审核中";
+//    self.stateLabel.text = record.jiaoyi;
 }
+
 
 #pragma mark ----------Lazy----------
 - (UILabel *)infoLabel {

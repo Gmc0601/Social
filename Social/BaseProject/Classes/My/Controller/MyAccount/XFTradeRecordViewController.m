@@ -72,8 +72,8 @@
         return cell;
     } else {
         XFTradeRecordCell *cell = [tableView dequeueReusableCellWithIdentifier:@"XFTradeRecordCell" forIndexPath:indexPath];
+        cell.record = self.dataArray[indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell setupContent];
         return cell;
     }
 }

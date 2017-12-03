@@ -54,9 +54,12 @@
     _topImgView = [[UIImageView alloc] initWithFrame:topBtn.frame];
     _topImgView.contentMode = UIViewContentModeScaleAspectFit;
     _topImgView.clipsToBounds = YES;
-    [self.view addSubview:_topImgView];
     _topImgView.hidden = YES;
+    [self.view insertSubview:_topImgView belowSubview:topBtn];
     
+    UIView *topView = [UIView xf_createViewWithColor:RGBGray(242)];
+    topView.frame = topBtn.frame;
+    [self.view insertSubview:topView belowSubview:_topImgView];
     
     UILabel *bottomLabel = [UILabel xf_labelWithFont:Font(13)
                                            textColor:RGBGray(153)
@@ -75,8 +78,12 @@
     _bottomImgView = [[UIImageView alloc] initWithFrame:bottomBtn.frame];
     _bottomImgView.contentMode = UIViewContentModeScaleAspectFit;
     _bottomImgView.clipsToBounds = YES;
-    [self.view addSubview:_bottomImgView];
+    [self.view insertSubview:_bottomImgView belowSubview:bottomBtn];
     _bottomImgView.hidden = YES;
+    
+    UIView *bottomView = [UIView xf_createViewWithColor:RGBGray(242)];
+    bottomView.frame = bottomBtn.frame;
+    [self.view insertSubview:bottomView belowSubview:_bottomImgView];
     
     UIButton *submitBtn = [UIButton xf_bottomBtnWithTitle:@"提交"
                                                    target:self
@@ -171,7 +178,6 @@
     [button setTitle:@"上传图片" forState:UIControlStateNormal];
     [button setTitleColor:BlackColor forState:UIControlStateNormal];
     [button setImage:Image(@"fcxx_icon_sczp") forState:UIControlStateNormal];
-    button.backgroundColor = RGBGray(242);
     [button xf_cornerCut:3];
     button.left = 15;
     button.width = kScreenWidth - button.left * 2;

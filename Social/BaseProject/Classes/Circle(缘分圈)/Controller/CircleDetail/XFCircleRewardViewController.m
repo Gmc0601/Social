@@ -49,6 +49,12 @@
     self.rewardLabel.height = height;
 }
 
+- (void)resetLabel:(NSArray *)rewardArray {
+    self.rewardArray = rewardArray;
+    [self setupUI];
+}
+
+
 - (CGFloat)scrollOffset {
     return 0;
 }

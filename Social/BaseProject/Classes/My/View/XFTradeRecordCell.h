@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class TradeRecord;
 
 @interface XFTradeRecordCell : UITableViewCell
 
-- (void)setupContent;
+@property (nonatomic, strong) TradeRecord *record;
 + (CGFloat)cellHeight;
 @end

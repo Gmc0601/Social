@@ -10,4 +10,6 @@
 
 @interface XFBindAlipayViewController : XFViewController
 
+@property (nonatomic, copy) NSString *account;
+
 @end

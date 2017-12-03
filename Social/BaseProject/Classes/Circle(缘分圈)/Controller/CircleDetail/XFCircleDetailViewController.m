@@ -418,7 +418,7 @@
         [self showLoginController];
         return;
     }
-    
+    WeakSelf
     [HttpRequest postPath:XFCircleRewardUrl
                    params:@{@"real_id" : self.circleId.stringValue,
                             @"reward" : @"1"
@@ -426,9 +426,22 @@
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {
                       NSString *info = responseObject[@"info"];
-                      [SVProgressHUD showInfoWithStatus:info];
+                      [ConfigModel mbProgressHUD:info andView:nil];
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0) {
+                          weakSelf.circle.reward_num = @(weakSelf.circle.reward_num.integerValue + 1);
+                          [weakSelf.rewardBtn setTitle:[NSString stringWithFormat:@"打赏 %@", self.circle.reward_num.stringValue] forState:UIControlStateNormal];
+                          XFCircleRewardViewController *controller = (XFCircleRewardViewController *)weakSelf.childViewControllers.firstObject;
+                          NSMutableArray *array = [NSMutableArray arrayWithArray:self.circle.reward];
+                          NSString *nickName = [[NSUserDefaults standardUserDefaults] objectForKey:NickName];
+                          if (nickName.length) {
+                              [array addObject:nickName];
+                              self.circle.reward = array.copy;
+                              [controller resetLabel:self.circle.reward];
+                          }
+                      }
                   } else {
-                      [SVProgressHUD showErrorWithStatus:@"打赏失败"];
+                      [ConfigModel mbProgressHUD:@"打赏失败" andView:nil];
                   }
               }];
 }

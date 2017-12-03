@@ -312,58 +312,73 @@
         dict2[@"hobby"] = self.user.hobby;
     }
     if (self.user.education) {
-        dict2[@"education"] = self.user.education;
+        if ([self.user.education isEqualToString:@"中专及以下"]) {
+            dict2[@"education"] = @"1";
+        } else if ([self.user.education isEqualToString:@"大专"]) {
+            dict2[@"education"] = @"2";
+        } else if ([self.user.education isEqualToString:@"本科"]) {
+            dict2[@"education"] = @"3";
+        } else if ([self.user.education isEqualToString:@"硕士"]) {
+            dict2[@"education"] = @"4";
+        } else if ([self.user.education isEqualToString:@"博士及以上"]) {
+            dict2[@"education"] = @"5";
+        }
     }
     if (self.user.feeling) {
         dict2[@"feeling"] = self.user.feeling;
+        if ([self.user.feeling isEqualToString:@"未婚"]) {
+            dict2[@"feeling"] = @"1";
+        } else if ([self.user.feeling isEqualToString:@"离异"]) {
+            dict2[@"feeling"] = @"2";
+        } else if ([self.user.feeling isEqualToString:@"已婚"]) {
+            dict2[@"feeling"] = @"3";
+        }
     }
-    if (self.user.spouse) {
-        dict2[@"spouse"] = self.user.spouse;
+    if (self.field.text.length) {
+        dict2[@"spouse"] = self.field.text;
     }
     
-    [HttpRequest postPath:XFMyPersonalInfoUpdateUrl
-                   params:dict2
-              resultBlock:^(id responseObject, NSError *error) {
-                  if (!error) {
-                      NSNumber *errorCode = responseObject[@"error"];
-                      if (errorCode.integerValue == 0){
-                          [self.resultArray addObject:@"1"];
-                      } else {
-                          [self.resultArray addObject:@"0"];
-                      }
-                      [self overRequest];
-                  }
-              }];
+//    [HttpRequest postPath:XFMyPersonalInfoUpdateUrl
+//                   params:dict2
+//              resultBlock:^(id responseObject, NSError *error) {
+//                  if (!error) {
+//                      NSNumber *errorCode = responseObject[@"error"];
+//                      if (errorCode.integerValue == 0){
+//                          [self.resultArray addObject:@"1"];
+//                      } else {
+//                          [self.resultArray addObject:@"0"];
+//                      }
+//                      [self overRequest];
+//                  }
+//              }];
     
     NSMutableDictionary *dict3 = [NSMutableDictionary dictionary];
     if (self.user.job) {
         if (self.user.job.length && [self.jobArray containsObject:self.user.job]) {
             NSInteger index = [self.jobArray indexOfObject:self.user.job];
             dict3[@"job"] = @(index + 1);
-        }
-        
+        }    
+    }
+    if (self.user.income) {
         if (self.user.income.length && [self.incomeArray containsObject:self.user.income]) {
             NSInteger index = [self.incomeArray indexOfObject:self.user.income];
             dict3[@"income"] = @(index + 1);
         }
     }
-    if (self.user.weight) {
-        dict3[@"income"] = self.user.weight;
-    }
     
-    [HttpRequest postPath:XFMyMinuteInfoUpdateUrl
-                   params:dict3
-              resultBlock:^(id responseObject, NSError *error) {
-                  if (!error) {
-                      NSNumber *errorCode = responseObject[@"error"];
-                      if (errorCode.integerValue == 0){
-                          [self.resultArray addObject:@"1"];
-                      } else {
-                          [self.resultArray addObject:@"0"];
-                      }
-                      [self overRequest];
-                  }
-              }];
+//    [HttpRequest postPath:XFMyMinuteInfoUpdateUrl
+//                   params:dict3
+//              resultBlock:^(id responseObject, NSError *error) {
+//                  if (!error) {
+//                      NSNumber *errorCode = responseObject[@"error"];
+//                      if (errorCode.integerValue == 0){
+//                          [self.resultArray addObject:@"1"];
+//                      } else {
+//                          [self.resultArray addObject:@"0"];
+//                      }
+//                      [self overRequest];
+//                  }
+//              }];
 }
 
 - (void)overRequest {
@@ -435,7 +450,7 @@
     } else if (tag == 201) {
         // 体重
         NSMutableArray *arrayM = [NSMutableArray array];
-        for (int i = 10; i <= 100; i++) {
+        for (int i = 40; i <= 150; i++) {
             [arrayM addObject:[NSString stringWithFormat:@"%d", i]];
         }
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"体重(kg)"
@@ -445,7 +460,7 @@
         [self.view addSubview:selectItem];
     } else if (tag == 202) {
         // 学历
-        NSArray *array = @[@"中专及以下", @"高中", @"大专", @"本科", @"硕士", @"博士"];
+        NSArray *array = @[@"中专及以下", @"大专", @"本科", @"硕士", @"博士及以上"];
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"感情状况"
                                                                      dataArray:array
                                                                     selectText:nil];

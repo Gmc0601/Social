@@ -236,6 +236,7 @@
                     NSString *usertoken = dic[@"userToken"];
                     NSString *mobile = dic[@"mobile"];
                     NSString *userId =  dic[@"userId"];
+                    NSString *nickname =  dic[@"nickname"];
                     //  登录环信
                     EMError *error = nil;
                    error = [[EMClient sharedClient] loginWithUsername:mobile password:ChatPWD];
@@ -245,6 +246,7 @@
 //                    [[EMClient sharedClient].chatManager:YES];
                     [ConfigModel saveString:mobile forKey:Mobile];
                     [ConfigModel saveString:userId forKey:UserId];
+                    [ConfigModel saveString:nickname forKey:NickName];
                     [ConfigModel saveString:usertoken forKey:UserToken];
                     [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
                     [self dismissViewControllerAnimated:YES completion:nil];

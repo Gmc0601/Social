@@ -17,8 +17,8 @@
 @end
 
 typedef NS_ENUM(NSInteger, MyFollowUserType) {
-    MyFollowUserType_Follow,
     MyFollowUserType_Fans,
+    MyFollowUserType_Follow,
     MyFollowUserType_Friends
 };
 

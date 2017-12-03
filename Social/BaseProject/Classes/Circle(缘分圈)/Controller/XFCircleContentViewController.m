@@ -294,6 +294,7 @@
         [self showLoginController];
         return;
     }
+    WeakSelf
     [HttpRequest postPath:XFCircleRewardUrl
                    params:@{@"real_id" : model.circle.id.stringValue,
                             @"reward" : @"1"
@@ -301,9 +302,14 @@
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {
                       NSString *info = responseObject[@"info"];
-                      [SVProgressHUD showInfoWithStatus:info];
+                      [ConfigModel mbProgressHUD:info andView:nil];
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0) {
+                          model.circle.reward_num = @(model.circle.reward_num.integerValue + 1);
+                          [weakSelf.tableView reloadData];
+                      }
                   } else {
-                      [SVProgressHUD showErrorWithStatus:@"打赏失败"];
+                      [ConfigModel mbProgressHUD:@"打赏失败" andView:nil];
                   }
               }];
 }

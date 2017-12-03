@@ -64,7 +64,7 @@
                                            numberOfLines:0
                                                alignment:NSTextAlignmentLeft];
     self.myIntegralLabel = myIntegralLabel;
-    myIntegralLabel.text = @"我的积分：0";
+    myIntegralLabel.text = [NSString stringWithFormat:@"我的积分：%@", self.count];
     myIntegralLabel.frame = CGRectMake(20, paddingView.bottom, kScreenWidth - 40, 40);
     [self.view addSubview:myIntegralLabel];
     
@@ -156,6 +156,8 @@
                    params:dict
               resultBlock:^(id responseObject, NSError *error) {
 #warning 接口失败,没有界面支持
+//                  error = 1;
+//                  info = "API服务未声明";
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){

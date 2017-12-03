@@ -102,7 +102,7 @@
 #define UserToken @"userTOken"
 
 #define UserId @"UserId"
-
+#define NickName @"NickName"
 #define Mobile @"mobile"
 
 #define simple_user @"gao111"

@@ -106,10 +106,12 @@
                 NSDictionary *infoDic = datadic[@"info"];
                 NSString *usertoken = infoDic[@"userToken"];
                 NSString *userId = infoDic[@"userId"];
+                NSString *nickname = infoDic[@"nickname"];
                 
                 [ConfigModel saveBoolObject:YES forKey:IsLogin];
                 [ConfigModel saveString:usertoken forKey:UserToken];
                 [ConfigModel saveString:userId forKey:UserId];
+                [ConfigModel saveString:nickname forKey:NickName];
                 AddInfoViewController *vc = [[AddInfoViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
                 

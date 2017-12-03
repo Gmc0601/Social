@@ -149,6 +149,7 @@
 
 - (void)inBtnClick {
     XFRechrgeViewController *controller = [[XFRechrgeViewController alloc] init];
+    controller.count = self.integralLabel.text;
     [self pushController:controller];
 }
 

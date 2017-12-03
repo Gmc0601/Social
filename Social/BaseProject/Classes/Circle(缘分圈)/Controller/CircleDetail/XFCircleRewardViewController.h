@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSArray *rewardArray;
 
+- (void)resetLabel:(NSArray *)rewardArray;
 - (CGFloat)scrollOffset;
 
 @end

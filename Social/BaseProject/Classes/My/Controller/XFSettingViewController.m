@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSArray *pushArray;
 @property (nonatomic, strong) NSString *pushStr;
 
+@property (nonatomic, copy) NSString *xianshi;
+
 @end
 
 @implementation XFSettingViewController
@@ -80,10 +82,7 @@
                           NSDictionary *infoDict = responseObject[@"info"];
                           if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
                               NSString *xianshi = infoDict[@"xianshi"];
-                              if([xianshi isEqual:[NSNull null]] || xianshi == nil){
-//                                  [ConfigModel mbProgressHUD:@"xianshi  >>   null" andView:nil];
-                                  return ;
-                              }
+                              self.xianshi = xianshi;
                               if (self.pushArray.count > xianshi.integerValue) {
                                   self.selectItemView = self.pushArray[xianshi.integerValue];
                                   [weakSelf setupPushSettingItem:[self.pushArray objectAtIndex:xianshi.integerValue]];
@@ -107,6 +106,7 @@
 - (void)selectItemView:(XFSelectItemView *)itemView selectInfo:(NSString *)info {
     [self setupPushSettingItem:info];
     NSInteger index = [self.pushArray indexOfObject:info];
+    self.xianshi = [NSString stringWithFormat:@"%zd", index];
     [HttpRequest postPath:XFResetPushSettingUrl
                    params:@{@"delay_time" : [NSString stringWithFormat:@"%zd", index]}
               resultBlock:^(id responseObject, NSError *error) {
@@ -126,6 +126,8 @@
             [ConfigModel saveBoolObject:NO forKey:IsLogin];
             [ConfigModel saveString:@"" forKey:UserToken];
             [ConfigModel saveString:@"" forKey:UserId];
+            [ConfigModel saveString:@"" forKey:UserId];
+            [ConfigModel saveString:@"" forKey:NickName];
             [[NSNotificationCenter defaultCenter] postNotificationName:XFLogoutSuccessNotification object:nil];
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }else {
@@ -137,9 +139,13 @@
 
 - (void)viewTap:(UIGestureRecognizer *)ges {
     if (ges.view.tag == 0) {
+        NSInteger index = self.xianshi.integerValue;
+        if (index >= self.pushArray.count) {
+            index = 0;
+        }
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"推送设置"
                                                                      dataArray:self.pushArray
-                                                                    selectText:nil];
+                                                                    selectText:[self.pushArray objectAtIndex:index]];
         selectItem.delegate = self;
         [self.view addSubview:selectItem];
     } else if (ges.view.tag == 1) {

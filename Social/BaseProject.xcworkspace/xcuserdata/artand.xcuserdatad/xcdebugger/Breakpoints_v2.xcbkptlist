@@ -19,13 +19,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../Social 2/BaseProject/BaseProject/Classes/Friend/Controller/FriendHome/XFFriendCircleViewController.m"
-            timestampString = "533737425.593791"
+            filePath = "BaseProject/Classes/Circle(&#x7f18;&#x5206;&#x5708;)/Controller/CircleDetail/XFCircleDetailViewController.m"
+            timestampString = "533970928.149252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "-friendCircleCell:didClickZanBtn:"
+            startingLineNumber = "437"
+            endingLineNumber = "437"
+            landmarkName = "-rewardBtnClick"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BaseProject/Classes/My/Controller/XFSettingViewController.m"
+            timestampString = "533970928.149645"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "-viewTap:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BaseProject/Classes/My/Controller/XFSettingViewController.m"
+            timestampString = "533970928.14986"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "-loadData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BaseProject/Classes/My/Controller/MyAccount/XFRechrgeViewController.m"
+            timestampString = "533970928.149924"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "-setupContent"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

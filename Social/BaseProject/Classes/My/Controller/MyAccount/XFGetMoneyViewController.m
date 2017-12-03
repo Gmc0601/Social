@@ -182,8 +182,11 @@
     agreementAttr.font = Font(13);
     agreementAttr.color = RGB(86, 144, 56);
     YYTextHighlight *highlight = [YYTextHighlight new];
+    WeakSelf
     highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
         XFBindAlipayViewController *controller = [[XFBindAlipayViewController alloc] init];
+        NSString *zhanghao = weakSelf.infoDict[@"zhanghao"];
+        controller.account = zhanghao;
         [self pushController:controller];
     };
     [agreementAttr setTextHighlight:highlight range:agreementAttr.rangeOfAll];
@@ -228,12 +231,14 @@
 }
 
 - (void)confirmBtnClick {
-    if (self.field.text.length == 0) {
-        FFLog(@"提现积分为空");
+    if (self.field.text.length == 0 || self.field.text.integerValue == 0) {
+        [ConfigModel mbProgressHUD:@"请输入提现积分" andView:nil];
         return;
     }
-    if (self.field.text.integerValue == 0) {
-        FFLog(@"提现积分为0");
+    
+     NSString *ketixian = self.infoDict[@"ketixian"];
+    if (self.field.text.integerValue > ketixian.integerValue) {
+        [ConfigModel mbProgressHUD:@"已超出可提现积分" andView:nil];
         return;
     }
     [HttpRequest postPath:XFMyTXUrl
@@ -242,9 +247,10 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"提现成功");
+                          [ConfigModel mbProgressHUD:@"提现审核中" andView:nil];
+                          [self backBtnClick];
                       } else {
-                          FFLog(@"%@", responseObject[@"info"]);
+                          [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
                       }
                   }
               }];
