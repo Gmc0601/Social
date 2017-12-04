@@ -246,6 +246,11 @@
             dict[@"long"] = longitude;
         }
     }
+
+    NSString *city = [UserDefaults objectForKey:XFCurrentCityKey];
+    if (city.length) {
+        dict[@"city"] = city;
+    }
     dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
     dict[@"size"] = XFDefaultPageSize;
     return dict;
@@ -274,6 +279,12 @@
 - (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response {
     if (response.regeocode != nil) {
         self.locationLabel.text = response.regeocode.formattedAddress;
+        NSString *city = response.regeocode.addressComponent.city;
+        if (city.length) {
+            [UserDefaults setObject:city forKey:XFCurrentCityKey];
+            [UserDefaults synchronize];
+        }
+        
     }
 }
 

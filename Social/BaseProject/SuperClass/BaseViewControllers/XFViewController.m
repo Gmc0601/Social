@@ -27,7 +27,7 @@
 - (void)showLoginController {
     LoginViewController *controller = [[LoginViewController alloc] init];
     TBNavigationController *na = [[TBNavigationController alloc] initWithRootViewController:controller];
-    [self.navigationController presentViewController:na animated:YES completion:nil];
+    [self presentViewController:na animated:YES completion:nil];
     return;
 
 }

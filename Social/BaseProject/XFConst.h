@@ -71,6 +71,7 @@ UIKIT_EXTERN NSString *const XFLogoutSuccessNotification;
 #pragma mark - -------------------UserDefault-------------------
 UIKIT_EXTERN NSString *const XFCurrentLatitudeKey;
 UIKIT_EXTERN NSString *const XFCurrentLongitudeKey;
+UIKIT_EXTERN NSString *const XFCurrentCityKey;
 UIKIT_EXTERN NSString *const XFCloseSuggestKey;
 
 #pragma mark ----------Const Num----------
