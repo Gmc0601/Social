@@ -23,7 +23,7 @@
 @property (nonatomic, copy) NSString *create_time;
 @property (nonatomic, copy) NSString *address; // 发布所在地址
 
-@property (nonatomic, strong) NSNumber *like_status; //点赞状态 1 未点赞 2 已点赞
+@property (nonatomic, strong) NSNumber *like_status; //点赞状态 2 已点赞 其他都是没有点赞
 @property (nonatomic, strong) NSNumber *attention_status; //关注状态 1 未关注 2 已关注
 @property (nonatomic, strong) NSNumber *comment_num;// 评论数
 @property (nonatomic, strong) NSNumber *like_num; // 点赞数

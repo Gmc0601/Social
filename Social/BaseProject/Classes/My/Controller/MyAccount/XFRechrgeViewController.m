@@ -155,13 +155,14 @@
     [HttpRequest postPath:XFMyRechrgeUrl
                    params:dict
               resultBlock:^(id responseObject, NSError *error) {
-#warning 接口失败,没有界面支持
-//                  error = 1;
-//                  info = "API服务未声明";
+#warning ,没有界面支持
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          FFLog(@"--------");
+                          NSDictionary *infoDict = responseObject[@"info"];
+                          if ([infoDict isKindOfClass:[NSDictionary class]]) {
+                              [ConfigModel mbProgressHUD:[NSString stringWithFormat:@"order_num:%@", infoDict[@"order_num"]] andView:nil];
+                          }
                       }
                   }
               }];

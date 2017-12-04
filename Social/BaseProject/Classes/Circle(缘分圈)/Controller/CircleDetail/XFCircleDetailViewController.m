@@ -461,7 +461,7 @@
         return;
     }
     
-    NSString *type = self.circle.like_status.integerValue == 2 ? @"1" : @"2";
+    NSString *type = self.circle.like_status.integerValue == 2 ? @"2" : @"1";
     [HttpRequest postPath:XFCircleZanUrl
                    params:@{@"real_id" : self.circle.id,
                             @"type" : type}
@@ -471,13 +471,14 @@
                       if (errorCode.integerValue == 0){
                           NSDictionary *info = responseObject[@"info"];
                           NSNumber *type = info[@"type"];
-                          self.circle.like_status = type;
                           if (type.integerValue == 2) {
+                              self.circle.like_status = @1;
                               if (self.circle.like_num.integerValue >= 1) {
                                   self.circle.like_num = @(self.circle.like_num.integerValue - 1);
                               }
                           } else {
                               self.circle.like_num = @(self.circle.like_num.integerValue + 1);
+                              self.circle.like_status = @2;
                           }
                           
                           [self.zanBtn setTitle:[NSString stringWithFormat:@"点赞 %@", self.circle.like_num.stringValue] forState:UIControlStateNormal];
