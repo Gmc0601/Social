@@ -83,11 +83,12 @@
                           if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
                               NSString *xianshi = infoDict[@"xianshi"];
                               self.xianshi = xianshi;
-                              if ([xianshi isKindOfClass:[NSString class]] && xianshi.length) {
-                                  if (self.pushArray.count > xianshi.integerValue) {
-                                      self.selectItemView = self.pushArray[xianshi.integerValue];
-                                      [weakSelf setupPushSettingItem:[self.pushArray objectAtIndex:xianshi.integerValue]];
-                                  }
+                              if (![xianshi isKindOfClass:[NSString class]]) {
+                                  self.xianshi = @"0";
+                              }
+                              if (self.pushArray.count > xianshi.integerValue) {
+                                  self.selectItemView = self.pushArray[xianshi.integerValue];
+                                  [weakSelf setupPushSettingItem:[self.pushArray objectAtIndex:xianshi.integerValue]];
                               }
                           }
                           
@@ -143,6 +144,9 @@
     if (ges.view.tag == 0) {
         NSInteger index = self.xianshi.integerValue;
         if (index >= self.pushArray.count) {
+            index = 0;
+        }
+        if (self.xianshi.length == 0) {
             index = 0;
         }
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"推送设置"
