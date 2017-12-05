@@ -9,6 +9,13 @@
 #import "AppDelegate.h"
 #import "TBTabBarController.h"
 
+@interface AppDelegate ()<AMapLocationManagerDelegate>
+
+@property (nonatomic, strong) AMapLocationManager *locationManager;
+@property (nonatomic, strong) AMapSearchAPI *search;
+
+@end
+
 @implementation AppDelegate
 
 
@@ -78,7 +85,18 @@
 }
 
 - (void)getLocation {
-    
+    self.locationManager = [[AMapLocationManager alloc] init];
+    [self.locationManager setDelegate:self];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+    [self.locationManager setLocationTimeout:10];
+    [self.locationManager setReGeocodeTimeout:5];
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location {
+    [UserDefaults setObject:[NSString stringWithFormat:@"%f", location.coordinate.latitude] forKey:XFCurrentLatitudeKey];
+    [UserDefaults setObject:[NSString stringWithFormat:@"%f", location.coordinate.longitude] forKey:XFCurrentLongitudeKey];
+    [self.locationManager stopUpdatingLocation];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
