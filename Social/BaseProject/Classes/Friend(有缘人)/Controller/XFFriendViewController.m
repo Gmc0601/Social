@@ -86,12 +86,8 @@
     self.seniorDict = [NSMutableDictionary dictionary];
     self.normalDict = [NSMutableDictionary dictionary];
     
-    NSString *lat = [UserDefaults objectForKey:XFCurrentLatitudeKey];
-    NSString *lon = [UserDefaults objectForKey:XFCurrentLongitudeKey];
-    self.location = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
     self.collectionView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
     self.collectionView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
-    [self loadData];
     
     UIButton *mapBtn = [UIButton xf_imgButtonWithImgName:@"btn_yyr_dt" target:self action:@selector(mapBtnClick)];
     mapBtn.size = CGSizeMake(50, 50);
@@ -163,7 +159,12 @@
         self.locationLabel.text = name;
         AMapGeoPoint *point = dict[@"location"];
         self.location = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
-        [self loadData];
+        self.codeSearch = [[AMapReGeocodeSearchRequest alloc] init];
+        self.codeSearch.location = [AMapGeoPoint locationWithLatitude:self.location.coordinate.latitude longitude:self.location.coordinate.longitude];
+        
+        self.codeSearch.requireExtension = YES;
+        [self.search AMapReGoecodeSearch:self.codeSearch];
+        [self.locationManager stopUpdatingLocation];
     };
     [self pushController:controller];
 }
@@ -245,14 +246,13 @@
             dict[@"lat"] = latitude;
             dict[@"long"] = longitude;
         }
+        NSString *city = [UserDefaults objectForKey:XFCurrentCityKey];
+        if (city.length) {
+            dict[@"city"] = city;
+        }
+        dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
+        dict[@"size"] = XFDefaultPageSize;
     }
-
-    NSString *city = [UserDefaults objectForKey:XFCurrentCityKey];
-    if (city.length) {
-        dict[@"city"] = city;
-    }
-    dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
-    dict[@"size"] = XFDefaultPageSize;
     return dict;
 }
 
@@ -271,6 +271,7 @@
     self.location = location;
     self.codeSearch = [[AMapReGeocodeSearchRequest alloc] init];
     self.codeSearch.location = [AMapGeoPoint locationWithLatitude:self.location.coordinate.latitude longitude:self.location.coordinate.longitude];
+    
     self.codeSearch.requireExtension = YES;
     [self.search AMapReGoecodeSearch:self.codeSearch];
     [self.locationManager stopUpdatingLocation];
@@ -284,8 +285,8 @@
             [UserDefaults setObject:city forKey:XFCurrentCityKey];
             [UserDefaults synchronize];
         }
-        
     }
+    [self loadData];
 }
 
 #pragma mark ----------<UICollectionViewDataSource>----------

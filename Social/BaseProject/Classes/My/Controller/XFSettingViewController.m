@@ -83,9 +83,11 @@
                           if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
                               NSString *xianshi = infoDict[@"xianshi"];
                               self.xianshi = xianshi;
-                              if (self.pushArray.count > xianshi.integerValue) {
-                                  self.selectItemView = self.pushArray[xianshi.integerValue];
-                                  [weakSelf setupPushSettingItem:[self.pushArray objectAtIndex:xianshi.integerValue]];
+                              if ([xianshi isKindOfClass:[NSString class]] && xianshi.length) {
+                                  if (self.pushArray.count > xianshi.integerValue) {
+                                      self.selectItemView = self.pushArray[xianshi.integerValue];
+                                      [weakSelf setupPushSettingItem:[self.pushArray objectAtIndex:xianshi.integerValue]];
+                                  }
                               }
                           }
                           
