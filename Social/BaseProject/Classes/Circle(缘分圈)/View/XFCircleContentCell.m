@@ -37,7 +37,7 @@
     [self.shareBtn setTitle:[NSString stringWithFormat:@" %d", circle.transmit_num.intValue] forState:UIControlStateNormal];
     self.zanBtn.frame = model.zanBtnFrame;
     [self.zanBtn setTitle:[NSString stringWithFormat:@" %d", circle.like_num.intValue] forState:UIControlStateNormal];
-    if (circle.like_status.integerValue == 2) {
+    if (circle.like_status.integerValue == 1) {
         [self.zanBtn setImage:Image(@"icon_yfq_dz_pre") forState:UIControlStateNormal];
     } else {
         [self.zanBtn setImage:Image(@"icon_yfq_dz") forState:UIControlStateNormal];

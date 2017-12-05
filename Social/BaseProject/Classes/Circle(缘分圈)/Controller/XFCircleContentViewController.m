@@ -327,7 +327,7 @@
     }
     Circle *circle = model.circle;
     if (circle.id) {
-        NSString *type = circle.like_status.integerValue == 2 ? @"2" : @"1";
+        NSString *type = circle.like_status.integerValue == 1 ? @"2" : @"1";
         [HttpRequest postPath:XFCircleZanUrl
                        params:@{@"real_id" : circle.id,
                                 @"type" : type}
@@ -338,12 +338,12 @@
                               NSDictionary *info = responseObject[@"info"];
                               NSNumber *type = info[@"type"];
                               if (type.integerValue == 2) {
-                                  circle.like_status = @1;
+                                  circle.like_status = @2;
                                   if (circle.like_num.integerValue >= 1) {
                                       circle.like_num = @(circle.like_num.integerValue - 1);
                                   }
                               } else {
-                                  circle.like_status = @2;
+                                  circle.like_status = @1;
                                   circle.like_num = @(circle.like_num.integerValue + 1);
                               }
                               [ConfigModel mbProgressHUD:info[@"message"] andView:nil];
