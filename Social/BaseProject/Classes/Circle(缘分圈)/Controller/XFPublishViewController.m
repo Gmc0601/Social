@@ -95,9 +95,9 @@
     
     UILabel *label = [UILabel xf_labelWithFont:Font(13) textColor:BlackColor numberOfLines:1 alignment:NSTextAlignmentLeft];
     self.locationLabel = label;
+    self.locationLabel = label;
     label.userInteractionEnabled = YES;
     [label addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationViewTap)]];
-    label.text = @"高新软件园";
     label.left = locationView.right + 5;
     label.height = 13;
     label.centerY = locationView.centerY;
@@ -122,11 +122,16 @@
 
 /* 逆地理编码回调. */
 - (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response {
-    FFLog(@"%@", response);
+    self.locationLabel.text = response.regeocode.formattedAddress;
 }
 
 - (void)locationViewTap {
     XFLocationViewController *controller = [[XFLocationViewController alloc] init];
+    controller.titleStr = @"所在位置";
+    controller.selectAddress = ^(NSDictionary *dict) {
+        NSString *name = dict[@"name"];
+        self.locationLabel.text = name;
+    };
     [self pushController:controller];
 }
 

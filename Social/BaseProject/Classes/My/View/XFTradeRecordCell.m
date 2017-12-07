@@ -46,7 +46,8 @@
     self.recordLabel.attributedText = attrStr;
     self.recordLabel.textAlignment = NSTextAlignmentRight;
     
-//    self.stateLabel.text = record.jiaoyi;
+    self.stateLabel.text = record.jiaoyi;
+    self.stateLabel.hidden = record.jiaoyi.length == 0;
 }
 
 

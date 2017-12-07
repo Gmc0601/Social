@@ -49,7 +49,8 @@
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
                           NSString *info = responseObject[@"info"];
-                          [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:info]]];
+                          NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:info] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5.0];
+                          [weakSelf.webView loadRequest:request];
                           
                       }
                   }

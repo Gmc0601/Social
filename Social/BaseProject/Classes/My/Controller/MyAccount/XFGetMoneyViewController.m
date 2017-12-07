@@ -236,11 +236,18 @@
         return;
     }
     
-     NSString *ketixian = self.infoDict[@"ketixian"];
+    NSString *ketixian = self.infoDict[@"ketixian"];
     if (self.field.text.integerValue > ketixian.integerValue) {
         [ConfigModel mbProgressHUD:@"已超出可提现积分" andView:nil];
         return;
     }
+    
+    NSString *zhanghao = self.infoDict[@"zhanghao"];
+    if (zhanghao.length == 0) {
+        [ConfigModel mbProgressHUD:@"请绑定支付宝账号" andView:nil];
+        return;
+    }
+    
     [HttpRequest postPath:XFMyTXUrl
                    params:@{@"integral" : self.field.text}
               resultBlock:^(id responseObject, NSError *error) {

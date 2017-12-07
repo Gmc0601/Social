@@ -102,22 +102,28 @@
 }
 
 - (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickFollowBtn:(User *)user {
-    NSString *type = user.guanzhu.integerValue == 2 ? @"1" : @"2";
-    [HttpRequest postPath:XFFriendFollowUrl
-                   params:@{@"id" : user.id,
-                            @"type" : type}
-              resultBlock:^(id responseObject, NSError *error) {
-                  if (!error) {
-                      NSNumber *errorCode = responseObject[@"error"];
-                      if (errorCode.integerValue == 0){
-                          NSDictionary *info = responseObject[@"info"];
-                          NSNumber *type = info[@"type"];
-                          user.guanzhu = type;
-                          [ConfigModel mbProgressHUD:info[@"message"] andView:nil];
-                          [self.tableView reloadData];
+    if (self.followType == FollowType_Friends) {
+        return;
+    }
+    if (self.followType == FollowType_Fans) {
+        
+    } else {
+        [HttpRequest postPath:XFFriendFollowUrl
+                       params:@{@"id" : user.id,
+                                @"type" : @"1"}
+                  resultBlock:^(id responseObject, NSError *error) {
+                      if (!error) {
+                          NSNumber *errorCode = responseObject[@"error"];
+                          if (errorCode.integerValue == 0){
+                              NSDictionary *info = responseObject[@"info"];
+                              NSNumber *type = info[@"type"];
+                              user.guanzhu = type;
+                              [self.tableView reloadData];
+                          }
                       }
-                  }
-              }];
+                  }];
+    }
+    
 }
 
 

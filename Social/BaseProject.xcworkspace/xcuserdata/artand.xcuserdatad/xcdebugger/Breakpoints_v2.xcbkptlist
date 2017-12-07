@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BaseProject/Classes/Circle(&#x7f18;&#x5206;&#x5708;)/Controller/CircleDetail/XFCircleDetailViewController.m"
-            timestampString = "534132193.112165"
+            filePath = "BaseProject/Classes/Friend(&#x6709;&#x7f18;&#x4eba;)/Controller/FriendHome/XFFriendHomeViewController.m"
+            timestampString = "534306508.943206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
-            landmarkName = "-rewardBtnClick"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
+            landmarkName = "-followBtnClick"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,29 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BaseProject/Classes/My/Controller/XFSettingViewController.m"
-            timestampString = "534136997.762124"
+            filePath = "BaseProject/Classes/Friend(&#x6709;&#x7f18;&#x4eba;)/Controller/XFFriendViewController.m"
+            timestampString = "534307345.688362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "-viewTap:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BaseProject/Classes/My/Controller/MyAccount/XFRechrgeViewController.m"
-            timestampString = "534077052.525269"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "-setupContent"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "-locationViewTap"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -425,10 +425,11 @@
                             }
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {
-                      NSString *info = responseObject[@"info"];
-                      [ConfigModel mbProgressHUD:info andView:nil];
+                      
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
+                          NSDictionary *infoDict = responseObject[@"info"];
+                          [ConfigModel mbProgressHUD:infoDict[@"message"] andView:nil];
                           weakSelf.circle.reward_num = @(weakSelf.circle.reward_num.integerValue + 1);
                           [weakSelf.rewardBtn setTitle:[NSString stringWithFormat:@"打赏 %@", self.circle.reward_num.stringValue] forState:UIControlStateNormal];
                           XFCircleRewardViewController *controller = (XFCircleRewardViewController *)weakSelf.childViewControllers.firstObject;
@@ -439,6 +440,8 @@
                               self.circle.reward = array.copy;
                               [controller resetLabel:self.circle.reward];
                           }
+                      } else {
+                          [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
                       }
                   } else {
                       [ConfigModel mbProgressHUD:@"打赏失败" andView:nil];

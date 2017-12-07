@@ -159,12 +159,6 @@
         self.locationLabel.text = name;
         AMapGeoPoint *point = dict[@"location"];
         self.location = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
-        self.codeSearch = [[AMapReGeocodeSearchRequest alloc] init];
-        self.codeSearch.location = [AMapGeoPoint locationWithLatitude:self.location.coordinate.latitude longitude:self.location.coordinate.longitude];
-        
-        self.codeSearch.requireExtension = YES;
-        [self.search AMapReGoecodeSearch:self.codeSearch];
-        [self.locationManager stopUpdatingLocation];
     };
     [self pushController:controller];
 }

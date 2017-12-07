@@ -142,16 +142,9 @@
 
 - (void)viewTap:(UIGestureRecognizer *)ges {
     if (ges.view.tag == 0) {
-        NSInteger index = self.xianshi.integerValue;
-        if (index >= self.pushArray.count) {
-            index = 0;
-        }
-        if (self.xianshi.length == 0) {
-            index = 0;
-        }
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"推送设置"
                                                                      dataArray:self.pushArray
-                                                                    selectText:[self.pushArray objectAtIndex:index]];
+                                                                    selectText:[self.pushArray objectAtIndex:0]];
         selectItem.delegate = self;
         [self.view addSubview:selectItem];
     } else if (ges.view.tag == 1) {

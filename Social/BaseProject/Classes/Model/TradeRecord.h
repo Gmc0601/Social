@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSString *type; // 类型：  +收入    -支出
 @property (nonatomic, copy) NSString *tuihui;
 @property (nonatomic, copy) NSString *status; // 状态
+@property (nonatomic, copy) NSString *jiaoyi;
 
 @end
 

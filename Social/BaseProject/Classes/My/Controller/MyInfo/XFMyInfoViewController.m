@@ -131,8 +131,8 @@
     field.textColor = [UIColor blackColor];
     field.font = Font(15);
     [standardView addSubview:field];
-    field.width = 200;
-    field.right = kScreenWidth - 15 - 9 - 15;
+    field.left = 80;
+    field.width = kScreenWidth - 15 - 9 - 15 - field.left;
     field.top = 0;
     field.textAlignment = NSTextAlignmentRight;
     field.height = standardView.height;
@@ -451,7 +451,7 @@
     } else if (tag == 200) {
         // 身高
         NSMutableArray *arrayM = [NSMutableArray array];
-        for (int i = 50; i <= 200; i++) {
+        for (int i = 140; i <= 200; i++) {
             [arrayM addObject:[NSString stringWithFormat:@"%d", i]];
         }
         XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"身高(cm)"
