@@ -47,5 +47,8 @@
 
 @property (nonatomic, strong) NSNumber *guanzhu; // 有缘人首页使用 1未关注2已关注
 
+
+@property (nonatomic, copy) NSString *longitude;
+@property (nonatomic, copy) NSString *latitude;
 @end
 

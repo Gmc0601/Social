@@ -144,19 +144,37 @@
                    params:[self getTheParams]
               resultBlock:^(id responseObject, NSError *error) {
                   weakSelf.dataArray = [NSMutableArray array];
-                  FFLog(@"没有信息，没有坐标信息，无法定义大头针");
                   if (!error) {
+                      weakSelf.dataArray = [NSMutableArray array];
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
-                          NSArray *infoArray = responseObject[@"info"];
-                          for (int i = 0 ; i < infoArray.count; i++) {
-                              NSDictionary *dict = infoArray[i];
-                              User *user = [User mj_objectWithKeyValues:dict];
-                              [weakSelf.dataArray addObject:user];
-                          }
+//                          NSArray *infoArray = responseObject[@"info"];
+//                          for (int i = 0 ; i < infoArray.count; i++) {
+//                              NSDictionary *dict = infoArray[i];
+//                              User *user = [User mj_objectWithKeyValues:dict];
+//                              [weakSelf.dataArray addObject:user];
+//                          }
+                          
+                          User *user = [[User alloc] init];
+                          user.latitude = @"30.649857";
+                          user.longitude = @"103.924582";
+                          [weakSelf.dataArray addObject:user];
+                          [self setupAnnotations];
                       }
                   }
               }];
+}
+
+- (void)setupAnnotations {
+    NSMutableArray *coordinates = [NSMutableArray array];
+    for (int i = 0; i < self.dataArray.count; i++) {
+        User *user = self.dataArray[i];
+        MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+        a1.coordinate = CLLocationCoordinate2DMake(user.latitude.doubleValue, user.longitude.doubleValue);
+        [coordinates addObject:a1];
+    }
+    [self.mapView addAnnotations:coordinates];
+
 }
 
 - (NSDictionary *)getTheParams {
