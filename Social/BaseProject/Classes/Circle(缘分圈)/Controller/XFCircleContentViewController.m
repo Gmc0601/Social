@@ -298,7 +298,8 @@
     WeakSelf
     [HttpRequest postPath:XFCircleRewardUrl
                    params:@{@"real_id" : model.circle.id.stringValue,
-                            @"reward" : @"1"
+                            @"reward" : @"1",
+                            @"type2" : @"1"
                             }
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {

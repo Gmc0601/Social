@@ -62,9 +62,9 @@
     [HttpRequest postPath:XFMyCircleUrl
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
-                  weakSelf.dataArray = [NSMutableArray array];
                   [weakSelf.tableView.mj_header endRefreshing];
                   if (!error) {
+                      weakSelf.dataArray = [NSMutableArray array];
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
                           NSArray *infoArray = responseObject[@"info"];

@@ -329,7 +329,11 @@
 }
 
 #pragma mark - -------------------<XFSelectAddressViewDelegate>-------------------
-- (void)selectAddressView:(XFSelectAddressView *)itemView selectInfo:(NSString *)info {
+- (void)selectAddressView:(XFSelectAddressView *)itemView
+           selectProvince:(NSString *)province
+                     city:(NSString *)city
+                  address:(NSString *)area {
+    NSString *info = [NSString stringWithFormat:@"%@%@%@", province, city, area];
     UILabel *label = (UILabel *)[self.currentTapView viewWithTag:300];
     [self setupRightLabel:label info:info];
     self.dict[@"address"] = info;

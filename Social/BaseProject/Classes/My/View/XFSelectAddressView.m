@@ -169,9 +169,8 @@
     NSString *str1 = [_pickerArray objectAtIndex:[self.pickView selectedRowInComponent:0]];
     NSString *str2 = [_subPickerArray objectAtIndex:[self.pickView selectedRowInComponent:1]];
     NSString *str3 = [_thirdPickerArray objectAtIndex:[self.pickView selectedRowInComponent:2]];
-    NSString *address = [NSString stringWithFormat:@"%@%@%@", str1, str2, str3];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(selectAddressView:selectInfo:)]) {
-        [self.delegate selectAddressView:self selectInfo:address];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(selectAddressView:selectProvince:city:address:)]) {
+        [self.delegate selectAddressView:self selectProvince:str1 city:str2 address:str3];
     }
 }
 

@@ -236,7 +236,7 @@
         return;
     }
     if ([self.friendStatus isEqualToString:@"3"]) {
-        FFLog(@"没有mobile字段");
+        [ConfigModel jumptoChatViewController:self withId:self.user.mobile.stringValue];
     } else if ([self.friendStatus isEqualToString:@"1"]) {
         [HttpRequest postPath:XFFriendSuggestMoneyUrl
                        params:@{@"id" : self.friendId}

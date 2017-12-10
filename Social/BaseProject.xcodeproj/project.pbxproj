@@ -2039,10 +2039,10 @@
 		B851B28D1FD0F3B100A7BBBE /* CircleDetail */ = {
 			isa = PBXGroup;
 			children = (
-				B851B28E1FD0F3B100A7BBBE /* XFCircleCommentViewController.h */,
-				B851B28F1FD0F3B100A7BBBE /* XFCircleCommentViewController.m */,
 				B851B2901FD0F3B100A7BBBE /* XFCircleDetailViewController.h */,
 				B851B2911FD0F3B100A7BBBE /* XFCircleDetailViewController.m */,
+				B851B28E1FD0F3B100A7BBBE /* XFCircleCommentViewController.h */,
+				B851B28F1FD0F3B100A7BBBE /* XFCircleCommentViewController.m */,
 				B851B2921FD0F3B100A7BBBE /* XFCircleRewardViewController.h */,
 				B851B2931FD0F3B100A7BBBE /* XFCircleRewardViewController.m */,
 				B851B2941FD0F3B100A7BBBE /* XFCircleZanViewController.h */,

@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSNumber *guanzhumy_num; // 我关注的
 @property (nonatomic, strong) NSNumber *myguanzhu_num; // 关注我的
 @property (nonatomic, strong) NSNumber *mutual_attention_num; // 互为关注
-
+@property (nonatomic, strong) NSNumber *mobile;
 @property (nonatomic, strong) NSNumber *id; // 用户ID号
 @property (nonatomic, strong) NSNumber *coolpoint; // 用户颜值分
 @property (nonatomic, strong) NSNumber *beetlepoint; // 用户金龟分

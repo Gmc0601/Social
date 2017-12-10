@@ -236,16 +236,14 @@
 #pragma mark ----------Action----------
 - (void)publishBtnClick {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    if (self.textView.text.length == 0) {
-        [SVProgressHUD showErrorWithStatus:@"内容为空"];
-        return;
-    }
-    dict[@"talk_content"] = self.textView.text;
     if (self.locationLabel.text.length) {
         dict[@"address"] = self.locationLabel.text;
     }
     
     if (self.videoPath.absoluteString.length) {
+        if (self.textView.text.length) {
+            dict[@"talk_content"] = self.textView.text;
+        }
         dict[@"upload_type"] = @"2";
         ALAssetsLibrary *assetLibrary = [[ALAssetsLibrary alloc] init];
         [SVProgressHUD show];
@@ -275,12 +273,20 @@
                       } failureBlock:^(NSError *error) {
                       }];
     } else {
+        if (self.photos.count == 0) {
+            if (self.textView.text.length == 0) {
+                [ConfigModel mbProgressHUD:@"内容为空" andView:nil];
+                return;
+            }
+            dict[@"talk_content"] = self.textView.text;
+        }
         dict[@"upload_type"] = @"1";
         NSMutableString *str = [NSMutableString string];
+        // 缘分圈发布图片压缩60%
         if (self.photos.count) {
             for (int i = 0; i < self.photos.count; i++) {
                 UIImage *img = self.photos[i];
-                NSData *data = UIImagePNGRepresentation(img);
+                NSData *data = UIImageJPEGRepresentation(img, 0.6);
                 [str appendString:[data base64EncodedString]];
                 if (i < self.photos.count - 1) {
                     [str appendString:@","];

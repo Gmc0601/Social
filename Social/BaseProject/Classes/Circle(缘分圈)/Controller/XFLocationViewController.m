@@ -256,8 +256,7 @@
             AMapPOI *poi = self.addressArray[indexPath.row];
             NSString *name = poi.name;
             self.selectAddress(@{@"name" : name,
-                                 @"location" : poi.location
-                                 });
+                                 @"location" : poi.location                                 });
         }
         
         [self backBtnClick];

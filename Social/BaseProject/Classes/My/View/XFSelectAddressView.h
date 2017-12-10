@@ -12,7 +12,10 @@
 @protocol XFSelectAddressViewDelegate <NSObject>
 
 @optional
-- (void)selectAddressView:(XFSelectAddressView *)itemView selectInfo:(NSString *)info;
+- (void)selectAddressView:(XFSelectAddressView *)itemView
+           selectProvince:(NSString *)province
+                     city:(NSString *)city
+                  address:(NSString *)area;
 
 @end
 

@@ -23,7 +23,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-//    [self loadData];
 }
 
 - (CGFloat)scrollOffset {
@@ -34,6 +33,10 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - XFNavHeight - XFCircleTabHeight - XFCircleDetailBottomHeight);
+    [self.tableView reloadData];
+}
+
+- (void)reloadTheData {
     [self.tableView reloadData];
 }
 

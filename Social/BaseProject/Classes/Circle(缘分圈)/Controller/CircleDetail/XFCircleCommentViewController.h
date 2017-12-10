@@ -11,6 +11,7 @@
 @interface XFCircleCommentViewController : XFViewController
 
 @property (nonatomic, strong) NSArray *commentArray;
+- (void)reloadTheData;
 
 - (CGFloat)scrollOffset;
 

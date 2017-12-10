@@ -14,7 +14,7 @@
 #import "XFSelectInterestView.h"
 #import "XFSelectAddressView.h"
 
-@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, XFSelectAddressViewDelegate>
+@interface XFMyInfoViewController ()<XFSelectItemViewDelegate, XFSelectInterestViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, XFSelectAddressViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 
@@ -29,6 +29,14 @@
 
 @property (nonatomic, strong) NSMutableArray *resultArray;
 @property (nonatomic, assign) NSInteger maxCount;
+
+@property (nonatomic, assign) BOOL avatarChange;
+@property (nonatomic, strong) UIImage *avatarImage;
+@property (nonatomic, assign) BOOL ageChange;
+@property (nonatomic, assign) BOOL addressChange;
+@property (nonatomic, copy) NSString *province;
+@property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *area;
 
 @end
 
@@ -190,10 +198,19 @@
 }
 
 #pragma mark - -------------------<XFSelectAddressViewDelegate>-------------------
-- (void)selectAddressView:(XFSelectAddressView *)itemView selectInfo:(NSString *)info {
+- (void)selectAddressView:(XFSelectAddressView *)itemView
+           selectProvince:(NSString *)province
+                     city:(NSString *)city
+                  address:(NSString *)area {
+    NSString *info = [NSString stringWithFormat:@"%@%@%@", province, city, area];
+    self.province = province;
+    self.city = city;
+    self.area = area;
+    self.addressChange = YES;
     UILabel *label = [self.selectItem viewWithTag:100];
     label.text = info;
     self.user.address = info;
+    self.addressChange = YES;
 }
 
 - (void)loadData {
@@ -240,10 +257,10 @@
     if (tag == 100) { // 头像
     } else if (tag == 101) {// 年龄
         self.user.age = info;
+        self.ageChange = YES;
     } else if (tag == 103) { // 性别
         self.user.sex = info;
     } else if (tag == 104) { // 居住地
-        self.user.address = info;
     } else if (tag == 200) { // 身高
         self.user.height = info;
     } else if (tag == 201) { // 体重
@@ -259,6 +276,18 @@
     } else if (tag == 301) { // 收入
         self.user.income = info;
     }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.avatarChange = YES;
+    self.avatarImage = image;
+    [self.iconBtn setImage:image forState:UIControlStateNormal];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark ----------<XFSelectInterestViewDelegate>----------
@@ -278,25 +307,39 @@
 }
 
 #pragma mark ----------Action----------
-- (void)iconBtnClick {
-    FFLogFunc
-}
-
 - (void)saveBtnClick {
     self.resultArray = [NSMutableArray array];
     
     NSMutableDictionary *dict1 = [NSMutableDictionary dictionary];
-    if (self.user.sex) {
-        dict1[@"sex"] = self.user.sex;
-    }
-    if (self.user.nickname) {
+    
+    if (self.user.nickname.length) {
         dict1[@"nickname"] = self.user.nickname;
     }
-    if (self.user.age) {
-        dict1[@"age"] = self.user.age;
+    
+    if (self.ageChange) {
+        if (self.user.age.length) {
+            dict1[@"age"] = self.user.age;
+        }
     }
-    if (self.user.address) {
-        dict1[@"address"] = self.user.address;
+    
+    if (self.addressChange) {
+        if (self.province.length) {
+            dict1[@"province"] = self.province;
+        }
+        
+        if (self.city.length) {
+            dict1[@"city"] = self.city;
+        }
+        
+        if (self.area.length) {
+            dict1[@"area"] = self.area;
+        }
+    }
+    
+    if (self.avatarChange) {
+        if (self.user.avatar_url) {
+            dict1[@"avatar_url"] = [[self.avatarImage imageDataRepresentation] base64EncodedString];
+        }
     }
     
     [HttpRequest postPath:XFMyBasicInfoUpdateUrl
@@ -307,10 +350,12 @@
                       if (errorCode.integerValue == 0){
                           [self.resultArray addObject:@"1"];
                       } else {
-                          [self.resultArray addObject:@"0"];
+                          [self.resultArray addObject:responseObject[@"info"]];
                       }
-                      [self overRequest];
+                  } else {
+                      [self.resultArray addObject:@"修改失败"];
                   }
+                  [self overRequest];
               }];
     
     NSMutableDictionary *dict2 = [NSMutableDictionary dictionary];
@@ -358,10 +403,12 @@
                       if (errorCode.integerValue == 0){
                           [self.resultArray addObject:@"1"];
                       } else {
-                          [self.resultArray addObject:@"0"];
+                          [self.resultArray addObject:responseObject[@"info"]];
                       }
-                      [self overRequest];
+                  } else {
+                      [self.resultArray addObject:@"修改失败"];
                   }
+                  [self overRequest];
               }];
     
     NSMutableDictionary *dict3 = [NSMutableDictionary dictionary];
@@ -386,10 +433,12 @@
                       if (errorCode.integerValue == 0){
                           [self.resultArray addObject:@"1"];
                       } else {
-                          [self.resultArray addObject:@"0"];
+                          [self.resultArray addObject:responseObject[@"info"]];
                       }
-                      [self overRequest];
+                  } else {
+                      [self.resultArray addObject:@"修改失败"];
                   }
+                  [self overRequest];
               }];
 }
 
@@ -397,16 +446,16 @@
     BOOL success = YES;
     for (int i = 0; i < self.resultArray.count; i++) {
         NSString *info = self.resultArray[i];
-        if ([info isEqualToString:@"0"]) {
+        if (![info isEqualToString:@"1"]) {
             success = NO;
+            [ConfigModel mbProgressHUD:info andView:nil];
             break;
         }
     }
     if (success) {
         [ConfigModel mbProgressHUD:@"修改成功" andView:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
         [self backBtnClick];
-    } else {
-        [ConfigModel mbProgressHUD:@"修改失败" andView:nil];
     }
 }
 
@@ -437,12 +486,6 @@
         };
         [self pushController:controller];
     } else if (tag == 103) {
-        // 性别
-//        XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"性别"
-//                                                                     dataArray:@[@"男", @"女"]
-//                                                                    selectText:nil];
-//        selectItem.delegate = self;
-//        [self.view addSubview:selectItem];
     } else if (tag == 104) {
         // 居住地
         XFSelectAddressView *addressView = [[XFSelectAddressView alloc] init];
@@ -568,7 +611,33 @@
 }
 
 - (void)rightIconViewTap:(UITapGestureRecognizer *)ges {
-    FFLog(@"点击头像，换头像");
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择上传类型"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleCancel
+                                   
+                                                         handler:^(UIAlertAction * action) {}];
+    UIAlertAction *libraryAction = [UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault                                                                 handler:^(UIAlertAction * action) {
+        UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+        controller.delegate = self;
+        controller.allowsEditing = NO;
+        controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:controller animated:YES completion:nil];
+    }];
+    
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"拍摄照片" style:UIAlertActionStyleDefault                                                                 handler:^(UIAlertAction * action) {
+        UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+        controller.delegate = self;
+        controller.allowsEditing = NO;
+        controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:controller animated:YES completion:nil];
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:libraryAction];
+    [alertController addAction:cameraAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (UIView *)createRightEmptyView:(NSString *)info {
@@ -614,6 +683,7 @@
     UIButton *iconBtn = [UIButton xf_imgButtonWithImgName:@"bg_tj_tx"
                                                    target:self
                                                    action:@selector(iconBtnClick)];
+    iconBtn.userInteractionEnabled = NO;
     self.iconBtn = iconBtn;
     iconBtn.size = CGSizeMake(34, 34);
     iconBtn.layer.cornerRadius = 17;

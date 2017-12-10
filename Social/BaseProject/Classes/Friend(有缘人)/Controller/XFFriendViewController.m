@@ -242,6 +242,9 @@
         }
         NSString *city = [UserDefaults objectForKey:XFCurrentCityKey];
         if (city.length) {
+            if ([[city substringFromIndex:city.length - 1] isEqualToString:@"市"]) {
+                city = [city substringToIndex:city.length - 1];
+            }
             dict[@"city"] = city;
         }
         dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];

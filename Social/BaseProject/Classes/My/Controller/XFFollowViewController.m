@@ -10,10 +10,12 @@
 #import "XFMyFollowUserCell.h"
 #import "XFFriendHomeViewController.h"
 
-@interface XFFollowViewController ()<UITableViewDelegate, UITableViewDataSource, XFMyFollowUserCellDelegate>
+@interface XFFollowViewController ()<UITableViewDelegate, UITableViewDataSource, XFMyFollowUserCellDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+
+@property (nonatomic, strong) User *followUser;
 
 @end
 
@@ -23,6 +25,7 @@
     [super viewDidLoad];
     [self setupUI];
     [self loadData];
+    [self setupNotification];
 }
 
 - (void)setupUI {
@@ -45,6 +48,17 @@
     [self.view addSubview:paddingView];
     
     [self.tableView reloadData];
+}
+
+- (void)setupNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loadData)
+                                                 name:@"ThisFollowSuccess"
+                                               object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadData {
@@ -102,28 +116,46 @@
 }
 
 - (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickFollowBtn:(User *)user {
-    if (self.followType == FollowType_Friends) {
-        return;
-    }
     if (self.followType == FollowType_Fans) {
-        
-    } else {
         [HttpRequest postPath:XFFriendFollowUrl
                        params:@{@"id" : user.id,
+                                @"type" : @"2"}
+                  resultBlock:^(id responseObject, NSError *error) {
+                      if (!error) {
+                          NSNumber *errorCode = responseObject[@"error"];
+                          if (errorCode.integerValue == 0){
+                              NSDictionary *infoDict = responseObject[@"info"];
+                              [ConfigModel mbProgressHUD:infoDict[@"message"] andView:nil];
+                              [[NSNotificationCenter defaultCenter] postNotificationName:@"ThisFollowSuccess" object:nil];
+                          }
+                      }
+                  }];
+    } else {
+        self.followUser = user;
+        [[[UIAlertView alloc] initWithTitle:@"确认取消关注吗"
+                                    message:nil
+                                   delegate:self
+                          cancelButtonTitle:@"取消"
+                          otherButtonTitles:@"确定", nil] show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [HttpRequest postPath:XFFriendFollowUrl
+                       params:@{@"id" : self.followUser.id,
                                 @"type" : @"1"}
                   resultBlock:^(id responseObject, NSError *error) {
                       if (!error) {
                           NSNumber *errorCode = responseObject[@"error"];
                           if (errorCode.integerValue == 0){
-                              NSDictionary *info = responseObject[@"info"];
-                              NSNumber *type = info[@"type"];
-                              user.guanzhu = type;
-                              [self.tableView reloadData];
+                              NSDictionary *infoDict = responseObject[@"info"];
+                              [ConfigModel mbProgressHUD:infoDict[@"message"] andView:nil];
+                              [[NSNotificationCenter defaultCenter] postNotificationName:@"ThisFollowSuccess" object:nil];
                           }
                       }
                   }];
     }
-    
 }
 
 

@@ -43,11 +43,14 @@
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
-                          NSArray *infoArray = responseObject[@"info"];
-                          if ([infoArray hasContent]) {
-                              self.infoArray = infoArray;
-                              [self setupContent];
-                              [self getContentWithDict:self.infoArray.firstObject];
+                          NSDictionary *infoDict = responseObject[@"info"];
+                          if ([infoDict isKindOfClass:[NSDictionary class]]) {
+                              NSArray *infoArray = infoDict[@"list"];
+                              if ([infoArray hasContent]) {
+                                  self.infoArray = infoArray;
+                                  [self setupContent];
+                                  [self getContentWithDict:self.infoArray.firstObject];
+                              }
                           }
                       }
                   }
@@ -155,13 +158,12 @@
     [HttpRequest postPath:XFMyRechrgeUrl
                    params:dict
               resultBlock:^(id responseObject, NSError *error) {
-#warning ,没有界面支持
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0){
                           NSDictionary *infoDict = responseObject[@"info"];
                           if ([infoDict isKindOfClass:[NSDictionary class]]) {
-                              [ConfigModel mbProgressHUD:[NSString stringWithFormat:@"order_num:%@", infoDict[@"order_num"]] andView:nil];
+//                              [ConfigModel mbProgressHUD:[NSString stringWithFormat:@"order_num:%@", infoDict[@"order_num"]] andView:nil];
                           }
                       }
                   }

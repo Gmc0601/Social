@@ -184,8 +184,9 @@
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     [SVProgressHUD show];
     WeakSelf
+    // 相册上传图片压缩60%
     [HttpRequest postPath:XFMyAlbumUploadUrl
-                   params:@{@"img" : [UIImagePNGRepresentation(image) base64EncodedString]}
+                   params:@{@"img" : [UIImageJPEGRepresentation(image, 0.6) base64EncodedString]}
               resultBlock:^(id responseObject, NSError *error) {
                   [SVProgressHUD dismiss];
                   NSNumber *code = responseObject[@"error"];

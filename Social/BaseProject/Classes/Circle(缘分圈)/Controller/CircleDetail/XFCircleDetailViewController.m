@@ -81,6 +81,30 @@
               }];
 }
 
+- (void)commentSuccess {
+    WeakSelf
+    [HttpRequest postPath:XFCircleDetailUrl
+                   params:@{@"id" : self.circleId}
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0) {
+                          NSDictionary *dict = responseObject[@"info"];
+                          Circle *circle = [Circle mj_objectWithKeyValues:dict];
+                          weakSelf.circle = circle;
+                          weakSelf.model = [[XFCircleContentCellModel alloc] initWithCircle:circle andType:CircleContentModelType_Detail];
+                          
+                          XFViewController *controller = self.childViewControllers[1];
+                          if (controller.isViewLoaded) {
+                              ((XFCircleCommentViewController *)controller).commentArray = self.circle.comment;
+                              [((XFCircleCommentViewController *)controller) reloadTheData];
+                              [self.commentBtn setTitle:[NSString stringWithFormat:@"评论 %@", self.circle.comment_num.stringValue] forState:UIControlStateNormal];
+                          }
+                      }
+                  }
+              }];
+}
+
 - (void)setupChildControllers {
     XFCircleRewardViewController *circleController = [[XFCircleRewardViewController alloc] init];
     circleController.rewardArray = self.circle.reward;
@@ -421,7 +445,8 @@
     WeakSelf
     [HttpRequest postPath:XFCircleRewardUrl
                    params:@{@"real_id" : self.circleId.stringValue,
-                            @"reward" : @"1"
+                            @"reward" : @"1",
+                            @"type2" : @"1"
                             }
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {
@@ -506,8 +531,15 @@
                        params:@{@"real_id" : self.circleId,
                                 @"content" : self.textView.text}
                   resultBlock:^(id responseObject, NSError *error) {
-#warning 服务器报错
-                      FFLog(@"%@", responseObject);
+                      if (!error) {
+                          NSNumber *errorCode = responseObject[@"error"];
+                          if (errorCode.integerValue == 0) {
+                              [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
+                              [self commentSuccess];
+                          } else {
+                              [ConfigModel mbProgressHUD:@"评论失败" andView:nil];
+                          }
+                      }
                   }];
     }
 }
