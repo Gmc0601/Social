@@ -443,11 +443,7 @@
     
     Circle *circle = self.shareModel.circle;
     UMSocialMessageObject *message = [UMSocialMessageObject messageObject];
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@""
-                                                                             descr:@""
-                                                                         thumImage:circle.share_image];
-    shareObject.webpageUrl = circle.url;
-    message.shareObject = shareObject;
+    message.text = circle.url;
     [[UMSocialManager defaultManager] shareToPlatform:shareType
                                         messageObject:message
                                 currentViewController:self

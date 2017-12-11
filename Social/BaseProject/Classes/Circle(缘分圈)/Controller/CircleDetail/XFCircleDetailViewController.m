@@ -400,11 +400,7 @@
     }
     
     UMSocialMessageObject *message = [UMSocialMessageObject messageObject];
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@""
-                                                                             descr:@""
-                                                                         thumImage:self.circle.share_image];
-    shareObject.webpageUrl = self.circle.url;
-    message.shareObject = shareObject;
+    message.text = self.circle.url;
     [[UMSocialManager defaultManager] shareToPlatform:shareType
                                         messageObject:message
                                 currentViewController:self
