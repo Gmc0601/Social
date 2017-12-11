@@ -62,12 +62,12 @@
 
 - (void)bindBtnClick {
     if (self.nameField.text.length == 0) {
-        FFLog(@"真实姓名为空");
+        [ConfigModel mbProgressHUD:@"真实姓名为空" andView:nil];
         return;
     }
     
     if (self.accountField.text.length == 0) {
-        FFLog(@"支付宝账号为空");
+        [ConfigModel mbProgressHUD:@"支付宝账号为空" andView:nil];
         return;
     }
     

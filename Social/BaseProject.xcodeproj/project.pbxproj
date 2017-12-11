@@ -226,6 +226,12 @@
 		42FFD7711FA96E2B00704591 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42FFD76E1FA96E2A00704591 /* city.plist */; };
 		42FFD7721FA96E2B00704591 /* CityPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7701FA96E2A00704591 /* CityPickView.m */; };
 		B79A5CFD6299881CB3643ACB /* libPods-BaseProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */; };
+		B850B0A11FDE60B300E96C14 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A01FDE60B300E96C14 /* libc++.tbd */; };
+		B850B0A31FDE60BA00E96C14 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A21FDE60BA00E96C14 /* libz.tbd */; };
+		B850B0B11FDE616B00E96C14 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B850B0AF1FDE616B00E96C14 /* AlipaySDK.bundle */; };
+		B850B0B21FDE616B00E96C14 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0B01FDE616B00E96C14 /* AlipaySDK.framework */; };
+		B850B0B31FDE621000E96C14 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0AC1FDE60F200E96C14 /* CoreMotion.framework */; };
+		B850B0B61FDE668000E96C14 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = B850B0B41FDE667F00E96C14 /* Order.m */; };
 		B851B2CE1FD0F3B200A7BBBE /* XFCircleCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B851B28F1FD0F3B100A7BBBE /* XFCircleCommentViewController.m */; };
 		B851B2CF1FD0F3B200A7BBBE /* XFCircleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B851B2911FD0F3B100A7BBBE /* XFCircleDetailViewController.m */; };
 		B851B2D01FD0F3B200A7BBBE /* XFCircleRewardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B851B2931FD0F3B100A7BBBE /* XFCircleRewardViewController.m */; };
@@ -756,6 +762,21 @@
 		42FFD7701FA96E2A00704591 /* CityPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityPickView.m; sourceTree = "<group>"; };
 		65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BaseProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.release.xcconfig"; sourceTree = "<group>"; };
+		B850B0A01FDE60B300E96C14 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		B850B0A21FDE60BA00E96C14 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		B850B0A41FDE60C000E96C14 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B850B0A51FDE60C800E96C14 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		B850B0A61FDE60CF00E96C14 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B850B0A71FDE60D300E96C14 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		B850B0A81FDE60D900E96C14 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B850B0A91FDE60DE00E96C14 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B850B0AA1FDE60E500E96C14 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B850B0AB1FDE60EB00E96C14 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		B850B0AC1FDE60F200E96C14 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		B850B0AF1FDE616B00E96C14 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		B850B0B01FDE616B00E96C14 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		B850B0B41FDE667F00E96C14 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
+		B850B0B51FDE668000E96C14 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
 		B851B28E1FD0F3B100A7BBBE /* XFCircleCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XFCircleCommentViewController.h; sourceTree = "<group>"; };
 		B851B28F1FD0F3B100A7BBBE /* XFCircleCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XFCircleCommentViewController.m; sourceTree = "<group>"; };
 		B851B2901FD0F3B100A7BBBE /* XFCircleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XFCircleDetailViewController.h; sourceTree = "<group>"; };
@@ -879,9 +900,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B850B0B31FDE621000E96C14 /* CoreMotion.framework in Frameworks */,
 				4291B0BE1FC57AFC003FB5F0 /* libopencore-amrwb.a in Frameworks */,
+				B850B0A31FDE60BA00E96C14 /* libz.tbd in Frameworks */,
+				B850B0A11FDE60B300E96C14 /* libc++.tbd in Frameworks */,
 				4291B0BF1FC57AFC003FB5F0 /* libopencore-amrnb.a in Frameworks */,
 				B79A5CFD6299881CB3643ACB /* libPods-BaseProject.a in Frameworks */,
+				B850B0B21FDE616B00E96C14 /* AlipaySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -984,6 +1009,8 @@
 		2E41529A1F945C6500B53486 /* Model(模型) */ = {
 			isa = PBXGroup;
 			children = (
+				B850B0B51FDE668000E96C14 /* Order.h */,
+				B850B0B41FDE667F00E96C14 /* Order.m */,
 				B85D5AD61FD02174008DFEA1 /* Circle.h */,
 				B85D5AD31FD02173008DFEA1 /* Circle.m */,
 				B85D5ACF1FD02172008DFEA1 /* CircleComment.h */,
@@ -1829,6 +1856,7 @@
 		42C84EA91EF2DB060008189D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				B850B0AE1FDE616B00E96C14 /* Alipay */,
 				4291AF731FC57AFB003FB5F0 /* EaseUI */,
 				42FFD76D1FA96E2A00704591 /* CityPickView */,
 				42F795CE1F00CC3E00A11A69 /* MJRefresh */,
@@ -1994,6 +2022,17 @@
 		7F5FE81AF3930B1D8AB68F96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B850B0AC1FDE60F200E96C14 /* CoreMotion.framework */,
+				B850B0AB1FDE60EB00E96C14 /* CFNetwork.framework */,
+				B850B0AA1FDE60E500E96C14 /* Foundation.framework */,
+				B850B0A91FDE60DE00E96C14 /* UIKit.framework */,
+				B850B0A81FDE60D900E96C14 /* CoreGraphics.framework */,
+				B850B0A71FDE60D300E96C14 /* CoreText.framework */,
+				B850B0A61FDE60CF00E96C14 /* QuartzCore.framework */,
+				B850B0A51FDE60C800E96C14 /* CoreTelephony.framework */,
+				B850B0A41FDE60C000E96C14 /* SystemConfiguration.framework */,
+				B850B0A21FDE60BA00E96C14 /* libz.tbd */,
+				B850B0A01FDE60B300E96C14 /* libc++.tbd */,
 				65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */,
 			);
 			name = Frameworks;
@@ -2006,6 +2045,15 @@
 				A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B850B0AE1FDE616B00E96C14 /* Alipay */ = {
+			isa = PBXGroup;
+			children = (
+				B850B0AF1FDE616B00E96C14 /* AlipaySDK.bundle */,
+				B850B0B01FDE616B00E96C14 /* AlipaySDK.framework */,
+			);
+			path = Alipay;
 			sourceTree = "<group>";
 		};
 		B851B28B1FD0F3B100A7BBBE /* Circle(缘分圈) */ = {
@@ -2333,6 +2381,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B850B0B11FDE616B00E96C14 /* AlipaySDK.bundle in Resources */,
 				4291B1101FC57AFC003FB5F0 /* EaseUI.podspec in Resources */,
 				4291B1111FC57AFC003FB5F0 /* EaseUIResource.bundle in Resources */,
 				42F795D81F00CC3E00A11A69 /* arrowdown@2x.png in Resources */,
@@ -2513,6 +2562,7 @@
 				4291B0B61FC57AFC003FB5F0 /* MJRefreshNormalHeader.m in Sources */,
 				4291B0E81FC57AFC003FB5F0 /* UIImageView+EMWebCache.m in Sources */,
 				B85D5AC71FD0215A008DFEA1 /* XFUserAgreementViewController.m in Sources */,
+				B850B0B61FDE668000E96C14 /* Order.m in Sources */,
 				42C84F091EF2E97D0008189D /* UIControl+ResponseTime.m in Sources */,
 				42F795DB1F00CC3E00A11A69 /* TBRefreshHeadView.m in Sources */,
 				4291B0E21FC57AFC003FB5F0 /* UIButton+EMWebCache.m in Sources */,
@@ -2835,6 +2885,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 93TJ8UCX73;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BaseProject/Library/Alipay",
+				);
 				GCC_PREFIX_HEADER = BaseProject/Main/Header.pch;
 				INFOPLIST_FILE = BaseProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2859,6 +2913,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 93TJ8UCX73;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BaseProject/Library/Alipay",
+				);
 				GCC_PREFIX_HEADER = BaseProject/Main/Header.pch;
 				INFOPLIST_FILE = BaseProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
