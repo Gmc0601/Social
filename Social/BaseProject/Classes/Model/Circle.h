@@ -36,6 +36,9 @@
 
 @property (nonatomic, assign) BOOL isMine;
 
+@property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *share_image;
+
 
 @end
 

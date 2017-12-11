@@ -12,8 +12,9 @@ target 'BaseProject' do
     pod 'AMap2DMap-NO-IDFA'
     pod 'TZImagePickerController'
     pod 'SDWebImage'
-    pod ‘UMengUShare/UI’
-    pod ‘UMengUShare/Social/ReducedWeChat'
-    pod ‘UMengUShare/Social/ReducedQQ'
+    pod 'UMengUShare/UI’
+    pod 'UMengUShare/Social/WeChat'
+    pod 'UMengUShare/Social/QQ'
+    pod 'UMengUShare/Social/Sina'
     pod 'Hyphenate'
 end
