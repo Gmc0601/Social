@@ -386,7 +386,41 @@
 
 #pragma mark ----------<XFCircleShareViewDelegate>----------
 - (void)circleShareView:(XFCircleShareView *)view didClick:(CircleShareBtnType)type {
-    FFLogFunc
+    UMSocialPlatformType shareType = UMSocialPlatformType_UnKnown;
+    if (type == CircleShareBtnType_friendBtn) {
+        shareType = UMSocialPlatformType_WechatTimeLine;
+    } else if (type == CircleShareBtnType_wechatBtn) {
+        shareType = UMSocialPlatformType_WechatSession;
+    } else if (type == CircleShareBtnType_qqBtn) {
+        shareType = UMSocialPlatformType_QQ;
+    } else if (type == CircleShareBtnType_qzoneBtn) {
+        shareType = UMSocialPlatformType_Qzone;
+    } else if (type == CircleShareBtnType_weiboBtn) {
+        shareType = UMSocialPlatformType_Sina;
+    }
+    
+    UMSocialMessageObject *message = [UMSocialMessageObject messageObject];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@""
+                                                                             descr:@""
+                                                                         thumImage:self.circle.share_image];
+    shareObject.webpageUrl = self.circle.url;
+    message.shareObject = shareObject;
+    [[UMSocialManager defaultManager] shareToPlatform:shareType
+                                        messageObject:message
+                                currentViewController:self
+                                           completion:^(id result, NSError *error) {
+                                               if (error == nil) {
+                                                   [ConfigModel mbProgressHUD:@"分享成功" andView:nil];
+                                               } else {
+                                                   if (error.code == UMSocialPlatformErrorType_Cancel) {
+                                                       [ConfigModel mbProgressHUD:@"取消分享" andView:nil];
+                                                   } else if (error.code == UMSocialPlatformErrorType_AuthorizeFailed) {
+                                                       [ConfigModel mbProgressHUD:@"授权失败" andView:nil];
+                                                   } else if (error.code == UMSocialPlatformErrorType_ShareFailed) {
+                                                       [ConfigModel mbProgressHUD:@"分享失败" andView:nil];
+                                                   }
+                                               }
+                                           }];
 }
 
 #pragma mark ----------Action----------

@@ -25,6 +25,7 @@
 @property (nonatomic, assign) NSInteger currentPage;
 
 @property (nonatomic, strong) NSMutableArray *photosArray;
+@property (nonatomic, strong) XFCircleContentCellModel *shareModel;
 
 @end
 
@@ -319,6 +320,7 @@
 }
 
 - (void)circleContentCell:(XFCircleContentCell *)cell didClickShareBtn:(XFCircleContentCellModel *)model {
+    self.shareModel = model;
     XFCircleShareView *shareView = [[XFCircleShareView alloc] init];
     shareView.delegate = self;
     [[UIApplication sharedApplication].keyWindow addSubview:shareView];
@@ -426,12 +428,42 @@
 
 #pragma mark - -------------------<XFCircleShareViewDelegate>-------------------
 - (void)circleShareView:(XFCircleShareView *)view didClick:(CircleShareBtnType)type {
-    FFLog(@"---------");
-//    CircleShareBtnType_friendBtn = 0,
-//    CircleShareBtnType_wechatBtn = 1,
-//    CircleShareBtnType_qqBtn     = 2,
-//    CircleShareBtnType_qzoneBtn  = 3,
-//    CircleShareBtnType_weiboBtn  = 4
+    UMSocialPlatformType shareType = UMSocialPlatformType_UnKnown;
+    if (type == CircleShareBtnType_friendBtn) {
+        shareType = UMSocialPlatformType_WechatTimeLine;
+    } else if (type == CircleShareBtnType_wechatBtn) {
+        shareType = UMSocialPlatformType_WechatSession;
+    } else if (type == CircleShareBtnType_qqBtn) {
+        shareType = UMSocialPlatformType_QQ;
+    } else if (type == CircleShareBtnType_qzoneBtn) {
+        shareType = UMSocialPlatformType_Qzone;
+    } else if (type == CircleShareBtnType_weiboBtn) {
+        shareType = UMSocialPlatformType_Sina;
+    }
+    
+    Circle *circle = self.shareModel.circle;
+    UMSocialMessageObject *message = [UMSocialMessageObject messageObject];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@""
+                                                                             descr:@""
+                                                                         thumImage:circle.share_image];
+    shareObject.webpageUrl = circle.url;
+    message.shareObject = shareObject;
+    [[UMSocialManager defaultManager] shareToPlatform:shareType
+                                        messageObject:message
+                                currentViewController:self
+                                           completion:^(id result, NSError *error) {
+                                               if (error == nil) {
+                                                   [ConfigModel mbProgressHUD:@"分享成功" andView:nil];
+                                               } else {
+                                                   if (error.code == UMSocialPlatformErrorType_Cancel) {
+                                                       [ConfigModel mbProgressHUD:@"取消分享" andView:nil];
+                                                   } else if (error.code == UMSocialPlatformErrorType_AuthorizeFailed) {
+                                                       [ConfigModel mbProgressHUD:@"授权失败" andView:nil];
+                                                   } else if (error.code == UMSocialPlatformErrorType_ShareFailed) {
+                                                       [ConfigModel mbProgressHUD:@"分享失败" andView:nil];
+                                                   }
+                                               }
+                                           }];
 }
 
 #pragma mark ----------Private----------
