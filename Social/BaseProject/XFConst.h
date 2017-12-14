@@ -59,6 +59,7 @@ UIKIT_EXTERN NSString *const XFMyIntegralDetailUrl;     // 我的可提现积分
 UIKIT_EXTERN NSString *const XFMyAboutUsUrl;            // 关于我们---
 UIKIT_EXTERN NSString *const XFPushSettingUrl;          // 我的聊天延迟设置显示
 UIKIT_EXTERN NSString *const XFResetPushSettingUrl;     // 我的聊天延迟申请
+UIKIT_EXTERN NSString *const XFAlipayPayUrl;            // 支付宝支付
 
 #pragma mark ----------Const Str----------
 UIKIT_EXTERN NSString *const XFDefaultPageSize;

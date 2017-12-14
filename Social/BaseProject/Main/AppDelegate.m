@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "TBTabBarController.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface AppDelegate ()<AMapLocationManagerDelegate>
 
@@ -118,6 +119,14 @@
 {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
     if (!result) {
+        if ([url.host isEqualToString:@"safepay"]) {
+            [[AlipaySDK defaultService] processOrderWithPaymentResult:url
+                                                      standbyCallback:^(NSDictionary *resultDic) {
+                                                          [[NSNotificationCenter defaultCenter] postNotificationName:@"AliPaySuccessNotification" object:resultDic];
+                                                      }];
+            
+            return YES;
+        }
     }
     return result;
 }
@@ -125,6 +134,14 @@
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
     BOOL result = [[UMSocialManager defaultManager]  handleOpenURL:url options:options];
     if (!result) {
+        if ([url.host isEqualToString:@"safepay"]) {
+            [[AlipaySDK defaultService] processOrderWithPaymentResult:url
+                                                      standbyCallback:^(NSDictionary *resultDic) {
+                                                          [[NSNotificationCenter defaultCenter] postNotificationName:@"AliPaySuccessNotification" object:resultDic];
+                                                      }];
+            
+            return YES;
+        }
     }
     return result;
 }
@@ -132,6 +149,14 @@
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
     if (!result) {
+        if ([url.host isEqualToString:@"safepay"]) {
+            [[AlipaySDK defaultService] processOrderWithPaymentResult:url
+                                                      standbyCallback:^(NSDictionary *resultDic) {
+                                                          [[NSNotificationCenter defaultCenter] postNotificationName:@"AliPaySuccessNotification" object:resultDic];
+                                                      }];
+            
+            return YES;
+        }
     }
     return result;
 }

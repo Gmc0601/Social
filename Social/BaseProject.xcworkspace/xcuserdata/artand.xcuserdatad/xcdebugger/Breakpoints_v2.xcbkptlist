@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BaseProject/Classes/My/Controller/MyAccount/XFRechrgeViewController.m"
-            timestampString = "534670389.883861"
+            filePath = "BaseProject/Classes/Circle(&#x7f18;&#x5206;&#x5708;)/Controller/CircleDetail/XFCircleRewardViewController.m"
+            timestampString = "534959069.239142"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "-confirmBtnClick"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "-setupUI"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BaseProject/Classes/Circle(&#x7f18;&#x5206;&#x5708;)/Controller/CircleDetail/XFCircleRewardViewController.m"
-            timestampString = "534956325.062734"
+            filePath = "BaseProject/Classes/My/Controller/MyAccount/XFRechrgeViewController.m"
+            timestampString = "534959975.486037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "-setupUI"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "-confirmBtnClick"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

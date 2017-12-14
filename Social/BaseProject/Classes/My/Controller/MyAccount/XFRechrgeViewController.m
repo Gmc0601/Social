@@ -9,6 +9,7 @@
 #import "XFRechrgeViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "Order.h"
+#import "DataSigner.h"
 
 @interface XFRechrgeViewController ()
 
@@ -19,6 +20,8 @@
 
 @property (nonatomic, strong) NSArray *infoArray;
 
+@property (nonatomic, copy) NSString *order_num;
+
 @end
 
 @implementation XFRechrgeViewController
@@ -27,6 +30,30 @@
     [super viewDidLoad];
     [self setupUI];
     [self loadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(aliPaySuccess:)
+                                                 name:@"AliPaySuccessNotification"
+                                               object:nil];
+}
+
+- (void)aliPaySuccess:(NSNotification *)notification {
+    NSDictionary *resultDic = notification.object;
+    NSString *status = resultDic[@"resultStatus"];
+    if (status.integerValue == 9000) {
+        [ConfigModel mbProgressHUD:@"支付成功" andView:nil];
+        [self gotoSuccessController:self.order_num];
+    } else {
+        [ConfigModel mbProgressHUD:@"支付失败" andView:nil];
+    }
 }
 
 - (void)setupUI {
@@ -165,10 +192,78 @@
                       if (errorCode.integerValue == 0){
                           NSDictionary *infoDict = responseObject[@"info"];
                           if ([infoDict isKindOfClass:[NSDictionary class]]) {
-//                              [ConfigModel mbProgressHUD:[NSString stringWithFormat:@"order_num:%@", infoDict[@"order_num"]] andView:nil];
+                              [self sendzhifubaooder:infoDict[@"order_num"] money:dict[@"money"]];
                           }
                       }
                   }
+              }];
+}
+
+-(void)sendzhifubaooder:(NSString *)order_num money:(NSString *)money {
+    self.order_num = order_num;
+    NSString *partner = @"2015111700822536";
+    NSString *seller = @"123";
+    NSString *privateKey = @"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCsQtALrxnsLj+ZYa0hV7GzxLNlb3a5iaDdKE/4xG/A+Urz7C2lhV30up6rAQaRKolXOfiGPu9zFkTEXhRmBXqZsLqHCytHZk+kqZL6QlGOPdTGO8R77jgYREU/F1xOTg6G//BcAtDnGoOZ8ofdRWZmt/imh5jj9yL9eC9BihajzMAV8d7JVM39ZBB5SEC9/RIriE+iZTIYR9bTfV+ADbPRyGAwq7JJ17an7yG0rNrvS7cmbDgG8D244o6ajJ214bx27PjB+oZubFvgKkeT7r/8UTeNyv/IVkAKE4AcNkSdpB4FwddZbGwmMWsuufoiPVozzJ05e85CH73T+56MWmQrAgMBAAECggEBAImXeEvM2fzPWBdwcHRQcm0vsUdVR9Sc/LOJro76gHT36ol43WD3bPu8UF4wnIk5G6hjcoHwJRyc7eKXbt2qhKncArE5F6GZNAZHOFHSxQfDlX+dX6zJs16WsWTaiO025d2o8tjbmvbtM660jRcNhuSHEAIcDuAPl5Az/jLwVHMSFnji12sRFMMCj+EEnsufPKumJ39bwkMK1MSfIGfSuO8989izmjOm5dDSbBYU9Yop3Te3Ympnb6ojtEjwHXUZzQSHU+88WSu8QM6QhFXBaHAgaIrs8jD3efBVLVXmGwQNTkWdh7tF7wNXP+2UPpWEDljHtL5zaZxNFx07mlEP7lECgYEA8kCHXT8St9+QqcEtvzjCTVO306L+3kRMdsQ5tu6aKtZXz5ezNTTuHbqC5aGL4pxwhwLs3KMKkRkQwnuriT0lzlLxRdGkRwoyu4W9G+vo6ADq5PuPX8hgRxDHP//vnIPxXxW7Q1c+g0WFh5ZQ24bVqbaS3CMe5SlPFN2vrMnN4fkCgYEAtglxpQLKWsIg3wzwxFUcwn3EfMXRghy3j3XhhtbK0iX1MDVnaMF55bpy09Kb5KTXrgLMCxrYLmYvENfGbhVBn+RRVpC8tc7q9gFdcYAUNfqGak2LVDBKMPrn/3ueL6rmFso2uQ34yc1qnrCaUQ2agHS+zRK0QOf+yN2isrlKQEMCgYA1MA/IXFHKxy4m50AZDOg0PB5PPClDObGkHd8iF+8HWro63O6+ztk887dLnZVt8rUOH4lLxAxM4Tj5yldWMXO8gh9xGd88rbOH0ow7ticT0SfBkK3g9MiWsctddN7x+VIkc0wDNAOIpNn1c/5axJbixTAnXxqoa9JuHWI1yLUIWQKBgEiU/WYw9aQ4cUjebQWrdhsqcHTbn0zEzH/8HZ9Y92fRULEXKhM/ya3KqMxC1nvVKlYssVTgMEBX5/5MOsdb3F23eKMOdN/9D/xk0PBXhDd9m6i5IIvB8WMUN/rLPGh/ONzvZeBlbMRyDkgV3IHi7a64XfeAtLSIjDNlA+FFNhDnAoGADsy+SJzawaOtnuOdPZGPINZtc+ZnNczfQIUy6/h5ycVq7ORJ6HMl7DT0RB2T9IhS9HoYONGVtmI2tR/dAtMH/NbTMwjoLrCzzogHkEDZdApfDOjIPO4W8l4p9fGd+5hbtk1CaqL8XWaqfXgwajp5QdwOwsBtfIw/2Pxr1nT5ieo=";
+
+
+    /*
+     *生成订单信息及签名
+     */
+    //将商品信息赋予AlixPayOrder的成员变量
+    Order *order = [[Order alloc] init];
+    order.partner = partner;
+    order.seller = seller;
+    order.tradeNO = order_num; //订单ID（由商家自行制定）
+    order.productName = @"这是标题"; //商品标题
+    order.productDescription = @"这是描述"; //商品描述
+    order.amount = money; //商品价格
+    order.notifyURL = @""; //回调URL
+
+    order.service = @"mobile.securitypay.pay";
+    order.paymentType = @"1";
+    order.inputCharset = @"utf-8";
+    order.itBPay = @"";
+    order.showUrl = @"m.alipay.com";
+
+    //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
+    NSString *appScheme = @"baseProject";
+
+    //将商品信息拼接成字符串
+    NSString *orderSpec = [order description];
+
+    //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
+    id<DataSigner> signer = CreateRSADataSigner(privateKey);
+    NSString *signedString = [signer signString:orderSpec];
+
+    //将签名成功字符串格式化为订单字符串,请严格按照该格式
+    NSString *orderString = nil;
+    if (signedString != nil) {
+        orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
+                       orderSpec, signedString, @"RSA"];
+
+        NSArray *array = [[UIApplication sharedApplication] windows];
+        UIWindow* win=[array objectAtIndex:0];
+        [win setHidden:NO];
+
+        [[AlipaySDK defaultService] payOrder:orderString
+                                  fromScheme:appScheme
+                                    callback:^(NSDictionary *resultDic) {
+                                        NSString *status = resultDic[@"resultStatus"];
+                                        if (status.integerValue == 9000) {
+                                            [ConfigModel mbProgressHUD:@"支付成功" andView:nil];
+                                            [self gotoSuccessController:order_num];
+                                        } else {
+                                            [ConfigModel mbProgressHUD:@"支付失败" andView:nil];
+                                        }
+                                    }];
+    }
+}
+
+- (void)gotoSuccessController:(NSString *)order_num {
+    [HttpRequest postPath:XFAlipayPayUrl
+                   params:@{@"order_no" : order_num}
+              resultBlock:^(id responseObject, NSError *error) {
+                  [self backBtnClick];
               }];
 }
 
@@ -210,97 +305,6 @@
         button.layer.borderColor = RGBGray(230).CGColor;
     }
 }
-
-
-
-//- (void)payByAlipay:(NSString *)price  out_trade_no:(NSString *)out_trade_no {
-//    NSString *appID = @"2015111700822536";
-//    NSString *rsa2PrivateKey = @"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCsQtALrxnsLj+ZYa0hV7GzxLNlb3a5iaDdKE/4xG/A+Urz7C2lhV30up6rAQaRKolXOfiGPu9zFkTEXhRmBXqZsLqHCytHZk+kqZL6QlGOPdTGO8R77jgYREU/F1xOTg6G//BcAtDnGoOZ8ofdRWZmt/imh5jj9yL9eC9BihajzMAV8d7JVM39ZBB5SEC9/RIriE+iZTIYR9bTfV+ADbPRyGAwq7JJ17an7yG0rNrvS7cmbDgG8D244o6ajJ214bx27PjB+oZubFvgKkeT7r/8UTeNyv/IVkAKE4AcNkSdpB4FwddZbGwmMWsuufoiPVozzJ05e85CH73T+56MWmQrAgMBAAECggEBAImXeEvM2fzPWBdwcHRQcm0vsUdVR9Sc/LOJro76gHT36ol43WD3bPu8UF4wnIk5G6hjcoHwJRyc7eKXbt2qhKncArE5F6GZNAZHOFHSxQfDlX+dX6zJs16WsWTaiO025d2o8tjbmvbtM660jRcNhuSHEAIcDuAPl5Az/jLwVHMSFnji12sRFMMCj+EEnsufPKumJ39bwkMK1MSfIGfSuO8989izmjOm5dDSbBYU9Yop3Te3Ympnb6ojtEjwHXUZzQSHU+88WSu8QM6QhFXBaHAgaIrs8jD3efBVLVXmGwQNTkWdh7tF7wNXP+2UPpWEDljHtL5zaZxNFx07mlEP7lECgYEA8kCHXT8St9+QqcEtvzjCTVO306L+3kRMdsQ5tu6aKtZXz5ezNTTuHbqC5aGL4pxwhwLs3KMKkRkQwnuriT0lzlLxRdGkRwoyu4W9G+vo6ADq5PuPX8hgRxDHP//vnIPxXxW7Q1c+g0WFh5ZQ24bVqbaS3CMe5SlPFN2vrMnN4fkCgYEAtglxpQLKWsIg3wzwxFUcwn3EfMXRghy3j3XhhtbK0iX1MDVnaMF55bpy09Kb5KTXrgLMCxrYLmYvENfGbhVBn+RRVpC8tc7q9gFdcYAUNfqGak2LVDBKMPrn/3ueL6rmFso2uQ34yc1qnrCaUQ2agHS+zRK0QOf+yN2isrlKQEMCgYA1MA/IXFHKxy4m50AZDOg0PB5PPClDObGkHd8iF+8HWro63O6+ztk887dLnZVt8rUOH4lLxAxM4Tj5yldWMXO8gh9xGd88rbOH0ow7ticT0SfBkK3g9MiWsctddN7x+VIkc0wDNAOIpNn1c/5axJbixTAnXxqoa9JuHWI1yLUIWQKBgEiU/WYw9aQ4cUjebQWrdhsqcHTbn0zEzH/8HZ9Y92fRULEXKhM/ya3KqMxC1nvVKlYssVTgMEBX5/5MOsdb3F23eKMOdN/9D/xk0PBXhDd9m6i5IIvB8WMUN/rLPGh/ONzvZeBlbMRyDkgV3IHi7a64XfeAtLSIjDNlA+FFNhDnAoGADsy+SJzawaOtnuOdPZGPINZtc+ZnNczfQIUy6/h5ycVq7ORJ6HMl7DT0RB2T9IhS9HoYONGVtmI2tR/dAtMH/NbTMwjoLrCzzogHkEDZdApfDOjIPO4W8l4p9fGd+5hbtk1CaqL8XWaqfXgwajp5QdwOwsBtfIw/2Pxr1nT5ieo=";
-//    NSString *rsaPrivateKey = @"";
-//
-//    self.task_num = price; ///// task_num
-//
-//
-//    if ([appID length] == 0 ||
-//        ([rsa2PrivateKey length] == 0 && [rsaPrivateKey length] == 0))
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-//                                                        message:@"缺少appId或者私钥。"
-//                                                       delegate:self
-//                                              cancelButtonTitle:@"确定"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//        return;
-//    }
-//
-//
-//    /*
-//     *生成订单信息及签名
-//     */
-//    //将商品信息赋予AlixPayOrder的成员变量
-//    Order* order = [Order new];
-//
-//    // NOTE: app_id设置
-//    order.app_id = appID;
-//
-//    // NOTE: 支付接口名称
-//    order.method = @"alipay.trade.app.pay";
-//
-//    // NOTE: 参数编码格式
-//    order.charset = @"utf-8";
-//
-//    // NOTE: 当前时间点
-//    NSDateFormatter* formatter = [NSDateFormatter new];
-//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    order.timestamp = [formatter stringFromDate:[NSDate date]];
-//
-//    // NOTE: 支付版本
-//    order.version = @"1.0";
-//
-//    // NOTE: sign_type 根据商户设置的私钥来决定
-//    order.sign_type = (rsa2PrivateKey.length > 1)?@"RSA2":@"RSA";
-//    order.notify_url = NOTIFY_URL;
-//    // NOTE: 商品数据
-//    order.biz_content = [BizContent new];
-//    order.biz_content.body = @"港城拍";
-//    order.biz_content.subject = @"港城拍";
-//    order.biz_content.out_trade_no = out_trade_no; //订单ID（由商家自行制定）
-//    order.biz_content.timeout_express = @"30m"; //超时时间设置
-//    order.biz_content.total_amount = [NSString stringWithFormat:@"%@", price]; //商品价格
-//
-//    //将商品信息拼接成字符串
-//    NSString *orderInfo = [order orderInfoEncoded:NO];
-//    NSString *orderInfoEncoded = [order orderInfoEncoded:YES];
-//    NSLog(@"orderSpec = %@",orderInfo);
-//
-//    // NOTE: 获取私钥并将商户信息签名，外部商户的加签过程请务必放在服务端，防止公私钥数据泄露；
-//    //       需要遵循RSA签名规范，并将签名字符串base64编码和UrlEncode
-//    NSString *signedString = nil;
-//    RSADataSigner* signer = [[RSADataSigner alloc] initWithPrivateKey:((rsa2PrivateKey.length > 1)?rsa2PrivateKey:rsaPrivateKey)];
-//    if ((rsa2PrivateKey.length > 1)) {
-//        signedString = [signer signString:orderInfo withRSA2:YES];
-//    } else {
-//        signedString = [signer signString:orderInfo withRSA2:NO];
-//    }
-//
-//    // NOTE: 如果加签成功，则继续执行支付
-//    if (signedString != nil) {
-//        //应用注册scheme,在AliSDKDemo-Info.plist定义URL types
-//
-//
-//        // NOTE: 将签名成功字符串格式化为订单字符串,请严格按照该格式
-//        NSString *orderString = [NSString stringWithFormat:@"%@&sign=%@",
-//                                 orderInfoEncoded, signedString];
-//        // NOTE: 调用支付结果开始支付
-//        [[AlipaySDK defaultService] payOrder:orderString fromScheme:@"GangChengpai-alipay" callback:^(NSDictionary *resultDic) {
-//            NSLog(@"reslut = %@",resultDic);
-//            [self alipayResult:resultDic];
-//        }];
-//    }
-//}
-
-
-
 
 @end
 
