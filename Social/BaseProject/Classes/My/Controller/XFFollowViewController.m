@@ -108,6 +108,13 @@
     return [XFMyFollowUserCell cellHeight];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    User *user = self.dataArray[indexPath.row];
+    XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+    controller.friendId = user.id;
+    [self pushController:controller];
+}
+
 #pragma mark ----------<XFMyFollowUserCellDelegate>----------
 - (void)myFollowUserCell:(XFMyFollowUserCell *)cell didClickUserBtn:(User *)user {
     XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];

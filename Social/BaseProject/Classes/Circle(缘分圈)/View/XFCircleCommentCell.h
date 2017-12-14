@@ -12,6 +12,7 @@
 @interface XFCircleCommentCell : UITableViewCell
 
 @property (nonatomic, strong) XFCircleCommentCellModel *model;
+@property (nonatomic, copy) void (^nameLabelTap) ();
 
 @end
 

@@ -13,6 +13,7 @@
 @property (nonatomic, copy) NSString *nickname; // 评论人昵称
 @property (nonatomic, copy) NSString *content; // 评论内容
 @property (nonatomic, copy) NSString *create_time; // 评论时间
+@property (nonatomic, strong) NSNumber *user_id;
 
 @end
 

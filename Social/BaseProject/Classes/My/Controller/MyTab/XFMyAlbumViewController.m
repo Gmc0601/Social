@@ -195,14 +195,8 @@
                       NSDictionary *infoDict = responseObject[@"info"];
 
                       if (infoDict && [infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
-                          if (weakSelf.dataArray.count) {
-                              [weakSelf.dataArray insertObject:infoDict atIndex:0];
-                          } else {
-                              weakSelf.dataArray = [NSMutableArray array];
-                              [weakSelf.dataArray insertObject:infoDict atIndex:0];
-                          }
+                          [weakSelf loadData];
                       }
-                      [weakSelf.collectionView reloadData];
                   } else {
                       [ConfigModel mbProgressHUD:@"上传失败" andView:nil];
                   }

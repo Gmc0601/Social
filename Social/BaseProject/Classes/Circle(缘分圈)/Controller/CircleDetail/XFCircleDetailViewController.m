@@ -93,12 +93,12 @@
                           Circle *circle = [Circle mj_objectWithKeyValues:dict];
                           weakSelf.circle = circle;
                           weakSelf.model = [[XFCircleContentCellModel alloc] initWithCircle:circle andType:CircleContentModelType_Detail];
-                          
+                          [[NSNotificationCenter defaultCenter] postNotificationName:@"XFCommentSuccess" object:circle];
+                          [weakSelf.commentBtn setTitle:[NSString stringWithFormat:@"评论 %@", weakSelf.circle.comment_num.stringValue] forState:UIControlStateNormal];
                           XFViewController *controller = self.childViewControllers[1];
                           if (controller.isViewLoaded) {
-                              ((XFCircleCommentViewController *)controller).commentArray = self.circle.comment;
+                              ((XFCircleCommentViewController *)controller).commentArray = weakSelf.circle.comment;
                               [((XFCircleCommentViewController *)controller) reloadTheData];
-                              [self.commentBtn setTitle:[NSString stringWithFormat:@"评论 %@", self.circle.comment_num.stringValue] forState:UIControlStateNormal];
                           }
                       }
                   }
@@ -485,16 +485,7 @@
                       if (errorCode.integerValue == 0) {
                           NSDictionary *infoDict = responseObject[@"info"];
                           [ConfigModel mbProgressHUD:infoDict[@"message"] andView:nil];
-                          weakSelf.circle.reward_num = @(weakSelf.circle.reward_num.integerValue + 1);
-                          [weakSelf.rewardBtn setTitle:[NSString stringWithFormat:@"打赏 %@", self.circle.reward_num.stringValue] forState:UIControlStateNormal];
-                          XFCircleRewardViewController *controller = (XFCircleRewardViewController *)weakSelf.childViewControllers.firstObject;
-                          NSMutableArray *array = [NSMutableArray arrayWithArray:self.circle.reward];
-                          NSString *nickName = [[NSUserDefaults standardUserDefaults] objectForKey:NickName];
-                          if (nickName.length) {
-                              [array addObject:nickName];
-                              self.circle.reward = array.copy;
-                              [controller resetLabel:self.circle.reward];
-                          }
+                          [weakSelf loadData];
                       } else {
                           [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
                       }
@@ -566,6 +557,7 @@
                           if (errorCode.integerValue == 0) {
                               [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
                               [self commentSuccess];
+                              self.textView.text = @"";
                           } else {
                               [ConfigModel mbProgressHUD:@"评论失败" andView:nil];
                           }

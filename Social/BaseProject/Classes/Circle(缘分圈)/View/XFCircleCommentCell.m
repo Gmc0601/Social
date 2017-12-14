@@ -33,6 +33,12 @@
     self.splitView.frame = model.splitViewFrame;
 }
 
+- (void)nameTap {
+    if (self.nameLabelTap) {
+        self.nameLabelTap();
+    }
+}
+
 #pragma mark ----------Lazy----------
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {
@@ -40,6 +46,8 @@
                                      textColor:BlackColor
                                  numberOfLines:1
                                      alignment:NSTextAlignmentLeft];
+        _nameLabel.userInteractionEnabled = YES;
+        [_nameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nameTap)]];
         [self.contentView addSubview:_nameLabel];
     }
     return _nameLabel;

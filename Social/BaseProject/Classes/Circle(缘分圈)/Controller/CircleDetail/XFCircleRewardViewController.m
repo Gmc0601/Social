@@ -7,6 +7,7 @@
 //
 
 #import "XFCircleRewardViewController.h"
+#import "XFFriendHomeViewController.h"
 
 @interface XFCircleRewardViewController ()
 
@@ -24,11 +25,20 @@
 - (void)setupUI {
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
     for (int i = 0; i < self.rewardArray.count; i++) {
-        NSString *name = self.rewardArray[i];
-        if ([name isKindOfClass:[NSString class]]) {
-            NSMutableAttributedString *nameAttr = [[NSMutableAttributedString alloc] initWithString:name];
-            [attrStr appendAttributedString:nameAttr];
+        User *user = self.rewardArray[i];
+        if ([user.nickname isKindOfClass:[NSString class]]) {
+            NSMutableAttributedString *nameAttr = [[NSMutableAttributedString alloc] initWithString:user.nickname];
+            WeakSelf
+            [nameAttr setTextHighlightRange:nameAttr.rangeOfAll
+                                      color:BlackColor
+                            backgroundColor:[UIColor clearColor]
+                                  tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+                                      XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+                                      controller.friendId = user.user_id;;
+                                      [weakSelf pushController:controller];
+                                  }];
             
+            [attrStr appendAttributedString:nameAttr];
             if (i != self.rewardArray.count - 1) {
                 NSMutableAttributedString *rightAttr = [[NSMutableAttributedString alloc] initWithString:@"、"];
                 [attrStr appendAttributedString:rightAttr];

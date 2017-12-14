@@ -111,8 +111,7 @@
                       if (errorCode.integerValue == 0) {
                           NSDictionary *infoDict = responseObject[@"info"];
                           [ConfigModel mbProgressHUD:infoDict[@"message"] andView:nil];
-                          model.circle.reward_num = @(model.circle.reward_num.integerValue + 1);
-                          [weakSelf.tableView reloadData];
+                          [weakSelf loadData];
                       } else {
                           [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
                       }

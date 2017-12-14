@@ -68,13 +68,28 @@
 }
 
 - (void)overBtnClick {
-    self.nickName = self.field.text;
-    if (self.nickName.length) {
-        if (self.saveBtnClick) {
-            self.saveBtnClick(self.nickName);
-        }
+    if (self.field.text.length == 0) {
+        [ConfigModel mbProgressHUD:@"请输入昵称" andView:nil];
+        return;
     }
-    [self backBtnClick];
+    WeakSelf
+    [HttpRequest postPath:XFMyBasicInfoUpdateUrl
+                   params:@{@"nickname" : self.field.text}
+              resultBlock:^(id responseObject, NSError *error) {
+                  NSNumber *errorCode = responseObject[@"error"];
+                  if (errorCode.integerValue == 0){
+                      weakSelf.nickName = self.field.text;
+                      if (weakSelf.nickName.length) {
+                          if (weakSelf.saveBtnClick) {
+                              weakSelf.saveBtnClick(self.nickName);
+                          }
+                      }
+                      [weakSelf backBtnClick];
+                  } else {
+                      [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
+                  }
+              }];
+    
 }
 
 @end

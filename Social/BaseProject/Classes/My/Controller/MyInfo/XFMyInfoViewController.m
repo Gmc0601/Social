@@ -312,10 +312,6 @@
     
     NSMutableDictionary *dict1 = [NSMutableDictionary dictionary];
     
-    if (self.user.nickname.length) {
-        dict1[@"nickname"] = self.user.nickname;
-    }
-    
     if (self.ageChange) {
         if (self.user.age.length) {
             dict1[@"age"] = self.user.age;

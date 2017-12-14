@@ -212,6 +212,10 @@
 - (void)prepareChatView:(XFPrepareChatView *)view clickConfirmBtn:(NSString *)text {
     [self.view addGestureRecognizer:self.up];
     [self.view addGestureRecognizer:self.down];
+    if (text.integerValue <= 0) {
+        [ConfigModel mbProgressHUD:@"诚意金不能为0" andView:nil];
+        return;
+    }
     FFLog(@"输入的诚意金：%@", text);
 }
 
@@ -248,6 +252,10 @@
                               if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
                                   [self.view removeGestureRecognizer:self.up];
                                   [self.view removeGestureRecognizer:self.down];
+                                  NSString *score = infoDict[@"suggest_earnest"];
+                                  if ([score isKindOfClass:[NSNumber class]]) {
+                                      score = @"0";
+                                  }
                                   XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:infoDict[@"suggest_earnest"]];
                                   view.delegate = self;
                                   [self.view addSubview:view];

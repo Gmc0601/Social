@@ -9,6 +9,7 @@
 #import "XFCircleCommentViewController.h"
 #import "XFCircleCommentCell.h"
 #import "XFCircleCommentCellModel.h"
+#import "XFFriendHomeViewController.h"
 
 @interface XFCircleCommentViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -60,6 +61,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XFCircleCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"XFCircleCommentCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.nameLabelTap = ^{
+        XFCircleCommentCellModel *model = self.dataArray[indexPath.row];
+        XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+        controller.friendId = model.comment.user_id;;
+        [self pushController:controller];
+    };
     cell.model = self.dataArray[indexPath.row];
     return cell;
 }

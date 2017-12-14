@@ -50,5 +50,7 @@
 
 @property (nonatomic, copy) NSString *longitude;
 @property (nonatomic, copy) NSString *latitude;
+
+@property (nonatomic, strong) NSNumber *user_id; // 缘分圈点赞、打赏的人id
 @end
 

@@ -35,10 +35,17 @@
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
                           NSDictionary *infoDict = responseObject[@"info"];
-                          User *user = [User mj_objectWithKeyValues:infoDict[@"userinfo"]];
                           NSDictionary *basicinfo = infoDict[@"basicinfo"];
-                          user.address = basicinfo[@"address"];
-                          user.age = basicinfo[@"age"];
+                          NSDictionary *geren = infoDict[@"geren"];
+                          NSDictionary *userinfo = infoDict[@"userinfo"];
+                          NSDictionary *xiangxi = infoDict[@"xiangxi"];
+                          NSMutableDictionary *userDict = [NSMutableDictionary dictionary];
+                          [userDict addEntriesFromDictionary:basicinfo];
+                          [userDict addEntriesFromDictionary:geren];
+                          [userDict addEntriesFromDictionary:userinfo];
+                          [userDict addEntriesFromDictionary:xiangxi];
+                          
+                          User *user = [User mj_objectWithKeyValues:userDict];
                           weakSelf.user = user;
                           [self setupUI];
                       }
@@ -75,19 +82,19 @@
     
     CGFloat contentY = personView.bottom;
     if (isFriend) {
-        UIView *heightView = [self createItemView:@"身高：" andInfo:@""];
+        UIView *heightView = [self createItemView:@"身高：" andInfo:self.user.height];
         heightView.top = personView.bottom;
         
-        UIView *weightView = [self createItemView:@"体重：" andInfo:@""];
+        UIView *weightView = [self createItemView:@"体重：" andInfo:self.user.weight];
         weightView.top = heightView.bottom;
         
-        UIView *interestView = [self createItemView:@"兴趣爱好：" andInfo:@""];
+        UIView *interestView = [self createItemView:@"兴趣爱好：" andInfo:self.user.hobby];
         interestView.top = weightView.bottom;
         
-        UIView *educationView = [self createItemView:@"学历：" andInfo:@""];
+        UIView *educationView = [self createItemView:@"学历：" andInfo:self.user.education];
         educationView.top = interestView.bottom;
         
-        UIView *feelingView = [self createItemView:@"情感状况：" andInfo:@""];
+        UIView *feelingView = [self createItemView:@"情感状况：" andInfo:self.user.feeling];
         feelingView.top = educationView.bottom;
         contentY = feelingView.bottom + 5;
     }
@@ -100,16 +107,16 @@
     detailView.top = splitView2.bottom;
     
     if (isFriend) {
-        UIView *workView = [self createItemView:@"工作：" andInfo:@""];
+        UIView *workView = [self createItemView:@"工作：" andInfo:self.user.job];
         workView.top = detailView.bottom;
         
-        UIView *incomeView = [self createItemView:@"收入：" andInfo:@""];
+        UIView *incomeView = [self createItemView:@"收入：" andInfo:self.user.income];
         incomeView.top = workView.bottom;
         
-        UIView *houseView = [self createItemView:@"房产：" andInfo:@""];
+        UIView *houseView = [self createItemView:@"房产：" andInfo:self.user.house];
         houseView.top = incomeView.bottom;
         
-        UIView *carView = [self createItemView:@"车产：" andInfo:@""];
+        UIView *carView = [self createItemView:@"车产：" andInfo:self.user.car];
         carView.top = houseView.bottom;
     }
 }

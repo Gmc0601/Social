@@ -7,6 +7,7 @@
 //
 
 #import "XFCircleZanViewController.h"
+#import "XFFriendHomeViewController.h"
 
 @interface XFCircleZanViewController ()
 
@@ -24,9 +25,18 @@
     _zanArray = zanArray;
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
     for (int i = 0; i < zanArray.count; i++) {
-        NSString *name = zanArray[i];
-        if ([name isKindOfClass:[NSString class]]) {
-            NSMutableAttributedString *nameAttr = [[NSMutableAttributedString alloc] initWithString:name];
+        User *user = zanArray[i];
+        if ([user.nickname isKindOfClass:[NSString class]]) {
+            NSMutableAttributedString *nameAttr = [[NSMutableAttributedString alloc] initWithString:user.nickname];
+            WeakSelf
+            [nameAttr setTextHighlightRange:nameAttr.rangeOfAll
+                                      color:BlackColor
+                            backgroundColor:[UIColor clearColor]
+                                  tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+                                      XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+                                      controller.friendId = user.user_id;;
+                                      [weakSelf pushController:controller];
+                                  }];
             [attrStr appendAttributedString:nameAttr];
             
             if (i != zanArray.count - 1) {

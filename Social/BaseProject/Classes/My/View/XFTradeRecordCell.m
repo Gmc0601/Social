@@ -35,6 +35,11 @@
     self.splitView.frame = CGRectMake(10, self.height - 0.5, self.width - 20, 0.5);
     
     self.infoLabel.text = record.name;
+    if (record.nickname.length) {
+        if ([record.name isEqualToString:@"打赏"] || [record.name isEqualToString:@"红包"] || [record.name isEqualToString:@"诚意金"]) {
+            self.infoLabel.text = [NSString stringWithFormat:@"%@ %@", record.name, record.nickname];
+        }
+    }
     self.timeLabel.text = record.time;
     NSString *integral = record.integral;
     if (integral.length == 0) {

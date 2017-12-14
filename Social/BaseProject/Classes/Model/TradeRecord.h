@@ -18,6 +18,7 @@
 @property (nonatomic, copy) NSString *tuihui;
 @property (nonatomic, copy) NSString *status; // 状态
 @property (nonatomic, copy) NSString *jiaoyi;
+@property (nonatomic, copy) NSString *nickname;
 
 @end
 

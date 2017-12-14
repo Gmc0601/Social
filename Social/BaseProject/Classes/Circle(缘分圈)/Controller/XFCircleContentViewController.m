@@ -61,9 +61,23 @@
                                              selector:@selector(loginSuccess)
                                                  name:XFLogoutSuccessNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(commentSuccess:)
+                                                 name:@"XFCommentSuccess"
+                                               object:nil];
 }
 
 - (void)loginSuccess {
+    [self.tableView reloadData];
+}
+
+- (void)commentSuccess:(NSNotification *)notification {
+    Circle *circle = notification.object;
+    for (XFCircleContentCellModel *model in self.dataArray) {
+        if (model.circle.id.integerValue == circle.id.integerValue) {
+            model.circle.comment_num = circle.comment_num;
+        }
+    }
     [self.tableView reloadData];
 }
 
@@ -308,8 +322,7 @@
                       if (errorCode.integerValue == 0) {
                           NSDictionary *infoDict = responseObject[@"info"];
                           [ConfigModel mbProgressHUD:infoDict[@"message"] andView:nil];
-                          model.circle.reward_num = @(model.circle.reward_num.integerValue + 1);
-                          [weakSelf.tableView reloadData];
+                          [weakSelf loadData];
                       } else {
                           [ConfigModel mbProgressHUD:responseObject[@"info"] andView:nil];
                       }
