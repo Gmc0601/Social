@@ -36,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BaseProject/Classes/My/Controller/MyAccount/XFRechrgeViewController.m"
-            timestampString = "534959975.486037"
+            timestampString = "535019742.005268"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "-confirmBtnClick"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "-sendzhifubaooder:dict:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

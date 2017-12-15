@@ -80,7 +80,10 @@
                                      redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
     
     /* 支付宝的appKey */
-    //    [[UMSocialManager defaultManager] setPlaform: UMSocialPlatformType_AlipaySession appKey:@"2015111700822536" appSecret:nil redirectURL:nil];
+//        [[UMSocialManager defaultManager] setPlaform: UMSocialPlatformType_AlipaySession
+//                                              appKey:@"2015111700822536"
+//                                           appSecret:nil
+//                                         redirectURL:nil];
 }
 
 - (void)getLocation {
