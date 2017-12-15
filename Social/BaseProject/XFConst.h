@@ -60,6 +60,7 @@ UIKIT_EXTERN NSString *const XFMyAboutUsUrl;            // 关于我们---
 UIKIT_EXTERN NSString *const XFPushSettingUrl;          // 我的聊天延迟设置显示
 UIKIT_EXTERN NSString *const XFResetPushSettingUrl;     // 我的聊天延迟申请
 UIKIT_EXTERN NSString *const XFAlipayPayUrl;            // 支付宝支付
+UIKIT_EXTERN NSString *const XFApplyChatUrl;            // 有缘人申请聊天
 
 #pragma mark ----------Const Str----------
 UIKIT_EXTERN NSString *const XFDefaultPageSize;

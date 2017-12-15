@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSArray *infoArray;
 
 @property (nonatomic, copy) NSString *order_num;
+@property (nonatomic, copy) NSString *count;
 
 @end
 
@@ -75,6 +76,7 @@
                           NSDictionary *infoDict = responseObject[@"info"];
                           if ([infoDict isKindOfClass:[NSDictionary class]]) {
                               NSArray *infoArray = infoDict[@"list"];
+                              self.count = infoDict[@"integral"];
                               if ([infoArray hasContent]) {
                                   self.infoArray = infoArray;
                                   [self setupContent];
@@ -96,7 +98,7 @@
                                            numberOfLines:0
                                                alignment:NSTextAlignmentLeft];
     self.myIntegralLabel = myIntegralLabel;
-    myIntegralLabel.text = [NSString stringWithFormat:@"我的积分：%@", self.count];
+    self.myIntegralLabel.text = [NSString stringWithFormat:@"我的积分：%@", self.count];
     myIntegralLabel.frame = CGRectMake(20, paddingView.bottom, kScreenWidth - 40, 40);
     [self.view addSubview:myIntegralLabel];
     

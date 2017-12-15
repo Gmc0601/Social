@@ -60,6 +60,7 @@ NSString *const XFMyAboutUsUrl              = @"_guanyuwomen_001";
 NSString *const XFPushSettingUrl            = @"_xianshidelay_001";
 NSString *const XFResetPushSettingUrl       = @"_delay_001";
 NSString *const XFAlipayPayUrl              = @"_alipayinterface_001";
+NSString *const XFApplyChatUrl              = @"_pleasechat_001";
 
 
 

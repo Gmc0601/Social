@@ -13,6 +13,7 @@
 #import "XFFriendAlbumViewController.h"
 #import "XFFriendTopView.h"
 #import "XFPrepareChatView.h"
+#import "XFRechrgeViewController.h"
 
 @interface XFFriendHomeViewController ()<UIScrollViewDelegate, UIGestureRecognizerDelegate, XFPrepareChatViewDelegate>
 
@@ -31,6 +32,8 @@
 @property (nonatomic, assign) NSString *friendStatus;
 
 @property (nonatomic, strong) User *user;
+
+@property (nonatomic, strong) UIView *infoView;
 
 @end
 
@@ -216,7 +219,103 @@
         [ConfigModel mbProgressHUD:@"诚意金不能为0" andView:nil];
         return;
     }
-    FFLog(@"输入的诚意金：%@", text);
+    
+    WeakSelf
+    [HttpRequest postPath:XFApplyChatUrl
+                   params:@{@"earnest" : text}
+              resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0) {
+                          NSDictionary *infoDict = responseObject[@"info"];
+                          if ([infoDict isKindOfClass:[NSDictionary class]]) {
+                              NSString *message = infoDict[@"message"];
+                              if ([message isKindOfClass:[NSString class]] && message.length) {
+                                  [ConfigModel mbProgressHUD:message andView:nil];
+                              }
+                          }
+                      } else {
+                          NSString *info = responseObject[@"info"];
+                          if ([info isKindOfClass:[NSString class]] && info.length) {
+                              [weakSelf showInfoView:info];
+                          }
+                      }
+                  }
+              }];
+}
+
+- (void)showInfoView:(NSString *)info {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenHeight)];
+    self.infoView = view;
+    UIButton *bgBtn = [UIButton xf_emptyButtonWithTarget:self action:@selector(dismiss)];
+    bgBtn.backgroundColor = MaskColor;
+    bgBtn.frame = view.bounds;
+    [view addSubview:bgBtn];
+    
+    UIView *contentView = [UIView xf_createViewWithColor:RGBGray(249)];
+    contentView.width = kScreenWidth > 320 ? 340 : 300;
+    [contentView xf_cornerCut:5];
+    [view addSubview:contentView];
+    
+    UILabel *label = [UILabel xf_labelWithFont:Font(14)
+                                     textColor:BlackColor
+                                 numberOfLines:1
+                                     alignment:NSTextAlignmentCenter];
+    label.text = info;
+    label.frame = CGRectMake(0, 0, contentView.width, 110);
+    [contentView addSubview:label];
+    
+    CGFloat btnW = (contentView.width - 60) * 0.5;
+    UIButton *cancelBtn = [UIButton xf_buttonWithTitle:@"取消"
+                                            titleColor:[UIColor blackColor]
+                                             titleFont:Font(16)
+                                               imgName:nil
+                                                target:self
+                                                action:@selector(cancelBtnClick)];
+    cancelBtn.frame = CGRectMake(20, label.bottom, btnW, 42);
+    cancelBtn.backgroundColor = RGBGray(241);
+    [cancelBtn xf_cornerCut:2];
+    [contentView addSubview:cancelBtn];
+    
+    UIButton *rightBtn = [UIButton xf_buttonWithTitle:@"充值"
+                                            titleColor:[UIColor whiteColor]
+                                             titleFont:Font(16)
+                                               imgName:nil
+                                                target:self
+                                                action:@selector(rightBtnClick)];
+    rightBtn.backgroundColor = ThemeColor;
+    [rightBtn xf_cornerCut:2];
+    rightBtn.frame = CGRectMake(cancelBtn.right + 20, label.bottom, btnW, 42);
+    [contentView addSubview:rightBtn];
+    
+    contentView.height = rightBtn.bottom + 20;
+    contentView.center = CGPointMake(KScreenWidth * 0.5, KScreenHeight * 0.5);
+    
+    
+    self.infoView.alpha = 0;
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         self.infoView.alpha = 1;
+                     }];
+    [[UIApplication sharedApplication].keyWindow addSubview:view];
+}
+
+- (void)cancelBtnClick {
+    [UIView animateWithDuration:0.25 animations:^{
+        self.infoView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.infoView removeFromSuperview];
+    }];
+}
+
+- (void)rightBtnClick {
+    [UIView animateWithDuration:0.25 animations:^{
+        self.infoView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.infoView removeFromSuperview];
+        XFRechrgeViewController *controller = [[XFRechrgeViewController alloc] init];
+        [self pushController:controller];
+    }];
 }
 
 #pragma mark ----------Action----------

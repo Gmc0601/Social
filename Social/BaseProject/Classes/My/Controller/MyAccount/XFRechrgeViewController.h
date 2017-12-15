@@ -10,6 +10,4 @@
 
 @interface XFRechrgeViewController : XFViewController
 
-@property (nonatomic, copy) NSString *count;
-
 @end

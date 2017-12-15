@@ -302,14 +302,7 @@
         self.alpha = 0;
     } completion:^(BOOL finished) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(prepareChatView:clickConfirmBtn:)]) {
-            
-            if ([self.field.text floatValue] <= [self.moeny floatValue]) {
-                [self.delegate prepareChatView:self clickConfirmBtn:self.field.text];
-            }else {
-                [ConfigModel mbProgressHUD:@"" andView:nil];
-            }
-            
-            
+            [self.delegate prepareChatView:self clickConfirmBtn:self.field.text];
         }
         [self removeFromSuperview];
     }];
