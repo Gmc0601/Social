@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddRedPackViewController">
             <connections>
+                <outlet property="biliLab" destination="gKJ-Dg-kxa" id="ptC-Or-gNl"/>
                 <outlet property="moneyLab" destination="4Hf-pC-FuY" id="E4K-ZM-LRJ"/>
                 <outlet property="textfile" destination="vI8-Ng-Yfl" id="1ko-Bo-KVh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

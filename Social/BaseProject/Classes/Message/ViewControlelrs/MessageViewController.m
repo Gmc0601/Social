@@ -10,7 +10,7 @@
 #import "AnnouncementViewController.h"
 #import "MessageModel.h"
 
-@interface MessageViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface MessageViewController ()<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, retain) UITableView *noUseTableView;
 @property (nonatomic, retain) NSMutableArray *dataArr;
@@ -103,22 +103,45 @@
 }
 
 - (void)moreClick {
-    if (self.type == NormalMessage) {
-        
-    }else {
-        [HttpRequest postPath:@"_delete_lotmessages_001" params:nil resultBlock:^(id responseObject, NSError *error) {
-            if([error isEqual:[NSNull null]] || error == nil){
-                NSLog(@"success");
-            }
-            NSDictionary *datadic = responseObject;
-            if ([datadic[@"error"] intValue] == 0) {
-                [ConfigModel mbProgressHUD:@"清空成功" andView:nil];
-                [self.navigationController popViewControllerAnimated:YES];
-            }else {
-                NSString *str = datadic[@"info"];
-                [ConfigModel mbProgressHUD:str andView:nil];
-            }
-        }];
+    
+        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否清空所有消息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alter show];
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        if (self.type == NormalMessage) {
+            //   平台公告删除
+            [HttpRequest postPath:@"_deletenotice_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+                if([error isEqual:[NSNull null]] || error == nil){
+                    NSLog(@"success");
+                }
+                NSDictionary *datadic = responseObject;
+                if ([datadic[@"error"] intValue] == 0) {
+                    [ConfigModel mbProgressHUD:@"清空成功" andView:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }else {
+                    NSString *str = datadic[@"info"];
+                    [ConfigModel mbProgressHUD:str andView:nil];
+                }
+            }];
+            
+        }else {
+            [HttpRequest postPath:@"_delete_lotmessages_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+                if([error isEqual:[NSNull null]] || error == nil){
+                    NSLog(@"success");
+                }
+                NSDictionary *datadic = responseObject;
+                if ([datadic[@"error"] intValue] == 0) {
+                    [ConfigModel mbProgressHUD:@"清空成功" andView:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }else {
+                    NSString *str = datadic[@"info"];
+                    [ConfigModel mbProgressHUD:str andView:nil];
+                }
+            }];
+        }
     }
 }
 
@@ -157,8 +180,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MessageModel *model = [[MessageModel alloc] init];
+    model = self.dataArr[indexPath.row];
     if (self.type == NormalMessage) {
         AnnouncementViewController *vc = [[AnnouncementViewController alloc] init];
+        vc.id = model.id;
         [self.navigationController pushViewController:vc animated:YES];
     }
     

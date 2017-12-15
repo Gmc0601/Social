@@ -8,6 +8,7 @@
 
 #import "MessageListViewController.h"
 //#import "ChatViewController.h"
+//#import "JQTimeHelper.h"
 #import "LoginViewController.h"
 #import "TBNavigationController.h"
 #import "SystemMessageViewController.h"
@@ -19,12 +20,15 @@
 #import "ChatNagaitonController.h"
 #define FetchChatroomPageSize   20
 
-@interface MessageListViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface MessageListViewController ()<UITableViewDelegate, UITableViewDataSource>{
+    int questCount;
+}
 
 @property (weak, nonatomic) IBOutlet UIImageView *logoImage;
 @property (weak, nonatomic) IBOutlet UIButton *LoginBtn;
 @property (nonatomic, retain) NSMutableArray *dateArr;
 @property (nonatomic, retain) NSMutableArray *nickArr;
+@property (nonatomic, retain) UILabel *lab;
 
 @property (nonatomic, retain) UITableView *noUseTableView;
 
@@ -39,10 +43,11 @@
     [self createDate ];
     
 }
+
 - (void)createDate {
     EMError *error = nil;
     error = [[EMClient sharedClient] loginWithUsername:[ConfigModel getStringforKey:Mobile] password:ChatPWD];
-    
+    [self.dateArr removeAllObjects];
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
     self.dateArr = (NSMutableArray *)conversations;
     NSString *arrimg ;
@@ -57,6 +62,37 @@
             arrimg = [arrimg stringByAppendingString:str];
         }
     }
+    NSMutableArray *newArr = [NSMutableArray new];
+    [newArr removeAllObjects];
+    [HttpRequest postPath:@"_chat_request_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+        
+        if([error isEqual:[NSNull null]] || error == nil){
+            NSLog(@"success");
+        }
+        NSDictionary *datadic = responseObject;
+        if ([datadic[@"error"] intValue] == 0) {
+            
+            NSArray *infoArr = datadic[@"info"];
+            NULLReturn(infoArr)
+            
+            for (NSDictionary *dic in infoArr) {
+                ChatRequestModel *model = [[ChatRequestModel alloc] init];
+                model.avatar_url = dic[@"avatar_url"];
+                model.nickname = dic[@"nickname"];
+                model.request_id = dic[@"request_id"];
+                model.request_time = dic[@"request_time"];
+                [newArr addObject:model];
+            }
+            questCount = (int)newArr.count;
+            
+            [self.noUseTableView reloadData];
+            
+        }else {
+            NSString *str = datadic[@"info"];
+            [ConfigModel mbProgressHUD:str andView:nil];
+        }
+        
+    }];
     
     NSLog(@".....%@", arrimg);
     //  请求头像 昵称
@@ -76,7 +112,9 @@
             NULLReturn(infoArr)
             for (NSDictionary *dic in infoArr) {
                 ChatRequestModel *model = [[ChatRequestModel alloc] init];
-                model.nickname = dic[@"nickname"];
+                if (!IsNULL(dic[@"nickname"])) {
+                    model.nickname = dic[@"nickname"];
+                }
                 model.avatar_url = dic[@"avatar_url"];
                 [self.nickArr addObject:model];
             }
@@ -96,13 +134,19 @@
     [self presentViewController:na animated:YES completion:nil];
 }
 - (void)moreClick {
+    if (![ConfigModel getBoolObjectforKey:IsLogin]) {
+        TBNavigationController *na = [[TBNavigationController alloc] initWithRootViewController:[LoginViewController new]];
+        [self presentViewController:na animated:YES completion:nil];
+        return;
+    }
+    
     SystemMessageViewController *vc = [[SystemMessageViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = YES;
     if ([ConfigModel getBoolObjectforKey:IsLogin]) {
-
         [self.view addSubview:self.noUseTableView];
         [self createDate];
         
@@ -134,6 +178,18 @@
                 break;
             case 1:{
                 cell.textLabel.text = @"聊天请求";
+                [cell.contentView addSubview:self.lab];
+                if (questCount <= 0) {
+                    self.lab.hidden = YES;
+                }else if(questCount > 99){
+                    self.lab.hidden = NO;
+                    self.lab.text = [NSString stringWithFormat:@"9+"];
+                }else {
+                    self.lab.hidden = NO;
+                    self.lab.text = [NSString stringWithFormat:@"%d", questCount];
+                }
+
+                
             }
                 break;
                 
@@ -157,10 +213,11 @@
         EMMessage *message = conversation.latestMessage;
         
         [self getmessage:message cell:cell];
-        
+        //  更改时间
+        NSLog(@"???%@", [self timeStr:message.localTime]);
+        cell.timeLab.text = [self timeStr:message.localTime];
         [cell.headImage sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:nil];
         cell.nameLab.text = model.nickname;
-
         
         return cell;
     }
@@ -168,6 +225,43 @@
     
     
 }
+
+- (NSString *)timeStr:(long long)timestamp
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *currentDate = [NSDate date];
+    
+    // 获取当前时间的年、月、日
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth|NSCalendarUnitDay fromDate:currentDate];
+    NSInteger currentYear = components.year;
+    NSInteger currentMonth = components.month;
+    NSInteger currentDay = components.day;
+    
+    // 获取消息发送时间的年、月、日
+    NSDate *msgDate = [NSDate dateWithTimeIntervalSince1970:timestamp/1000.0];
+    components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth|NSCalendarUnitDay fromDate:msgDate];
+    CGFloat msgYear = components.year;
+    CGFloat msgMonth = components.month;
+    CGFloat msgDay = components.day;
+    
+    // 判断
+    NSDateFormatter *dateFmt = [[NSDateFormatter alloc] init];
+    if (currentYear == msgYear && currentMonth == msgMonth && currentDay == msgDay) {
+        //今天
+        dateFmt.dateFormat = @"HH:mm";
+    }else if (currentYear == msgYear && currentMonth == msgMonth && currentDay-1 == msgDay ){
+        //昨天
+        dateFmt.dateFormat = @"昨天 HH:mm";
+    }else{
+        //昨天以前
+        dateFmt.dateFormat = @"yyyy-MM-dd HH:mm";
+    }
+    
+    return [dateFmt stringFromDate:msgDate];
+}
+
+
+
 
 - (void)getmessage:(EMMessage *)message cell:(ChatInfoTableViewCell *)cell {
     EMMessageBody *msgBody = message.body;
@@ -190,7 +284,7 @@
             NSLog(@"大图的secret -- %@"    ,body.secretKey);
             NSLog(@"大图的W -- %f ,大图的H -- %f",body.size.width,body.size.height);
             NSLog(@"大图的下载状态 -- %lu",body.downloadStatus);
-            
+            cell.infoLab.text = @"[图片]";
             
             // 缩略图sdk会自动下载
             NSLog(@"小图remote路径 -- %@"   ,body.thumbnailRemotePath);
@@ -325,6 +419,19 @@
         _nickArr  = [NSMutableArray new];
     }
     return _nickArr;
+}
+
+- (UILabel *)lab {
+    if (!_lab) {
+        _lab = [[UILabel alloc] initWithFrame:FRAME(kScreenW - 40, 12, 30, 20)];
+        _lab.layer.masksToBounds = YES;
+        _lab.layer.cornerRadius = 10;
+        _lab.backgroundColor = [UIColor redColor];
+        _lab.textColor = [UIColor whiteColor];
+        _lab.textAlignment = NSTextAlignmentCenter;
+        _lab.font = NormalFont(10);
+    }
+    return _lab;
 }
 
 

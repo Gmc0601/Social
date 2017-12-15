@@ -10,4 +10,6 @@
 
 @interface AnnouncementViewController : CCMessageViewController
 
+@property (nonatomic, copy) NSString *id;
+
 @end

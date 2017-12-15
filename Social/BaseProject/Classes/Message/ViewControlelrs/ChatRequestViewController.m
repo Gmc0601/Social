@@ -33,6 +33,8 @@
 
 
 - (void)createData {
+    
+    [self.dataArr removeAllObjects];
     [HttpRequest postPath:@"_chat_request_001" params:nil resultBlock:^(id responseObject, NSError *error) {
         
         if([error isEqual:[NSNull null]] || error == nil){
@@ -93,15 +95,16 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.indexpath = indexPath;
     ChatRequestModel *model = [[ChatRequestModel alloc] init];
     model = self.dataArr[indexPath.row];
     NSDictionary *dic = @{
-                          @"id" : model.request_id
+                          @"request_id" : model.request_id
                           };
     
-    [HttpRequest postPath:@"_suggest_earnest_001" params:dic resultBlock:^(id responseObject, NSError *error) {
+    [HttpRequest postPath:@"_check_request_001" params:dic resultBlock:^(id responseObject, NSError *error) {
         if([error isEqual:[NSNull null]] || error == nil){
             NSLog(@"success");
         }
@@ -109,8 +112,9 @@
         if ([datadic[@"error"] intValue] == 0) {
             NSDictionary *dic = datadic[@"info"];
             NSString *str = [NSString stringWithFormat:@"%@", dic[@"suggest_earnest"]];
+            NSString *moeny = [NSString stringWithFormat:@"%@", dic[@"earnest"]];
             self.money = str;
-            XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:str];
+            XFPrepareChatView *view = [[XFPrepareChatView alloc] initRequestWithSource:str andMoney:moeny];
             view.delegate = self;
             [self.view addSubview:view];
         }else {
@@ -118,8 +122,6 @@
             [ConfigModel mbProgressHUD:str andView:nil];
         }
     }];
-    
-    
     
 //    [HttpRequest postPath:XFFriendSuggestMoneyUrl
 //                   params:@{@"id" : self.friendId}
@@ -148,6 +150,7 @@
 //    [self.view addGestureRecognizer:self.down];
     ChatRequestModel *model = [[ChatRequestModel alloc] init];
     model = self.dataArr[self.indexpath.row];
+    WeakSelf
     NSDictionary *dic = @{
                           @"request_id" : model.request_id,
                           @"draw" : self.money,
@@ -158,7 +161,8 @@
         }
         NSDictionary *datadic = responseObject;
         if ([datadic[@"error"] intValue] == 0) {
-            [ConfigModel mbProgressHUD:@"" andView:nil];
+            [ConfigModel mbProgressHUD:@"您已拒绝" andView:nil];
+            [weakSelf createData];
         }else {
             NSString *str = datadic[@"info"];
             [ConfigModel mbProgressHUD:str andView:nil];
@@ -210,9 +214,6 @@
                     [ConfigModel mbProgressHUD:str andView:nil];
                 }
             }];
-            
-            
-            
             
         }else {
             NSString *str = datadic[@"info"];

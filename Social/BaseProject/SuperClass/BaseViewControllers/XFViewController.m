@@ -17,7 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent animated:YES];
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)backBtnClick {

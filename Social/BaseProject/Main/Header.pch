@@ -80,6 +80,8 @@
 #define Font(num)                       [UIFont systemFontOfSize:num]
 #define FontB(num)                      [UIFont boldSystemFontOfSize:num]
 
+#define DEMO_CALL 1
+
 #define IsNULL(_ref)   (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]) || ([(_ref) isKindOfClass:[NSNull class]]) )
 
 #define NULLReturn(_ref)  if (IsNULL(_ref)) {return ;}

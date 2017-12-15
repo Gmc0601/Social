@@ -30,6 +30,7 @@
         [self.backView addSubview:self.backimgView];
         [self.backimgView addSubview:self.headImage];
         [self.backimgView addSubview:self.nickname];
+        self.nickname.textColor = UIColorFromHex(0xdb4d4c);
         [self.backimgView addSubview:self.countLab];
         [self.backimgView addSubview:self.jifen];
         [self.backView addSubview:self.closeBtn];
@@ -165,7 +166,7 @@
 
 - (UILabel *)countLab {
     if (!_countLab) {
-        _countLab = [[UILabel alloc] initWithFrame:FRAME(0, self.nickname.bottom + SizeHeigh(10), SizeWidth(330)/2 + 20, SizeHeigh(37))];
+        _countLab = [[UILabel alloc] initWithFrame:FRAME(0, self.nickname.bottom + SizeHeigh(20), SizeWidth(330)/2 + 20, SizeHeigh(37))];
         _countLab.textAlignment = NSTextAlignmentRight;
         _countLab.font = ArialBoldMTFont(40);
         _countLab.textColor =UIColorFromHex(0xdb4d4c);
@@ -178,7 +179,7 @@
 
 - (UILabel *)jifen {
     if (!_jifen) {
-        _jifen = [[UILabel alloc] initWithFrame:FRAME(self.countLab.right + 2, self.nickname.bottom + SizeHeigh(27), 40, SizeHeigh(15))];
+        _jifen = [[UILabel alloc] initWithFrame:FRAME(self.countLab.right + 2, self.nickname.bottom + SizeHeigh(37), 40, SizeHeigh(15))];
         _jifen.text = @"积分";
         _jifen.font = [UIFont systemFontOfSize:12];
         _jifen.textColor = UIColorFromHex(0xdb4d4c);
