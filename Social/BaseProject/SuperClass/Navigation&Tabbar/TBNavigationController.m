@@ -16,7 +16,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationBarHidden = YES;
+    
+    if ([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+        
+        if (iOS7) {
+            [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation-bar.png"] forBarMetrics:UIBarMetricsDefault];
+        } else {
+            [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation-bar"] forBarMetrics:UIBarMetricsDefault];
+        }
+        
+    }
+    
+    
+    //导航栏
+    UIButton *setBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    setBtn.frame = CGRectMake(0, 0, 10, 19);
+    [setBtn setBackgroundImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    [setBtn addTarget:self action:@selector(popToBack) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:setBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)])
+    {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
 }
 
@@ -38,6 +61,5 @@
 {
     return [super popViewControllerAnimated:animated];
 }
-
 
 @end

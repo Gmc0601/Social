@@ -15,6 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "DemoCallManager.h"
 
 #import "NSDate+Category.h"
 #import "EaseUsersListViewController.h"
@@ -96,12 +97,16 @@ typedef enum : NSUInteger {
         _deleteConversationIfNull = YES;
         _scrollToBottomWhenAppear = YES;
         _messsagesSource = [NSMutableArray array];
+        UIViewController *vc ;
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jump) name:@"jump" object:vc];
         
         [_conversation markAllMessagesAsRead:nil];
     }
     
     return self;
 }
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -125,7 +130,7 @@ typedef enum : NSUInteger {
         self.navigationItem.leftBarButtonItem = leftBarButtonItem;
     }
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
-    titleLabel.text = @"聊天";
+    titleLabel.text = self.chattername;
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = [UIFont systemFontOfSize:18];
     self.navigationItem.titleView = titleLabel;
@@ -190,8 +195,8 @@ typedef enum : NSUInteger {
  */
 
 - (void)backAction{
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)setupEmotion
@@ -1695,8 +1700,9 @@ typedef enum : NSUInteger {
 
 - (void)moreViewVideoCallAction:(EaseChatBarMoreView *)moreView
 {
-    // Hide the keyboard
     [self.chatToolbar endEditing:YES];
+    
+    [DemoCallManager sharedManager];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CALL object:@{@"chatter":self.conversation.conversationId, @"type":[NSNumber numberWithInt:1]}];
 }

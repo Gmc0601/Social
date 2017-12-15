@@ -12,6 +12,8 @@
 @protocol XFPrepareChatViewDelegate <NSObject>
 
 @optional
+
+- (void)showinfo:(XFPrepareChatView *)view;
 - (void)prepareChatViewClickCancelBtn:(XFPrepareChatView *)view;
 - (void)prepareChatView:(XFPrepareChatView *)view clickConfirmBtn:(NSString *)text;
 
@@ -20,6 +22,9 @@
 @interface XFPrepareChatView : UIView
 
 - (instancetype)initWithScore:(NSString *)score;
+
+- (instancetype)initRequestWithSource:(NSString *)score andMoney:(NSString *)money;
+
 @property (nonatomic, weak) id<XFPrepareChatViewDelegate> delegate;
 
 @end

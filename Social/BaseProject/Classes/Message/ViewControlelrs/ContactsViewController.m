@@ -62,13 +62,23 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellID = [NSString stringWithFormat:@"%ld", indexPath.row];
     UITableViewCell *cell = [self.noUseTableView dequeueReusableCellWithIdentifier:cellID];
+    UIImageView *head ;
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        head = [[UIImageView alloc] initWithFrame:FRAME(15, 7.5, 50, 50)];
+        head.backgroundColor = [UIColor clearColor];
+        head.image = [UIImage imageNamed:@"bg_tj_tx"];
+        head.layer.masksToBounds= YES;
+        head.layer.cornerRadius = 25;
+        [cell.contentView addSubview:head];
         cell.imageView.backgroundColor = [UIColor clearColor];
         cell.imageView.image = [UIImage imageNamed:@"bg_tj_tx"];
+        cell.imageView.hidden =YES;
+        
     }
     ContactsModel *model = self.dataArr[indexPath.row];
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:[UIImage imageNamed:@"bg_tj_tx"]];
+
+    [head sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:[UIImage imageNamed:@"bg_tj_tx"]];
     cell.textLabel.text = model.nickname;
     
     return cell;

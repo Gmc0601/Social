@@ -9,10 +9,10 @@
 #import "ConfigModel.h"
 #import "MBProgressHUD.h"
 #import "ChatNagaitonController.h"
+#import "DemoCallManager.h"
 @implementation ConfigModel
 
 + (void)jumptoChatViewController:(UIViewController *)vc withId:(NSString *)userId {
-    
     
     NSDictionary *dic = @{
                           @"username" :userId,
@@ -32,8 +32,12 @@
                 EaseMessageViewController *chatController = [[EaseMessageViewController alloc] initWithConversationChatter:userId conversationType:EMConversationTypeChat];
                 chatController.chattername = name;
                 chatController.chatterhead = head;
-                ChatNagaitonController *na = [[ChatNagaitonController alloc] initWithRootViewController:chatController];
-                [vc presentViewController:na animated:YES completion:nil];
+                
+                [[DemoCallManager sharedManager] setMainController:chatController];
+                [vc.navigationController pushViewController:chatController animated:YES];
+                return;
+//                ChatNagaitonController *na = [[ChatNagaitonController alloc] initWithRootViewController:chatController];
+//                [vc presentViewController:na animated:YES completion:nil];
             }
         }else {
             NSString *str = datadic[@"info"];
