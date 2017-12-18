@@ -1,0 +1,133 @@
+//
+//  ContactsViewController.m
+//  BaseProject
+//
+//  Created by cc on 2017/11/8.
+//  Copyright © 2017年 cc. All rights reserved.
+//
+
+#import "ContactsViewController.h"
+#import "ContactsModel.h"
+
+@interface ContactsViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, retain) UITableView *noUseTableView;
+
+@property (nonatomic, retain) NSMutableArray *dataArr;
+
+@end
+
+@implementation ContactsViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.titleLab.text = @"通讯录";
+    self.rightBtn.hidden= YES;
+    [self createData];
+    [self.view addSubview:self.noUseTableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)createData {
+    [HttpRequest postPath:@"_friend_001" params:nil resultBlock:^(id responseObject, NSError *error) {
+        if([error isEqual:[NSNull null]] || error == nil){
+            NSLog(@"success");
+        }
+        NSDictionary *datadic = responseObject;
+        if ([datadic[@"error"] intValue] == 0) {
+            NSArray *infoArr = datadic[@"info"];
+             NULLReturn(infoArr)
+            for (NSDictionary *dic in infoArr) {
+                ContactsModel *model = [[ContactsModel alloc] init];
+                model.id = dic[@"id"];
+                model.avatar_url = dic[@"avatar_url"];
+                model.mobile = dic[@"mobile"];
+                model.nickname = dic[@"nickname"];
+                [self.dataArr addObject:model];
+            }
+            [self.noUseTableView reloadData];
+    
+            
+        }else {
+            NSString *str = datadic[@"info"];
+            [ConfigModel mbProgressHUD:str andView:nil];
+        }
+    }];
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.dataArr.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *cellID = [NSString stringWithFormat:@"%ld", indexPath.row];
+    UITableViewCell *cell = [self.noUseTableView dequeueReusableCellWithIdentifier:cellID];
+    UIImageView *head ;
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        head = [[UIImageView alloc] initWithFrame:FRAME(15, 7.5, 50, 50)];
+        head.backgroundColor = [UIColor clearColor];
+        head.image = [UIImage imageNamed:@"bg_tj_tx"];
+        head.layer.masksToBounds= YES;
+        head.layer.cornerRadius = 25;
+        [cell.contentView addSubview:head];
+        cell.imageView.backgroundColor = [UIColor clearColor];
+        cell.imageView.image = [UIImage imageNamed:@"bg_tj_tx"];
+        cell.imageView.hidden =YES;
+        
+    }
+    ContactsModel *model = self.dataArr[indexPath.row];
+
+    [head sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:[UIImage imageNamed:@"bg_tj_tx"]];
+    cell.textLabel.text = model.nickname;
+    
+    return cell;
+    
+}
+
+#pragma mark - UITableDelegate
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 65;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ContactsModel *model = [[ContactsModel alloc] init];
+    model = self.dataArr[indexPath.row];
+    [ConfigModel jumptoChatViewController:self withId:model.mobile];
+    
+}
+- (UITableView *)noUseTableView {
+    if (!_noUseTableView) {
+        _noUseTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenW, kScreenH - 64) style:UITableViewStylePlain];
+        _noUseTableView.backgroundColor = RGBColor(239, 240, 241);
+        _noUseTableView.delegate = self;
+        _noUseTableView.dataSource = self;
+        _noUseTableView.tableHeaderView = ({
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0)];
+            view;
+        });
+        _noUseTableView.tableFooterView = ({
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW,  SizeHeigh(0))];
+            view;
+        });
+    }
+    return _noUseTableView;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+- (NSMutableArray *)dataArr {
+    if (!_dataArr) {
+        _dataArr = [NSMutableArray new];
+    }
+    return _dataArr;
+}
+
+@end

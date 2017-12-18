@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Message List View Controller-->
+        <scene sceneID="p08-FU-Quj">
+            <objects>
+                <viewController storyboardIdentifier="MessageList" id="nVM-3M-WGE" customClass="MessageListViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dt4-hT-2eM"/>
+                        <viewControllerLayoutGuide type="bottom" id="MGh-NV-KbT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tbi-MJ-adc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxK-Be-RUF">
+                                <rect key="frame" x="107" y="279" width="160" height="30"/>
+                                <color key="backgroundColor" red="0.56984144449234009" green="0.20353889465332031" blue="0.56707781553268433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="登录/注册">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginClick:" destination="nVM-3M-WGE" eventType="touchUpInside" id="eYY-I8-2yf"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_qx" translatesAutoresizingMaskIntoConstraints="NO" id="k25-qk-1C6">
+                                <rect key="frame" x="137" y="140" width="100" height="100"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="2hs-WL-ma0"/>
+                                    <constraint firstAttribute="width" constant="100" id="qsU-Wm-DaU"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="k25-qk-1C6" firstAttribute="top" secondItem="dt4-hT-2eM" secondAttribute="bottom" constant="120" id="Hb1-J2-Obj"/>
+                            <constraint firstItem="k25-qk-1C6" firstAttribute="centerX" secondItem="fxK-Be-RUF" secondAttribute="centerX" id="Lmd-0p-nSf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fxK-Be-RUF" secondAttribute="trailing" constant="92" id="RGg-Ca-cYR"/>
+                            <constraint firstItem="fxK-Be-RUF" firstAttribute="leading" secondItem="tbi-MJ-adc" secondAttribute="leadingMargin" constant="91" id="YKk-S0-E4L"/>
+                            <constraint firstItem="fxK-Be-RUF" firstAttribute="top" secondItem="k25-qk-1C6" secondAttribute="bottom" constant="39" id="hTB-Pn-Njh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="LoginBtn" destination="fxK-Be-RUF" id="YKE-rX-UJB"/>
+                        <outlet property="logoImage" destination="k25-qk-1C6" id="mDZ-l7-zfI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M3g-AX-6Tr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2638" y="-146"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="img_qx" width="100" height="100"/>
+    </resources>
+</document>
