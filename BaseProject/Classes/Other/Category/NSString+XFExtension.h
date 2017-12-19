@@ -13,4 +13,6 @@
 - (CGSize)xf_sizeWithFont:(UIFont *)font;
 - (CGSize)xf_sizeWithFont:(UIFont *)font maxW:(CGFloat)maxW;
 
++ (NSString *)myTimeStr:(NSString *)formatTimeStr;
+
 @end

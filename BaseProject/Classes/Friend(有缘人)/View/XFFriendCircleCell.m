@@ -9,6 +9,7 @@
 #import "XFFriendCircleCell.h"
 #import "XFCirclePicView.h"
 #import "XFCircleContentCellModel.h"
+#import "NSString+XFExtension.h"
 
 @interface XFFriendCircleCell ()<XFCirclePicViewDelegate>
 
@@ -35,7 +36,7 @@
     _model = model;
     Circle *circle = model.circle;
     
-    self.timeLabel.text = circle.upload_time;
+    self.timeLabel.text = [NSString myTimeStr:circle.upload_time];
     self.timeLabel.frame = model.timeLabelFrame;
     
     self.descLabel.frame = model.descLabelFrame;
