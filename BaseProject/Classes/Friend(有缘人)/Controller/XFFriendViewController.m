@@ -262,7 +262,10 @@
             if ([[city substringFromIndex:city.length - 1] isEqualToString:@"市"]) {
                 city = [city substringToIndex:city.length - 1];
             }
-            dict[@"city"] = city;
+            NSString *distance = dict[@"distance"];
+            if (distance.length == 0) {
+                dict[@"city"] = city;
+            }
         }
         dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
         dict[@"size"] = XFDefaultPageSize;
@@ -330,14 +333,10 @@
 - (void)friendFilterView:(XFFriendFilterView *)view didSelect:(NSString *)text {
     [self.clickBtn setTitle:text forState:UIControlStateNormal];
     if (view.tag == 0) {
-        if (![text isEqualToString:@"附近"]) {
+        if (![text isEqualToString:@"附近"] && ![text isEqualToString:@"全城"]) {
             self.normalDict[@"distance"] = text;
-            if ([text isEqualToString:@"全城"]) {
-                self.normalDict[@"distance"] = @"6";
-            }
-            
         } else {
-            self.normalDict[@"distance"] = @"";
+            [self.normalDict removeObjectForKey:@"distance"];
         }
         [self loadData];
     } else if (view.tag == 1) {
