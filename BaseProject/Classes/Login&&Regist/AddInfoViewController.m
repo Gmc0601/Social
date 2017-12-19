@@ -15,6 +15,7 @@
 
 @interface AddInfoViewController ()<UITableViewDelegate, UITableViewDataSource,XFSelectItemViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     NSString *age, *nickName, *sex, *location;
+    BOOL haveimage;
 }
 
 @property (nonatomic, retain) UITableView *noUseTableView;
@@ -34,6 +35,7 @@
     sex =  @"注册后不可修改";
     self.titleLab.text = @"基本信息";
     self.rightBar.hidden = YES;
+    haveimage = NO;
     [self.view addSubview:self.noUseTableView];
     [self.view addSubview:self.finishBtn];
 }
@@ -124,6 +126,7 @@
             break;
         case 2:{
             XFNickNameViewController *vc = [[XFNickNameViewController alloc] init];
+            vc.update = @"1";
             vc.saveBtnClick = ^(NSString *nick) {
                 nickName = nick;
                 [weakSelf.noUseTableView reloadData];
@@ -204,6 +207,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
     self.headimage.image = editedImage;
+    haveimage = YES;
     [picker dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -221,6 +225,31 @@
      address 居住地 必传
      */
     
+    if (!sex) {
+        [ConfigModel mbProgressHUD:@"请选择性别" andView:nil];
+        return;
+    }
+    
+    if (!haveimage) {
+        [ConfigModel mbProgressHUD:@"请上传头像" andView:nil];
+        return;
+    }
+    
+    
+    if (!nickName) {
+        [ConfigModel mbProgressHUD:@"请填写昵称" andView:nil];
+        return;
+    }
+    
+    if (!age) {
+        [ConfigModel mbProgressHUD:@"请填写年龄" andView:nil];
+        return;
+    }
+    
+    if (!location) {
+        [ConfigModel mbProgressHUD:@"请填写地址" andView:nil];
+        return;
+    }
     
     NSString *sexStr;
     if ([sex isEqualToString:@"男"]) {
@@ -230,9 +259,13 @@
     }
     NSData *imgData = UIImageJPEGRepresentation(self.headimage.image,0.5);
     NSString *imgStr = [GTMBase64 stringByEncodingData:imgData];
+    
     if (!imgStr) {
-        imgStr = nil;
+        [ConfigModel mbProgressHUD:@"" andView:nil];
+        
     }
+    
+    
     NSDictionary *dic = @{
                           @"sex" : sexStr,
                           @"avatar_url" : imgStr,
@@ -244,11 +277,11 @@
     [HttpRequest postPath:@"_myxinxi_001" params:dic resultBlock:^(id responseObject, NSError *error) {
         if([error isEqual:[NSNull null]] || error == nil){
             NSLog(@"success");
-            [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
         }
         NSDictionary *datadic = responseObject;
         if ([datadic[@"error"] intValue] == 0) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }else {
             NSString *str = datadic[@"info"];
             [ConfigModel mbProgressHUD:str andView:nil];

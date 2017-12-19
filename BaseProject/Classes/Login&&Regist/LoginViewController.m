@@ -11,6 +11,7 @@
 #import "RegistViewController.h"
 #import <UMSocialCore/UMSocialCore.h>
 #import "MobileViewController.h"
+#import "AddInfoViewController.h"
 
 @interface LoginViewController ()<BaseTextFieldDelegate,UIGestureRecognizerDelegate>{
     BOOL person;
@@ -75,6 +76,7 @@
     [self.view addSubview:self.mobile];
     
     self.pwd = [[CCTextField alloc] initWithFrame:FRAME(40, 301 * k_screenH, kScreenW - 80, 50 * k_screenH) PlaceholderStr:@"请输入密码" isBorder:NO withLeftImage:@"icon_yzm"];
+    self.pwd.secureTextEntry = YES;
     
     [self.view addSubview:self.pwd];
     
@@ -232,6 +234,9 @@
                 NSDictionary *datadic = responseObject;
                 if ([datadic[@"error"] intValue] == 0) {
                     NSDictionary *dic = datadic[@"info"];
+                    NSString *str = [NSString stringWithFormat:@"%@", dic[@"avatar_url"]];
+                    
+                    
                     [ConfigModel saveBoolObject:YES forKey:IsLogin];
                     NSString *usertoken = dic[@"userToken"];
                     NSString *mobile = dic[@"mobile"];
@@ -240,6 +245,24 @@
                     //  登录环信
                     EMError *error = nil;
                    error = [[EMClient sharedClient] loginWithUsername:mobile password:ChatPWD];
+                    
+                    
+                    //登录环信 这里使用的是我刚才在环信后台创建的账户名和密码,使用这个账户登录,到时候如果在后台给客户端发消息的话,就可以找到该用户
+                    [[EMClient sharedClient] loginWithUsername:mobile
+                                                      password:ChatPWD
+                                                    completion:^(NSString *aUsername, EMError *aError) {
+                                                        if (!aError) {
+                                                            NSLog(@"环信登陆成功");
+                                                            EMPushOptions *emoptions = [[EMClient sharedClient] pushOptions];
+                                                            //设置有消息过来时的显示方式:1.显示收到一条消息 2.显示具体消息内容.
+                                                            //自己可以测试下
+                                                            emoptions.displayStyle = EMPushDisplayStyleSimpleBanner;
+                                                            [[EMClient sharedClient] updatePushOptionsToServer];
+                                                        } else {
+                                                            NSLog(@"环信登陆失败");
+                                                        }
+                                                    }];
+                    
                     if(!error){
                         NSLog(@"success");
                     }
@@ -248,6 +271,13 @@
                     [ConfigModel saveString:userId forKey:UserId];
                     [ConfigModel saveString:nickname forKey:NickName];
                     [ConfigModel saveString:usertoken forKey:UserToken];
+                    
+                    if (str.length == 0) {
+                        AddInfoViewController *vc = [[AddInfoViewController alloc] init];
+                        [self.navigationController pushViewController:vc animated:YES];
+                        return ;
+                    }
+                    
                     [[NSNotificationCenter defaultCenter] postNotificationName:XFLoginSuccessNotification object:nil];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }else {

@@ -29,6 +29,9 @@
     [super viewDidLoad];
     
     self.rightBar.hidden = YES;
+    [self.leftBar setImage:[UIImage imageNamed:@"nav_icon_fh"] forState:UIControlStateNormal];
+    
+    self.leftBar.frame = FRAME(10, 25, 25, 25);
     
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
     gesture.numberOfTapsRequired = 1;
@@ -64,11 +67,15 @@
     
     self.pwd2 = [[CCTextField alloc] initWithFrame:FRAME(40, 250 * k_screenH, kScreenW - 80, 50 *k_screenH) PlaceholderStr:@"确认密码" isBorder:NO withLeftImage:@""];
     
+    self.pwd2.secureTextEntry = YES;
+    
 //    if (self.type == Forget) {
     [self.view addSubview:self.pwd2];
 //    }
 
     self.pwd1 = [[CCTextField alloc] initWithFrame:FRAME(40, 200 * k_screenH, kScreenW - 80, 50 * k_screenH) PlaceholderStr:@"设置6-12位字母或数字" isBorder:NO withLeftImage:@""];
+    
+    self.pwd1.secureTextEntry = YES;
     
     [self.view addSubview:self.pwd1];
     
@@ -82,12 +89,20 @@
         
         if (self.mobile.text.length == 0) {
             [ConfigModel mbProgressHUD:@"请输入正确手机号" andView:nil];
+            return;
         }
         if (self.code.text.length == 0) {
             [ConfigModel mbProgressHUD:@"请输入验证码" andView:nil];
+            return;
         }
         if (self.pwd1.text.length == 0) {
             [ConfigModel mbProgressHUD:@"请输入密码" andView:nil];
+            return;
+        }
+        
+        if (6 > self.pwd1.text.length || self.pwd1.text.length > 12) {
+            [ConfigModel mbProgressHUD:@"请输入6-12位有效密码" andView:nil];
+            return;
         }
         
         NSDictionary *dic = @{
@@ -213,7 +228,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         //设置界面的按钮显示 根据自己需求设置
                         
-                        [self.codeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                        [self.codeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                         [self.codeBtn setTitle:@"重获验证码" forState:UIControlStateNormal];
                         self.codeBtn .userInteractionEnabled = YES;
                     });
@@ -223,7 +238,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         //设置界面的按钮显示 根据自己需求设置
                         
-                        [self.codeBtn setTitleColor:RGBColor(0, 109, 227) forState:UIControlStateNormal];
+                        [self.codeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                         [self.codeBtn setTitle:[NSString stringWithFormat:@"(%@s)",strTime] forState:UIControlStateNormal];
                         self.codeBtn .userInteractionEnabled = NO;
                     });

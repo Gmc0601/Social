@@ -131,6 +131,9 @@
             [ConfigModel saveString:@"" forKey:UserId];
             [ConfigModel saveString:@"" forKey:UserId];
             [ConfigModel saveString:@"" forKey:NickName];
+        
+            [[EMClient sharedClient] logout:YES];
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:XFLogoutSuccessNotification object:nil];
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }else {

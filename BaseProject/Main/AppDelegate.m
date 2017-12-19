@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "TBTabBarController.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import <UserNotifications/UserNotifications.h>
 
 @interface AppDelegate ()<AMapLocationManagerDelegate>
 
@@ -36,12 +37,29 @@
     //AppKey:注册的AppKey，详细见下面注释。
     //apnsCertName:推送证书名（不需要加后缀），详细见下面注释。
     EMOptions *options = [EMOptions optionsWithAppkey:@"1144171011115768#haichat"];
-    //    options.apnsCertName = @"superNumApp";
+        options.apnsCertName = @"pushtext";  //  push   正式
     EMError *error  = [[EMClient sharedClient] initializeSDKWithOptions:options];
     if (!error) {
         NSLog(@"初始化成功");
         
     }
+    
+    
+    
+    
+    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        //注册推送, 用于iOS8以及iOS8之后的系统
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
+        [application registerUserNotificationSettings:settings];
+    } else {
+        //注册推送，用于iOS8之前的系统
+        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+        [application registerForRemoteNotificationTypes:myTypes];
+    }
+    
+    //添加监听在线推送消息
+    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    
     //  友盟
     [[UMSocialManager defaultManager] openLog:YES];
     
@@ -53,6 +71,54 @@
     [self getLocation];
 
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [application registerForRemoteNotifications];
+}
+
+// 将得到的deviceToken传给SDK
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[EMClient sharedClient] bindDeviceToken:deviceToken];
+    });
+}
+
+
+
+- (void)messagesDidReceive:(NSArray *)aMessages {
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"收到环信通知" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alertView show];
+    
+
+//
+//    for (EMMessage *msg in aMessages) {
+//        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//        // App在后台
+//        if (state == UIApplicationStateBackground) {
+//            //发送本地推送
+//            if (NSClassFromString(@"UNUserNotificationCenter")) { // ios 10
+//                // 设置触发时间
+//                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.01 repeats:NO];
+//                UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+//                content.sound = [UNNotificationSound defaultSound];
+//                // 提醒，可以根据需要进行弹出，比如显示消息详情，或者是显示“您有一条新消息”
+//                content.body = @"提醒内容";
+//                UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:msg.messageId content:content trigger:trigger];
+//                [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:nil];
+//            }else {
+//                UILocalNotification *notification = [[UILocalNotification alloc] init];
+//                notification.fireDate = [NSDate date]; //触发通知的时间
+//                notification.alertBody = @"提醒内容";
+//                notification.alertAction = @"Open";
+//                notification.timeZone = [NSTimeZone defaultTimeZone];
+//                notification.soundName = UILocalNotificationDefaultSoundName;
+//                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+//            }
+//        }
+//    }
 }
 
 
@@ -102,16 +168,25 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+    
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
+// APP进入后台
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
     [[EMClient sharedClient] applicationDidEnterBackground:application];
 }
+
 
 // APP将要从后台返回
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     [[EMClient sharedClient] applicationWillEnterForeground:application];
 }
+
+
+
+
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 

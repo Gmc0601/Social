@@ -11,6 +11,8 @@
 @interface XFNickNameViewController : XFViewController
 
 @property (nonatomic, copy) void (^saveBtnClick)(NSString *nickName);
-@property (nonatomic, copy) NSString *nickName;
+@property (nonatomic, copy) NSString *nickName, *update;
+
+
 
 @end

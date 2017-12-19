@@ -916,6 +916,7 @@
 		42D859001FB2F8F100C1B7D2 /* AnnouncementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnnouncementViewController.m; sourceTree = "<group>"; };
 		42D859021FB2F99400C1B7D2 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
 		42D859031FB2F99400C1B7D2 /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
+		42E53CF61FE7FD45008D264C /* BaseProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BaseProject.entitlements; sourceTree = "<group>"; };
 		42EED4401FCFAF4A00CB9F62 /* RedPagAlter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedPagAlter.h; sourceTree = "<group>"; };
 		42EED4411FCFAF4A00CB9F62 /* RedPagAlter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RedPagAlter.m; sourceTree = "<group>"; };
 		42EED4431FCFF76700CB9F62 /* RedPagDetialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedPagDetialViewController.h; sourceTree = "<group>"; };
@@ -2160,6 +2161,7 @@
 		42A4442F1EF133E000F90791 /* BaseProject */ = {
 			isa = PBXGroup;
 			children = (
+				42E53CF61FE7FD45008D264C /* BaseProject.entitlements */,
 				425527191FC3FEFB00A616EA /* ColorHelper.h */,
 				2E4152941F945C1E00B53486 /* XFConst.h */,
 				2E4152951F945C1E00B53486 /* XFConst.m */,
@@ -2917,6 +2919,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 93TJ8UCX73;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					42A444481EF133E000F90791 = {
 						CreatedOnToolsVersion = 8.3.2;
@@ -3550,6 +3557,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BaseProject/BaseProject.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 93TJ8UCX73;
 				ENABLE_BITCODE = NO;
@@ -3601,6 +3609,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BaseProject/BaseProject.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 93TJ8UCX73;
 				ENABLE_BITCODE = NO;

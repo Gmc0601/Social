@@ -68,10 +68,24 @@
 }
 
 - (void)overBtnClick {
+   
+    
     if (self.field.text.length == 0) {
         [ConfigModel mbProgressHUD:@"请输入昵称" andView:nil];
         return;
     }
+    
+    if ([self.update isEqualToString:@"1"]) {
+        
+        if (self.saveBtnClick) {
+            self.saveBtnClick(self.field.text);
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    
+    
     WeakSelf
     [HttpRequest postPath:XFMyBasicInfoUpdateUrl
                    params:@{@"nickname" : self.field.text}
