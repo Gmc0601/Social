@@ -33,6 +33,8 @@
 @property (nonatomic, strong) NSMutableDictionary *seniorDict; // 普通筛选字典
 @property (nonatomic, strong) NSMutableDictionary *normalDict; // 高级筛选字典
 
+@property (nonatomic, strong) UIButton *clickBtn;
+
 @end
 
 @implementation XFFriendViewController
@@ -311,28 +313,29 @@
 
 #pragma mark ----------<XFFriendFilterViewDelegate>----------
 - (void)friendFilterView:(XFFriendFilterView *)view didSelect:(NSString *)text {
+    [self.clickBtn setTitle:text forState:UIControlStateNormal];
     if (view.tag == 0) {
         if (![text isEqualToString:@"附近"]) {
             self.normalDict[@"distance"] = text;
             if ([text isEqualToString:@"全城"]) {
                 self.normalDict[@"distance"] = @"6";
             }
-            [self loadData];
+            
         } else {
             self.normalDict[@"distance"] = @"";
         }
+        [self loadData];
     } else if (view.tag == 1) {
-        if (![text isEqualToString:@"不限"]) {
+        if (![text containsString:@"不限"]) {
             if ([text isEqualToString:@"男"]) {
                 self.normalDict[@"sex"] = @"1";
             } else {
                 self.normalDict[@"sex"] = @"2";
             }
-            
-            [self loadData];
         } else {
             self.normalDict[@"sex"] = @"";
         }
+        [self loadData];
     }
 }
 
@@ -344,6 +347,7 @@
 
 #pragma mark ----------Action----------
 - (void)filterBtnClick:(XFLRButton *)button {
+    self.clickBtn = button;
     if (button.tag == 0) {
         NSInteger index = 0;
         NSString *text = self.normalDict[@"distance"];

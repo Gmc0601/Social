@@ -186,7 +186,7 @@
         
         NSString *incomeStr = self.orignDict[@"income"];
         if ([incomeStr isEqualToString:@"1"]) {
-             [self setupRightLabel:incomeLabel info:@"3000以下"];
+            [self setupRightLabel:incomeLabel info:@"3000以下"];
         } else if ([incomeStr isEqualToString:@"2"]) {
             [self setupRightLabel:incomeLabel info:@"3000-5000"];
         } else if ([incomeStr isEqualToString:@"3"]) {
@@ -344,25 +344,40 @@
     self.currentTapView = ges.view;
     switch (ges.view.tag - SeniorFilterBaseTag) {
         case 0: {
+            NSMutableArray *array = [NSMutableArray array];
+            [array appendObject:@"不限"];
+            for (int i = 18; i <= 100; i++) {
+                [array appendObject:[NSString stringWithFormat:@"%d", i]];
+            }
             XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"年龄"
-                                                                         leftArray:@[@"不限", @"18", @"100"]
-                                                                        rightArray:@[@"18", @"100"]];
+                                                                         leftArray:array
+                                                                        rightArray:array];
             selectItem.delegate = self;
             [self.view addSubview:selectItem];
         }
             break;
         case 1: {
+            NSMutableArray *array = [NSMutableArray array];
+            [array appendObject:@"不限"];
+            for (int i = 151; i <= 200; i++) {
+                [array appendObject:[NSString stringWithFormat:@"%d", i]];
+            }
             XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"身高(cm)"
-                                                                         leftArray:@[@"不限", @"151", @"200"]
-                                                                        rightArray:@[@"160", @"200"]];
+                                                                         leftArray:array
+                                                                        rightArray:array];
             selectItem.delegate = self;
             [self.view addSubview:selectItem];
         }
             break;
         case 2: {
+            NSMutableArray *array = [NSMutableArray array];
+            [array appendObject:@"不限"];
+            for (int i = 41; i <= 200; i++) {
+                [array appendObject:[NSString stringWithFormat:@"%d", i]];
+            }
             XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"体重(kg)"
-                                                                         leftArray:@[@"不限", @"41", @"100"]
-                                                                        rightArray:@[@"45", @"200"]];
+                                                                         leftArray:array
+                                                                        rightArray:array];
             selectItem.delegate = self;
             [self.view addSubview:selectItem];
         }

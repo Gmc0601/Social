@@ -199,6 +199,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectIndex = indexPath.row;
     [self.tableView reloadData];
+    [self dismiss];
 }
 
 - (void)pressSlider:(UISlider *)slider {
@@ -223,9 +224,9 @@
     } else {
         centerX += (5 - slider.value) * 3.2;
     }
-    NSString *text = [NSString stringWithFormat:@"%.1f", slider.value];
-    if ([text isEqualToString:@"0.0"]) text = @"0";
-    if ([text isEqualToString:@"10.0"]) text = @"10";
+    NSString *text = [NSString stringWithFormat:@"%d", (int)slider.value];
+    //    if ([text isEqualToString:@"0.0"]) text = @"0";
+    //    if ([text isEqualToString:@"10.0"]) text = @"10";
     if (slider == self.charmSlider) {
         self.charmCountLabel.centerX = centerX;
         self.charmCountLabel.text = text;
