@@ -222,7 +222,8 @@
     
     WeakSelf
     [HttpRequest postPath:XFApplyChatUrl
-                   params:@{@"earnest" : text}
+                   params:@{@"earnest" : text,
+                            @"id" : self.friendId.stringValue}
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
