@@ -119,7 +119,7 @@
     UITextField *textField = [[UITextField alloc] init];
     self.textField = textField;
     textField.font = Font(13);
-    textField.placeholder = @"输入ID号搜索";
+    textField.placeholder = @"输入ID号或手机号搜索";
     [searchView addSubview:textField];
     textField.height = searchView.height;
     textField.left = 15;
@@ -136,6 +136,9 @@
                                              textColor:WhiteColor
                                          numberOfLines:1
                                              alignment:NSTextAlignmentLeft];
+    locationLabel.userInteractionEnabled = YES;
+    [locationLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationViewTap)]];
+    [navView addSubview:locationView];
     self.locationLabel = locationLabel;
     locationLabel.left = locationView.right + 5;
     locationLabel.width = searchView.left - 5 - locationLabel.left;
@@ -156,11 +159,13 @@
 - (void)locationViewTap {
     XFLocationViewController *controller = [[XFLocationViewController alloc] init];
     controller.titleStr = @"选择地址";
+    WeakSelf
     controller.selectAddress = ^(NSDictionary *dict) {
         NSString *name = dict[@"name"];
-        self.locationLabel.text = name;
+        weakSelf.locationLabel.text = name;
         AMapGeoPoint *point = dict[@"location"];
-        self.location = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+        weakSelf.location = [[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude];
+        [weakSelf loadData];
     };
     [self pushController:controller];
 }
@@ -191,6 +196,11 @@
                               [self.collectionView.mj_footer endRefreshing];
                           }
                           [self.collectionView reloadData];
+                      } else {
+                          NSString *info = responseObject[@"info"];
+                          if ([info isKindOfClass:[NSString class]] && info.length) {
+                              [ConfigModel mbProgressHUD:info andView:nil];
+                          }
                       }
                   }
               }];
@@ -220,6 +230,11 @@
                               [self.collectionView.mj_footer endRefreshing];
                           }
                           [self.collectionView reloadData];
+                      } else {
+                          NSString *info = responseObject[@"info"];
+                          if ([info isKindOfClass:[NSString class]] && info.length) {
+                              [ConfigModel mbProgressHUD:info andView:nil];
+                          }
                       }
                   }
               }];

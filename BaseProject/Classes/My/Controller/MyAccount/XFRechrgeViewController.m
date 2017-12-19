@@ -52,7 +52,7 @@
     NSString *status = resultDic[@"resultStatus"];
     if (status.integerValue == 9000) {
         [ConfigModel mbProgressHUD:@"支付成功" andView:nil];
-        [self gotoSuccessController:self.order_num];
+        [self gotoSuccessController];
     } else {
         [ConfigModel mbProgressHUD:@"支付失败" andView:nil];
     }
@@ -261,7 +261,7 @@
                                         NSString *status = resultDic[@"resultStatus"];
                                         if (status.integerValue == 9000) {
                                             [ConfigModel mbProgressHUD:@"支付成功" andView:nil];
-                                            [self gotoSuccessController:order_num];
+                                            [self gotoSuccessController];
                                         } else {
                                             [ConfigModel mbProgressHUD:@"支付失败" andView:nil];
                                         }
@@ -269,11 +269,20 @@
     }
 }
 
-- (void)gotoSuccessController:(NSString *)order_num {
+- (void)gotoSuccessController {
     [HttpRequest postPath:XFAlipayPayUrl
-                   params:@{@"order_no" : order_num}
+                   params:@{@"order_no" : self.order_num}
               resultBlock:^(id responseObject, NSError *error) {
-                  [self backBtnClick];
+                  if (!error) {
+                      NSNumber *errorCode = responseObject[@"error"];
+                      if (errorCode.integerValue == 0){
+                          NSString *info = responseObject[@"info"];
+                          if ([info isKindOfClass:[NSString class]]) {
+                              [ConfigModel mbProgressHUD:info andView:nil];
+                              [self backBtnClick];
+                          }
+                      }
+                  }
               }];
 }
 

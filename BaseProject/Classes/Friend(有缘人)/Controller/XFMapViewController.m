@@ -79,10 +79,11 @@
     if (button.tag == 0) {
         NSInteger index = 0;
         NSString *text = self.normalDict[@"sex"];
-        NSArray *array = @[@"不限性别", @"男", @"女"];
         if (text.length) {
-            if ([array containsObject:text]) {
-                index = [array indexOfObject:text];
+            if ([text isEqualToString:@"1"]) {
+                index = 1;
+            } else if ([text isEqualToString:@"2"]) {
+                index = 2;
             }
         }
         XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithDataArray:@[@"不限性别", @"男", @"女"]
