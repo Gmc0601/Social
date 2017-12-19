@@ -270,8 +270,8 @@
                 dict[@"city"] = city;
             }
         }
-        dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
-        dict[@"size"] = XFDefaultPageSize;
+//        dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
+//        dict[@"size"] = XFDefaultPageSize;
     }
     return dict;
 }
@@ -357,8 +357,17 @@
 }
 
 - (void)friendFilterView:(XFFriendFilterView *)view didSelectCharm:(NSString *)charm tortoise:(NSString *)tortoise {
-    self.normalDict[@"coolpoint"] = charm;
-    self.normalDict[@"beetlepoint"] = tortoise;
+    if (charm.integerValue > 0) {
+        self.normalDict[@"coolpoint"] = charm;
+    } else {
+        [self.normalDict removeObjectForKey:@"coolpoint"];
+    }
+    
+    if (tortoise.integerValue > 0) {
+        self.normalDict[@"beetlepoint"] = tortoise;
+    } else {
+        [self.normalDict removeObjectForKey:@"beetlepoint"];
+    }
     [self loadData];
 }
 

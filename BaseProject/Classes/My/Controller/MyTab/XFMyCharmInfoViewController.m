@@ -68,6 +68,10 @@
                           
                           weakSelf.user = user;
                           [self setupUI];
+                      } else {
+                          if (_scrollView) {
+                              [_scrollView removeFromSuperview];
+                          }
                       }
                   }
               }];
