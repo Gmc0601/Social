@@ -11,7 +11,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate ()<AMapLocationManagerDelegate>
+@interface AppDelegate ()<AMapLocationManagerDelegate,EMChatManagerDelegate>
 
 @property (nonatomic, strong) AMapLocationManager *locationManager;
 @property (nonatomic, strong) AMapSearchAPI *search;
@@ -94,31 +94,31 @@
     
 
 //
-//    for (EMMessage *msg in aMessages) {
-//        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-//        // App在后台
-//        if (state == UIApplicationStateBackground) {
-//            //发送本地推送
-//            if (NSClassFromString(@"UNUserNotificationCenter")) { // ios 10
-//                // 设置触发时间
-//                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.01 repeats:NO];
-//                UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-//                content.sound = [UNNotificationSound defaultSound];
-//                // 提醒，可以根据需要进行弹出，比如显示消息详情，或者是显示“您有一条新消息”
-//                content.body = @"提醒内容";
-//                UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:msg.messageId content:content trigger:trigger];
-//                [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:nil];
-//            }else {
-//                UILocalNotification *notification = [[UILocalNotification alloc] init];
-//                notification.fireDate = [NSDate date]; //触发通知的时间
-//                notification.alertBody = @"提醒内容";
-//                notification.alertAction = @"Open";
-//                notification.timeZone = [NSTimeZone defaultTimeZone];
-//                notification.soundName = UILocalNotificationDefaultSoundName;
-//                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-//            }
-//        }
-//    }
+    for (EMMessage *msg in aMessages) {
+        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+        // App在后台
+        if (state == UIApplicationStateBackground) {
+            //发送本地推送
+            if (NSClassFromString(@"UNUserNotificationCenter")) { // ios 10
+                // 设置触发时间
+                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.01 repeats:NO];
+                UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+                content.sound = [UNNotificationSound defaultSound];
+                // 提醒，可以根据需要进行弹出，比如显示消息详情，或者是显示“您有一条新消息”
+                content.body = @"提醒内容";
+                UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:msg.messageId content:content trigger:trigger];
+                [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:nil];
+            }else {
+                UILocalNotification *notification = [[UILocalNotification alloc] init];
+                notification.fireDate = [NSDate date]; //触发通知的时间
+                notification.alertBody = @"提醒内容";
+                notification.alertAction = @"Open";
+                notification.timeZone = [NSTimeZone defaultTimeZone];
+                notification.soundName = UILocalNotificationDefaultSoundName;
+                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+            }
+        }
+    }
 }
 
 
