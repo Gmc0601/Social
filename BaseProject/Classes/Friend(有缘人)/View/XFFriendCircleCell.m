@@ -124,7 +124,7 @@
     if (_timeLabel == nil) {
         _timeLabel = [UILabel xf_labelWithFont:Font(12)
                                      textColor:RGBGray(153)
-                                 numberOfLines:1
+                                 numberOfLines:2
                                      alignment:NSTextAlignmentCenter];
         [self.contentView addSubview:_timeLabel];
     }

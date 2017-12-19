@@ -29,19 +29,18 @@
     timeInterval = -timeInterval;
     int temp = 0;
     NSString *result;
-    if (timeInterval < 60) {
-        result = NSLocalizedString(@"Just", @"刚刚");
-    } else if((temp = timeInterval/60) <60){
+    if((temp = timeInterval/60) <60){
         result = [NSString stringWithFormat:@"%d分钟前", temp];
     } else if((temp = temp/60) <24){
         result = [NSString stringWithFormat:@"%d小时前",temp];
-    } else if((temp = temp/24) <30){
-        result = [NSString stringWithFormat:@"%d天前",temp];
-    } else if((temp = temp/30) <12){
-        result = [NSString stringWithFormat:@"%d月前",temp];
+    } else if((temp = temp/24) <2){
+        [format setDateFormat:@"mm:ss"];
+        result = [NSString stringWithFormat:@"昨天\n%@", [format stringFromDate:date]];
     } else{
-        temp = temp/12;
-        result = [NSString stringWithFormat:@"%d年前",temp ];
+        [format setDateFormat:@"MM月dd日 HH:mm"];
+        NSMutableString *timeStr = [format stringFromDate:date].mutableCopy;
+        [timeStr replaceCharactersInRange:[timeStr rangeOfString:@" "] withString:@"\n"];
+        result = timeStr.copy;
     }
     
     return  result;

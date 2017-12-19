@@ -8,6 +8,7 @@
 
 #import "XFCircleContentCellModel.h"
 #import "XFCirclePicView.h"
+#import "NSString+XFExtension.h"
 
 @implementation XFCircleContentCellModel
 
@@ -27,7 +28,7 @@
         
         rect.origin.x = CGRectGetMaxX(self.iconViewFrame) + 20;
         rect.origin.y = CGRectGetMinY(self.iconViewFrame) + 2;
-        CGSize timeSize = [circle.upload_time xf_sizeWithFont:Font(12)];
+        CGSize timeSize = [[NSString myTimeStr:circle.upload_time] xf_sizeWithFont:Font(12)];
         CGFloat nameMaxW = CGRectGetMinX(self.followBtnFrame) - 5 - timeSize.width - 5 - rect.origin.x;
         if (circle.nickname.length == 0) {
             circle.nickname = @"服务器没名字";
@@ -47,7 +48,8 @@
         rect.origin.y = CGRectGetMaxY(self.iconViewFrame) - 15;
         self.descLabelFrame = rect;
     } else {
-        self.timeLabelFrame = CGRectMake(0, 25, 85, 15);
+        CGSize timeSize = [[NSString myTimeStr:circle.upload_time] xf_sizeWithFont:Font(12) maxW:85];
+        self.timeLabelFrame = CGRectMake(0, 25, timeSize.width, timeSize.height);
         CGRect rect = CGRectZero;
         rect.origin.x = CGRectGetMaxX(self.timeLabelFrame);
         rect.origin.y = 25;
