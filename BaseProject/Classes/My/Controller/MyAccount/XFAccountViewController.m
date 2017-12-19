@@ -126,8 +126,8 @@
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
                   NSDictionary *info = responseObject[@"info"];
-                  NSString *integral = info[@"integral"];
-                  weakSelf.integralLabel.text = integral;
+                  NSNumber *integral = info[@"integral"];
+                  weakSelf.integralLabel.text = integral.stringValue;
 
                   NSNumber *income = info[@"income"];
                   weakSelf.incomeLabel.text = income.stringValue;
