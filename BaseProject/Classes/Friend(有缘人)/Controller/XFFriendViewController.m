@@ -263,6 +263,9 @@
                 city = [city substringToIndex:city.length - 1];
             }
             NSString *distance = dict[@"distance"];
+            if ([distance containsString:@"km"]) {
+                distance = [distance substringToIndex:distance.length - 2];
+            }
             if (distance.length == 0) {
                 dict[@"city"] = city;
             }

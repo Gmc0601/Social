@@ -241,6 +241,10 @@
     if (self.normalDict.allKeys.count) {
         [dict addEntriesFromDictionary:self.normalDict];
     }
+    NSString *distance = dict[@"distance"];
+    if ([distance containsString:@"km"]) {
+        distance = [distance substringToIndex:distance.length - 2];
+    }
     NSString *latitude = [UserDefaults stringForKey:XFCurrentLatitudeKey];
     NSString *longitude = [UserDefaults stringForKey:XFCurrentLongitudeKey];
     if (latitude.length && longitude.length) {
