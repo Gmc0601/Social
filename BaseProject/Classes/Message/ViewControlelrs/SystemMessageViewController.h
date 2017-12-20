@@ -10,4 +10,6 @@
 
 @interface SystemMessageViewController : CCMessageViewController
 
+@property (nonatomic) BOOL present;
+
 @end

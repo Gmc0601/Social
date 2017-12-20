@@ -12,6 +12,7 @@
 #import <UMSocialCore/UMSocialCore.h>
 #import "MobileViewController.h"
 #import "AddInfoViewController.h"
+#import <JPUSHService.h>
 
 @interface LoginViewController ()<BaseTextFieldDelegate,UIGestureRecognizerDelegate>{
     BOOL person;
@@ -246,7 +247,14 @@
                     EMError *error = nil;
                    error = [[EMClient sharedClient] loginWithUsername:mobile password:ChatPWD];
                     
-                    
+//                     [JPUSHService setTags:nil alias:usertoken callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
+//                    + (void)addTags:(NSSet<NSString *> *)tags
+//                completion:(JPUSHTagsOperationCompletion)completion
+//                seq:(NSInteger)seq;
+                     NSSet * set = [[NSSet alloc] initWithObjects:usertoken,nil];
+                    [JPUSHService addTags:set completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                        NSLog(@"...%lu", iResCode);
+                    } seq:1];
                     //登录环信 这里使用的是我刚才在环信后台创建的账户名和密码,使用这个账户登录,到时候如果在后台给客户端发消息的话,就可以找到该用户
                     [[EMClient sharedClient] loginWithUsername:mobile
                                                       password:ChatPWD
@@ -468,6 +476,10 @@
         _logo.image = [UIImage imageNamed:@""];
     }
     return _logo;
+}
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias {
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 
 @end

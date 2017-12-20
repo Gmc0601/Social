@@ -15,6 +15,8 @@
     
     self.headImage.layer.masksToBounds = YES;
     self.headImage.layer.cornerRadius = 25;
+    self.countLab.layer.masksToBounds = YES;
+    self.countLab.layer.cornerRadius = 10;
     
 }
 

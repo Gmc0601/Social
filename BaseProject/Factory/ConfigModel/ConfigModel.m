@@ -12,6 +12,7 @@
 #import "DemoCallManager.h"
 @implementation ConfigModel
 
+
 + (void)jumptoChatViewController:(UIViewController *)vc withId:(NSString *)userId {
     
     NSDictionary *dic = @{
@@ -29,15 +30,18 @@
             for (NSDictionary *dic in infoArr) {
                 NSString *name = dic[@"nickname"];
                 NSString *head = dic[@"avatar_url"];
+              EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:userId type:EMConversationTypeChat createIfNotExist:NO];
+                int all = [ConfigModel getIntObjectforKey:Unreadnum];
+                int now = all - conversation.unreadMessagesCount;
+                [ConfigModel saveIntegerObject:now forKey:Unreadnum];
+                
                 EaseMessageViewController *chatController = [[EaseMessageViewController alloc] initWithConversationChatter:userId conversationType:EMConversationTypeChat];
                 chatController.chattername = name;
-                chatController.chatterhead = head;
-                
+                chatController.chatterhead = head;                
                 [[DemoCallManager sharedManager] setMainController:chatController];
                 [vc.navigationController pushViewController:chatController animated:YES];
                 return;
-//                ChatNagaitonController *na = [[ChatNagaitonController alloc] initWithRootViewController:chatController];
-//                [vc presentViewController:na animated:YES completion:nil];
+
             }
         }else {
             NSString *str = datadic[@"info"];

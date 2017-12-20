@@ -33,8 +33,26 @@
     [super viewDidLoad];
     self.titleLab.text = @"系统消息";
     self.rightBtn.hidden= YES;
+    if (self.present) {
+        UIButton *btn = [UIButton xf_titleButtonWithTitle:@""
+                                               titleColor:WhiteColor
+                                                titleFont:Font(15)
+                                                   target:self
+                                                   action:@selector(back)];
+        [btn setImage:[UIImage imageNamed:@"nav_icon_fh_w"] forState:UIControlStateNormal];
+        btn.frame = FRAME(5, 20, 65, 44);
+        [self.view addSubview:btn];
+    }
     [self createdata];
     [self.view addSubview:self.noUseTableView];
+}
+
+- (void)backBtnClick {
+    if (self.present) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)createdata {

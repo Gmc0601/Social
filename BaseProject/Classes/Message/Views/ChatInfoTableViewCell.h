@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
 @property (weak, nonatomic) IBOutlet UILabel *infoLab;
 @property (weak, nonatomic) IBOutlet UILabel *timeLab;
+@property (weak, nonatomic) IBOutlet UILabel *countLab;
 
 - (void)updateChatRequest:(ChatRequestModel *)model;
 

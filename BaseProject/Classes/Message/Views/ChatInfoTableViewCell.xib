@@ -58,11 +58,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAI-b2-Zj0">
+                                <rect key="frame" x="42" y="8" width="20" height="21"/>
+                                <color key="backgroundColor" red="0.58081901069999997" green="0.088427625600000004" blue="0.31863921880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="bim-Un-xHT"/>
+                                    <constraint firstAttribute="width" constant="20" id="pGo-Hf-dXG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WO8-sh-FAJ" firstAttribute="leading" secondItem="REo-Ia-lJX" secondAttribute="trailing" constant="10" id="EQP-WT-n0K"/>
                             <constraint firstItem="AJu-In-A3k" firstAttribute="leading" secondItem="REo-Ia-lJX" secondAttribute="trailing" constant="10" id="Ihr-hN-pTH"/>
+                            <constraint firstItem="uAI-b2-Zj0" firstAttribute="top" secondItem="3JR-2F-WyF" secondAttribute="top" constant="8" id="OIw-y3-VE4"/>
+                            <constraint firstItem="WO8-sh-FAJ" firstAttribute="leading" secondItem="uAI-b2-Zj0" secondAttribute="trailing" constant="8" id="QPA-Pj-ccN"/>
                             <constraint firstItem="REo-Ia-lJX" firstAttribute="top" secondItem="3JR-2F-WyF" secondAttribute="top" constant="10" id="TMP-Mx-tcW"/>
                             <constraint firstAttribute="trailing" secondItem="UaO-fg-Uik" secondAttribute="trailing" constant="8" id="XXp-uQ-sal"/>
                             <constraint firstItem="UaO-fg-Uik" firstAttribute="top" secondItem="3JR-2F-WyF" secondAttribute="top" constant="8" id="XXv-YD-Hi7"/>
@@ -82,6 +95,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="countLab" destination="uAI-b2-Zj0" id="oUc-S2-G12"/>
                 <outlet property="headImage" destination="REo-Ia-lJX" id="uSs-lv-MwQ"/>
                 <outlet property="infoLab" destination="AJu-In-A3k" id="Ki3-m2-5My"/>
                 <outlet property="nameLab" destination="WO8-sh-FAJ" id="DnC-CS-2z6"/>

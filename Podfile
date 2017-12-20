@@ -17,4 +17,7 @@ target 'BaseProject' do
     pod 'UMengUShare/Social/QQ'
     pod 'UMengUShare/Social/Sina'
     pod 'Hyphenate'
+    pod 'JPush'
+    pod 'IQKeyboardManager'
+
 end

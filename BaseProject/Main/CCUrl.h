@@ -41,6 +41,11 @@
 
 #define BrandList @"_brandlist_001"
 
+#define HaveNewMessage @"haveMessage"
+
+#define APPKey @"6d6bac3ad95e2e7546f40dc6"
+
+#define Unreadnum @"unreadnum"
 
 //宽高
 #define KScreenWidth [UIScreen mainScreen].bounds.size.width

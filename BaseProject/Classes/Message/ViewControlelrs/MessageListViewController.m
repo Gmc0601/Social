@@ -22,6 +22,7 @@
 
 @interface MessageListViewController ()<UITableViewDelegate, UITableViewDataSource>{
     int questCount;
+    int unreadCount;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *logoImage;
@@ -39,21 +40,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.titleLab.text = @"消息";
+    
     [self.rightBtn setTitle:@"系统消息" forState:UIControlStateNormal];
     [self createDate ];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createDate) name:HaveNewMessage object:nil];
     
 }
 
 - (void)createDate {
+    unreadCount = 0;
     EMError *error = nil;
     error = [[EMClient sharedClient] loginWithUsername:[ConfigModel getStringforKey:Mobile] password:ChatPWD];
     [self.dateArr removeAllObjects];
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
+//    int num = [EMConversation unreadMessagesCount];
+    
+//    NSArray *conversations = [[EMClient sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
     self.dateArr = (NSMutableArray *)conversations;
     NSString *arrimg ;
     NULLReturn(conversations);
     for (int i = 0; i < conversations.count; i++) {
         EMConversation *conversation = conversations[i];
+        unreadCount += conversation.unreadMessagesCount;
+        [ConfigModel saveIntegerObject:unreadCount forKey:Unreadnum];
         NSString *imgStr = conversation.conversationId;
         if (i == 0) {
             arrimg = imgStr;
@@ -210,11 +220,19 @@
         }
         
         EMConversation *conversation = self.dateArr[indexPath.row];
+        if (conversation.unreadMessagesCount== 0) {
+            cell.countLab.hidden = YES;
+        }else {
+            cell.countLab.hidden = NO;
+            cell.countLab.text = [NSString stringWithFormat:@"%d", conversation.unreadMessagesCount];
+        }
+        
+        
+        
         EMMessage *message = conversation.latestMessage;
         
         [self getmessage:message cell:cell];
         //  更改时间
-        NSLog(@"???%@", [self timeStr:message.localTime]);
         cell.timeLab.text = [self timeStr:message.localTime];
         [cell.headImage sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:nil];
         cell.nameLab.text = model.nickname;
@@ -265,6 +283,7 @@
 
 - (void)getmessage:(EMMessage *)message cell:(ChatInfoTableViewCell *)cell {
     EMMessageBody *msgBody = message.body;
+    
     switch (msgBody.type) {
         case EMMessageBodyTypeText:
         {
@@ -354,6 +373,27 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return indexPath.section == 2 ? 70 : 48;
 }
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    WeakSelf
+    EMConversation *conversation = self.dateArr[indexPath.row];
+    [[EMClient sharedClient].chatManager deleteConversation:conversation.conversationId isDeleteMessages:YES completion:^(NSString *aConversationId, EMError *aError){
+        //code
+        [weakSelf createDate];
+        
+    }];
+    // 刷新
+}
+
+/**
+ *  修改Delete按钮文字为“删除”
+ */
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

@@ -19,7 +19,7 @@
 
 @property (nonatomic, retain) UIButton *loginBtn, *codeBtn;
 
-@property (nonatomic, retain) UILabel *textLab;
+@property (nonatomic, retain) UILabel *textLab, *agreelab;
 
 @end
 
@@ -37,13 +37,14 @@
     gesture.numberOfTapsRequired = 1;
     gesture.delegate = self;
     [self.view addGestureRecognizer:gesture];
-    
+    [self.view addSubview:self.agreelab];
     if (self.type == Forget) {
         UILabel *lab = [[UILabel alloc] initWithFrame:FRAME(0, 0, kScreenW , SizeHeigh(30))];
         lab.backgroundColor = UIColorFromHex(0xf0f0f0);
         lab.textColor = UIColorFromHex(0x999999);
         lab.text = @"  请通过注册手机号来进行密码找回";
         [self.view addSubview:lab];
+        self.agreelab.hidden = YES;
     }
     
     for (int i = 0; i < 4; i++) {
@@ -86,6 +87,11 @@
 - (void)buttonClick:(UIButton *)sender {
     
     if (self.type == Regist) {
+        
+        if (![self.pwd1.text isEqualToString:self.pwd2.text]) {
+            [ConfigModel mbProgressHUD:@"两次密码不一致" andView:nil];
+            return;
+        }
         
         if (self.mobile.text.length == 0) {
             [ConfigModel mbProgressHUD:@"请输入正确手机号" andView:nil];
@@ -259,9 +265,29 @@
     
 }
 
+- (UILabel *)agreelab {
+    if (!_agreelab) {
+        _agreelab = [[UILabel alloc] initWithFrame:FRAME(40, SizeHeigh(320), kScreenW - 80, SizeHeigh(15))];
+        _agreelab.font = [UIFont systemFontOfSize:13];
+        NSString *str = @"《用户注册协议》";
+        [_agreelab setAttributedText:[self attrStrFrom:[NSString stringWithFormat:@"注册即代表您同意%@",str] numberStr:str]];
+    }
+    return _agreelab;
+}
+- (NSMutableAttributedString *)attrStrFrom:(NSString *)titleStr numberStr:(NSString *)numberStr
+{
+    NSMutableAttributedString *arrString = [[NSMutableAttributedString alloc]initWithString:titleStr];
+    // 设置前面几个字串的格式:蓝色 16.0f字号
+    [arrString addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f],
+                               NSForegroundColorAttributeName:[UIColor purpleColor]
+                               }
+                       range:[titleStr rangeOfString:numberStr]];
+    return arrString;
+}
+
 -(UIButton *)loginBtn {
     if (!_loginBtn) {
-        _loginBtn = [[UIButton alloc] initWithFrame:FRAME(40, SizeHeigh(315), kScreenW - 80, SizeHeigh(43))];
+        _loginBtn = [[UIButton alloc] initWithFrame:FRAME(40, SizeHeigh(355), kScreenW - 80, SizeHeigh(43))];
         _loginBtn.backgroundColor = ThemeColor;
         _loginBtn.layer.masksToBounds = YES;
         _loginBtn.layer.cornerRadius = SizeHeigh(5);
