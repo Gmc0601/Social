@@ -30,8 +30,8 @@
 @property (nonatomic, strong) AMapReGeocodeSearchRequest *codeSearch;
 @property (nonatomic, strong) AMapSearchAPI *search;
 
-@property (nonatomic, strong) NSMutableDictionary *seniorDict; // 普通筛选字典
-@property (nonatomic, strong) NSMutableDictionary *normalDict; // 高级筛选字典
+@property (nonatomic, strong) NSMutableDictionary *seniorDict; // 高级筛选字典
+@property (nonatomic, strong) NSMutableDictionary *normalDict; // 普通筛选字典
 
 @property (nonatomic, strong) UIButton *clickBtn;
 
@@ -87,6 +87,7 @@
     
     self.seniorDict = [NSMutableDictionary dictionary];
     self.normalDict = [NSMutableDictionary dictionary];
+    self.normalDict[@"distance"] = @"20km";
     
     self.collectionView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
     self.collectionView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
@@ -251,27 +252,32 @@
         if (self.normalDict.allKeys.count) {
             [dict addEntriesFromDictionary:self.normalDict];
         }
-        NSString *latitude = [NSString stringWithFormat:@"%f", self.location.coordinate.latitude];
-        NSString *longitude = [NSString stringWithFormat:@"%f", self.location.coordinate.longitude];
-        if (latitude.length && longitude.length) {
-            dict[@"lat"] = latitude;
-            dict[@"long"] = longitude;
+        
+        NSString *distance = dict[@"distance"];
+        if ([distance containsString:@"km"]) {
+            distance = [distance substringToIndex:distance.length - 2];
+            dict[@"distance"] = distance;
         }
+        
+        
         NSString *city = [UserDefaults objectForKey:XFCurrentCityKey];
         if (city.length) {
             if ([[city substringFromIndex:city.length - 1] isEqualToString:@"市"]) {
                 city = [city substringToIndex:city.length - 1];
             }
-            NSString *distance = dict[@"distance"];
-            if ([distance containsString:@"km"]) {
-                distance = [distance substringToIndex:distance.length - 2];
-            }
             if (distance.length == 0) {
                 dict[@"city"] = city;
             }
         }
-//        dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
-//        dict[@"size"] = XFDefaultPageSize;
+        dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
+        dict[@"size"] = XFDefaultPageSize;
+    }
+    
+    NSString *latitude = [NSString stringWithFormat:@"%f", self.location.coordinate.latitude];
+    NSString *longitude = [NSString stringWithFormat:@"%f", self.location.coordinate.longitude];
+    if (latitude.length && longitude.length) {
+        dict[@"lat"] = latitude;
+        dict[@"long"] = longitude;
     }
     return dict;
 }
@@ -336,8 +342,12 @@
 - (void)friendFilterView:(XFFriendFilterView *)view didSelect:(NSString *)text {
     [self.clickBtn setTitle:text forState:UIControlStateNormal];
     if (view.tag == 0) {
-        if (![text isEqualToString:@"附近"] && ![text isEqualToString:@"全城"]) {
-            self.normalDict[@"distance"] = text;
+        if (![text isEqualToString:@"全城"]) {
+            if ([text isEqualToString:@"附近"]) {
+                self.normalDict[@"distance"] = @"20km";
+            } else {
+                self.normalDict[@"distance"] = text;
+            }
         } else {
             [self.normalDict removeObjectForKey:@"distance"];
         }
@@ -387,7 +397,7 @@
                 }
             }
         }
-        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithDataArray:@[@"附近", @"1km", @"3km", @"4km", @"5km", @"10km", @"全城"]
+        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithDataArray:array
                                                                      selectIndex:index];
         view.tag = 0;
         view.delegate = self;

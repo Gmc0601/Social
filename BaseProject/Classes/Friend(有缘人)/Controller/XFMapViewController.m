@@ -123,13 +123,14 @@
 - (void)friendFilterView:(XFFriendFilterView *)view didSelect:(NSString *)text {
     [self.clickBtn setTitle:text forState:UIControlStateNormal];
     if (view.tag == 0) {
-        if (![text isEqualToString:@"附近"]) {
-            self.normalDict[@"distance"] = text;
-            if ([text isEqualToString:@"全城"]) {
-                self.normalDict[@"distance"] = @"6";
+        if (![text isEqualToString:@"全城"]) {
+            if ([text isEqualToString:@"附近"]) {
+                self.normalDict[@"distance"] = @"20km";
+            } else {
+                self.normalDict[@"distance"] = text;
             }
         } else {
-            self.normalDict[@"distance"] = @"";
+            [self.normalDict removeObjectForKey:@"distance"];
         }
         [self loadData];
     } else if (view.tag == 1) {
@@ -253,7 +254,9 @@
     NSString *distance = dict[@"distance"];
     if ([distance containsString:@"km"]) {
         distance = [distance substringToIndex:distance.length - 2];
+        dict[@"distance"] = distance;
     }
+    
     NSString *latitude = [UserDefaults stringForKey:XFCurrentLatitudeKey];
     NSString *longitude = [UserDefaults stringForKey:XFCurrentLongitudeKey];
     if (latitude.length && longitude.length) {
