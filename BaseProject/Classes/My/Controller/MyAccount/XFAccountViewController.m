@@ -127,16 +127,32 @@
               resultBlock:^(id responseObject, NSError *error) {
                   NSDictionary *info = responseObject[@"info"];
                   NSNumber *integral = info[@"integral"];
-                  weakSelf.integralLabel.text = integral.stringValue;
+                  if ([integral isKindOfClass:[NSNumber class]]) {
+                      weakSelf.integralLabel.text = integral.stringValue;
+                  } else {
+                      weakSelf.integralLabel.text = @"0";
+                  }
 
                   NSNumber *income = info[@"income"];
-                  weakSelf.incomeLabel.text = income.stringValue;
+                  if ([income isKindOfClass:[NSNumber class]]) {
+                      weakSelf.incomeLabel.text = income.stringValue;
+                  } else {
+                      weakSelf.incomeLabel.text = @"0";
+                  }
                   
                   NSNumber *expend = info[@"expend"];
-                  weakSelf.expendLabel.text = expend.stringValue;
+                  if ([income isKindOfClass:[NSNumber class]]) {
+                      weakSelf.expendLabel.text = expend.stringValue;
+                  } else {
+                      weakSelf.expendLabel.text = @"0";
+                  }
 
                   NSNumber *pay = info[@"pay"];
-                  weakSelf.payLabel.text = pay.stringValue;
+                  if ([income isKindOfClass:[NSNumber class]]) {
+                      weakSelf.payLabel.text = pay.stringValue;
+                  } else {
+                      weakSelf.payLabel.text = @"0";
+                  }
               }];
 }
 

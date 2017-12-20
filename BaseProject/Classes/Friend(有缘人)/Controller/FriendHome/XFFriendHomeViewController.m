@@ -341,7 +341,7 @@
     }
     if ([self.friendStatus isEqualToString:@"3"]) {
         [ConfigModel jumptoChatViewController:self withId:self.user.mobile.stringValue];
-    } else if ([self.friendStatus isEqualToString:@"1"]) {
+    } else if ([self.friendStatus isEqualToString:@"1"] || [self.friendStatus isEqualToString:@"2"]) {
         [HttpRequest postPath:XFFriendSuggestMoneyUrl
                        params:@{@"id" : self.friendId}
                   resultBlock:^(id responseObject, NSError *error) {
