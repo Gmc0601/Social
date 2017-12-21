@@ -58,6 +58,15 @@
     
 //    NSArray *conversations = [[EMClient sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
     self.dateArr = (NSMutableArray *)conversations;
+    
+    [self.dateArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        EMConversation *conversation = obj;
+        EMMessage *message = conversation.latestMessage;
+        if ([[self timeStr:message.localTime] isEqualToString:@"1970-01-01 08:00"]) {
+            [self.dateArr removeObject:obj];
+        }
+    }];
+    
     NSString *arrimg ;
     NULLReturn(conversations);
     for (int i = 0; i < conversations.count; i++) {
@@ -65,6 +74,8 @@
         unreadCount += conversation.unreadMessagesCount;
         [ConfigModel saveIntegerObject:unreadCount forKey:Unreadnum];
         NSString *imgStr = conversation.conversationId;
+        
+        
         if (i == 0) {
             arrimg = imgStr;
         }else {
@@ -137,6 +148,15 @@
 
 
     
+}
+
+
+- (BOOL)check:(EMMessage *)message {
+    EMMessageBody *msgBody = message.body;
+    if ([[self timeStr:message.localTime] isEqualToString:@"1970-01-01 08:00"]) {
+        return NO;
+    }
+    return YES;
 }
 
 - (IBAction)loginClick:(id)sender {
@@ -234,6 +254,7 @@
         [self getmessage:message cell:cell];
         //  更改时间
         cell.timeLab.text = [self timeStr:message.localTime];
+        NSLog(@"...<><>.%@",[self timeStr:message.localTime]);
         [cell.headImage sd_setImageWithURL:[NSURL URLWithString:model.avatar_url] placeholderImage:nil];
         cell.nameLab.text = model.nickname;
         

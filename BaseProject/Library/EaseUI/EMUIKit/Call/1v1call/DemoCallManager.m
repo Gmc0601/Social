@@ -156,11 +156,27 @@ static DemoCallManager *callManager = nil;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (self.currentController) {
-                [self.mainController presentViewController:self.currentController animated:NO completion:nil];
+//                [self.mainController presentViewController:self.currentController animated:NO completion:nil];
+                UIWindow *window = [self mainWindow];
+                [window.rootViewController presentViewController:self.currentController animated:NO completion:nil];
             }
         });
     }
 }
+
+- (UIWindow *)mainWindow
+ {
+       UIApplication *app = [UIApplication sharedApplication];
+         if ([app.delegate respondsToSelector:@selector(window)])
+             {
+                     return [app.delegate window];
+                 }
+         else
+             {
+                     return [app keyWindow];
+                 }
+     }
+
 
 - (void)callDidConnect:(EMCallSession *)aSession
 {

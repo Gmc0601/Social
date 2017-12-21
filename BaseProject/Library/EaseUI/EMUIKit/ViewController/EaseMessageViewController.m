@@ -94,7 +94,7 @@ typedef enum : NSUInteger {
         self.mobile = conversationChatter;
         _messageCountOfPage = 10;
         _timeCellHeight = 30;
-        _deleteConversationIfNull = YES;
+        self.deleteConversationIfNull = YES;
         _scrollToBottomWhenAppear = YES;
         _messsagesSource = [NSMutableArray array];
         UIViewController *vc ;
@@ -1704,7 +1704,7 @@ typedef enum : NSUInteger {
 {
     [self.chatToolbar endEditing:YES];
     
-    [DemoCallManager sharedManager];
+//    [DemoCallManager sharedManager];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_CALL object:@{@"chatter":self.conversation.conversationId, @"type":[NSNumber numberWithInt:1]}];
 }

@@ -16,9 +16,13 @@
 // 引入JPush功能所需头文件
 #import "JPUSHService.h"
 // iOS10注册APNs所需头文件
+#import "MessageListViewController.h"
+#import "ViewController.h"
+#import "DemoCallManager.h"
 
 @interface AppDelegate ()<AMapLocationManagerDelegate,EMChatManagerDelegate,JPUSHRegisterDelegate>{
     int havenewMessage;
+    BOOL message;
 }
 
 @property (nonatomic, strong) AMapLocationManager *locationManager;
@@ -36,11 +40,13 @@
         UITableView.appearance.estimatedSectionHeaderHeight = 0;
     }
     havenewMessage = 0;
+    message = NO;
     [AMapServices sharedServices].apiKey = XFAMapKey; // 测试时换成跟Bundld id 对应的高德地图Key
     [SVProgressHUD setMinimumDismissTimeInterval:1];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = [[TBTabBarController alloc] init];
+    self.window.rootViewController = [[ViewController alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
+//    [DemoCallManager sharedManager];
     [self.window makeKeyAndVisible];
     
     //AppKey:注册的AppKey，详细见下面注释。
@@ -168,13 +174,19 @@
     }
     completionHandler();  // 系统要求执行这个方法
     //   横条通知
-     [self goToMssageViewController];
+//     [self goToMssageViewController];
+    if (message) {
+        
+    }else {
+         [self goToMssageViewController];
+    }
     
 }
 
 //   环信接受消息
 - (void)messagesDidReceive:(NSArray *)aMessages {
     //  设置未读数
+    message = YES;
   int num = [ConfigModel getIntObjectforKey:Unreadnum];
     num++;
     [ConfigModel saveIntegerObject:num forKey:Unreadnum];
@@ -277,7 +289,12 @@
     if (application.applicationState ==UIApplicationStateActive) {
         
     }else{
-        [self goToMssageViewController];
+        if (message) {
+            
+        }else {
+          [self goToMssageViewController];
+        }
+       
     }
     
 }
@@ -290,9 +307,18 @@
     
 }
 
+
+//- (void)gomessage {
+//    MessageListViewController *VC = [MessageListViewController new];
+//    VC.present = YES;
+//    UINavigationController *na = [[UINavigationController alloc] initWithRootViewController:VC];
+//    [self.window.rootViewController presentViewController:na animated:YES completion:nil];
+//}
+
 // APP进入后台
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    message =  NO;
     int num = [ConfigModel getIntObjectforKey:Unreadnum];
     [UIApplication sharedApplication].applicationIconBadgeNumber = num;
     [[EMClient sharedClient] applicationDidEnterBackground:application];

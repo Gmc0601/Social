@@ -34,6 +34,7 @@
     [super viewDidLoad];
     sex =  @"注册后不可修改";
     self.titleLab.text = @"基本信息";
+    [self.leftBar setImage:[UIImage imageNamed:@"nav_icon_fh"] forState:UIControlStateNormal];
     self.rightBar.hidden = YES;
     haveimage = NO;
     [self.view addSubview:self.noUseTableView];

@@ -19,7 +19,7 @@
 
 @property (nonatomic) BOOL isCalling;
 
-@property (strong, nonatomic) EaseMessageViewController *mainController;
+@property (strong, nonatomic) UIViewController *mainController;
 
 + (instancetype)sharedManager;
 

@@ -8,7 +8,7 @@
 
 #import "XFViewController.h"
 #import "TBNavigationController.h"
-
+#import "DemoCallManager.h"
 @interface XFViewController ()
 
 @end
@@ -17,6 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [DemoCallManager sharedManager];
     [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent animated:YES];
     self.navigationController.navigationBar.hidden = YES;
 }
