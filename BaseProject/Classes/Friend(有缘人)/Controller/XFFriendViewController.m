@@ -191,7 +191,7 @@
                                   [weakSelf.dataArray addObject:user];
                               }
                           }
-                          if (infoArray.count < 10) {
+                          if (infoArray.count == 0) {
                               [self.collectionView.mj_footer endRefreshingWithNoMoreData];
                           } else {
                               [self.collectionView.mj_footer endRefreshing];
@@ -225,7 +225,7 @@
                                   [weakSelf.dataArray addObject:user];
                               }
                           }
-                          if (infoArray.count < 10) {
+                          if (infoArray.count == 0) {
                               [self.collectionView.mj_footer endRefreshingWithNoMoreData];
                           } else {
                               [self.collectionView.mj_footer endRefreshing];
