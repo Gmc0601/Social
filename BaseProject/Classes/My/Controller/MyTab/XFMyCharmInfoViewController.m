@@ -128,7 +128,7 @@
     UIView *view = [UIView xf_createWhiteView];
     view.width = kScreenWidth;
     
-    UILabel *cooLabel = [self createInfoLabel:@"魅力分:" count:self.user.coolpoint.integerValue];
+    UILabel *cooLabel = [self createInfoLabel:@"颜值分:" count:self.user.coolpoint.integerValue];
     cooLabel.top = 10;
     cooLabel.height = 54;
     cooLabel.width = (kScreenWidth - 40) / 3;

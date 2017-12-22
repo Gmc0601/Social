@@ -86,9 +86,9 @@
                               if (![xianshi isKindOfClass:[NSString class]]) {
                                   self.xianshi = @"0";
                               }
-                              if (self.pushArray.count > xianshi.integerValue) {
-                                  self.selectItemView = self.pushArray[xianshi.integerValue];
-                                  [weakSelf setupPushSettingItem:[self.pushArray objectAtIndex:xianshi.integerValue]];
+                              if (self.pushArray.count > self.xianshi.integerValue) {
+                                  self.selectItemView = self.pushArray[self.xianshi.integerValue];
+                                  [weakSelf setupPushSettingItem:[self.pushArray objectAtIndex:self.xianshi.integerValue]];
                               }
                           }
                           

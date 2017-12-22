@@ -83,7 +83,7 @@
     NSMutableString *str = [NSMutableString string];
     [str appendString:[NSString stringWithFormat:@"ID：%@", user.id.stringValue]];
     [str appendString:@"  |  "];
-    [str appendString:[NSString stringWithFormat:@"魅力分：%@", [NSString stringWithFormat:@"%d", user.coolpoint.intValue]]];
+    [str appendString:[NSString stringWithFormat:@"颜值分：%@", [NSString stringWithFormat:@"%d", user.coolpoint.intValue]]];
     if ([user.sex isEqualToString:@"1"]) {
         [str appendString:@"  |  "];
         [str appendString:[NSString stringWithFormat:@"金龟分：%@", [NSString stringWithFormat:@"%d", user.beetlepoint.intValue]]];

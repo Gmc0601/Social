@@ -74,7 +74,7 @@
         self.contentView = contentView;
         [maskBtn addSubview:contentView];
         
-        UILabel *charmLabel = [self createContentLabel:@"魅力分"];
+        UILabel *charmLabel = [self createContentLabel:@"颜值分"];
         charmLabel.textAlignment = NSTextAlignmentLeft;
         charmLabel.frame = CGRectMake(20, 0, 100, 60);
         [contentView addSubview:charmLabel];

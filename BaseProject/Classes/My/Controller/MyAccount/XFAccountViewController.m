@@ -127,8 +127,11 @@
               resultBlock:^(id responseObject, NSError *error) {
                   NSDictionary *info = responseObject[@"info"];
                   NSNumber *integral = info[@"integral"];
+                  
                   if ([integral isKindOfClass:[NSNumber class]]) {
                       weakSelf.integralLabel.text = integral.stringValue;
+                  } else if ([integral isKindOfClass:[NSString class]]) {
+                      weakSelf.integralLabel.text = (NSString *)integral;
                   } else {
                       weakSelf.integralLabel.text = @"0";
                   }
