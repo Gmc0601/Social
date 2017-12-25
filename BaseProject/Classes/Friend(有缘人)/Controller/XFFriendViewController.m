@@ -310,6 +310,23 @@
         if (city.length) {
             [UserDefaults setObject:city forKey:XFCurrentCityKey];
             [UserDefaults synchronize];
+            
+            
+            if ([[city substringFromIndex:city.length - 1] isEqualToString:@"市"]) {
+                city = [city substringToIndex:city.length - 1];
+            }
+            NSString *latitude = [NSString stringWithFormat:@"%f", self.location.coordinate.latitude];
+            NSString *longitude = [NSString stringWithFormat:@"%f", self.location.coordinate.longitude];
+            if (latitude.length && longitude.length) {
+                [HttpRequest postPath:@"_appjwdu_001"
+                               params:@{@"long" : longitude,
+                                        @"lat" : latitude,
+                                        @"citys" : city
+                                        }
+                          resultBlock:^(id responseObject, NSError *error) {
+                          }];
+            }
+            
         }
     }
     [self loadData];
