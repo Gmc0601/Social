@@ -2258,8 +2258,8 @@
 			isa = PBXGroup;
 			children = (
 				42FFD75A1FA96D0700704591 /* Login&&Regist */,
-				B851B28B1FD0F3B100A7BBBE /* Circle(缘分圈) */,
 				B851B2B21FD0F3B100A7BBBE /* Friend(有缘人) */,
+				B851B28B1FD0F3B100A7BBBE /* Circle(缘分圈) */,
 				4264C0961F72172E00F54499 /* Message(消息) */,
 				2E4152071F945BDE00B53486 /* My(我) */,
 				2E41529A1F945C6500B53486 /* Model(模型) */,

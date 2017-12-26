@@ -283,14 +283,19 @@
 }
 
 - (void)getLocation {
-    self.locationManager = [[AMapLocationManager alloc] init];
-    [self.locationManager setDelegate:self];
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
-    [self.locationManager setLocationTimeout:10];
-    [self.locationManager setReGeocodeTimeout:5];
-    [self.locationManager startUpdatingLocation];
-    self.search = [[AMapSearchAPI alloc] init];
-    self.search.delegate = self;
+    if ([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized)) {
+        self.locationManager = [[AMapLocationManager alloc] init];
+        [self.locationManager setDelegate:self];
+        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+        [self.locationManager setLocationTimeout:10];
+        [self.locationManager setReGeocodeTimeout:5];
+        [self.locationManager startUpdatingLocation];
+        self.search = [[AMapSearchAPI alloc] init];
+        self.search.delegate = self;
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您还没有开启获取定位权限，请去系统设置打开此权限" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        [self loadData];
+    }
 }
 
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location {

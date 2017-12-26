@@ -20,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BaseProject/Classes/Friend(&#x6709;&#x7f18;&#x4eba;)/Controller/XFFriendViewController.m"
-            timestampString = "535879628.026031"
+            timestampString = "535965902.496389"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
-            landmarkName = "-onReGeocodeSearchDone:response:"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "-getLocation"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
