@@ -16,7 +16,7 @@
 
 @property (nonatomic, retain) UITableView *noUseTableView;
 @property (nonatomic, retain) NSMutableArray *dataArr;
-@property (nonatomic, copy) NSString *money;
+@property (nonatomic, copy) NSString *money, *backMoney;
 @property (nonatomic, retain) NSIndexPath *indexpath;
 
 @end
@@ -76,7 +76,7 @@
     }
     ChatRequestModel *model = [[ChatRequestModel alloc] init];
     model = self.dataArr[indexPath.row];
-    
+    cell.countLab.hidden = YES;
     [cell updateChatRequest:model];
     
     return cell;
@@ -113,6 +113,7 @@
             NSDictionary *dic = datadic[@"info"];
             NSString *str = [NSString stringWithFormat:@"%@", dic[@"suggest_earnest"]];
             NSString *moeny = [NSString stringWithFormat:@"%@", dic[@"earnest"]];
+            self.backMoney = moeny;
             self.money = str;
             XFPrepareChatView *view = [[XFPrepareChatView alloc] initRequestWithSource:str andMoney:moeny];
             view.delegate = self;
@@ -153,7 +154,7 @@
     WeakSelf
     NSDictionary *dic = @{
                           @"request_id" : model.request_id,
-                          @"draw" : self.money,
+                          @"draw" : self.backMoney,
                           };
     [HttpRequest postPath:@"_jueju_001" params:dic resultBlock:^(id responseObject, NSError *error) {
         if([error isEqual:[NSNull null]] || error == nil){
