@@ -310,6 +310,7 @@
 		42FFD76C1FA96D0700704591 /* RegistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7661FA96D0700704591 /* RegistViewController.m */; };
 		42FFD7711FA96E2B00704591 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42FFD76E1FA96E2A00704591 /* city.plist */; };
 		42FFD7721FA96E2B00704591 /* CityPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7701FA96E2A00704591 /* CityPickView.m */; };
+		649AAA0C20592FD9009006AA /* ShouCangViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649AAA0B20592FD9009006AA /* ShouCangViewController.m */; };
 		B79A5CFD6299881CB3643ACB /* libPods-BaseProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */; };
 		B850B0A11FDE60B300E96C14 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A01FDE60B300E96C14 /* libc++.tbd */; };
 		B850B0A31FDE60BA00E96C14 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A21FDE60BA00E96C14 /* libz.tbd */; };
@@ -958,6 +959,8 @@
 		42FFD76E1FA96E2A00704591 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		42FFD76F1FA96E2A00704591 /* CityPickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityPickView.h; sourceTree = "<group>"; };
 		42FFD7701FA96E2A00704591 /* CityPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityPickView.m; sourceTree = "<group>"; };
+		649AAA0A20592FD9009006AA /* ShouCangViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShouCangViewController.h; sourceTree = "<group>"; };
+		649AAA0B20592FD9009006AA /* ShouCangViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShouCangViewController.m; sourceTree = "<group>"; };
 		65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BaseProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.release.xcconfig"; sourceTree = "<group>"; };
 		B850B0A01FDE60B300E96C14 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -2145,6 +2148,7 @@
 		42A4442F1EF133E000F90791 /* BaseProject */ = {
 			isa = PBXGroup;
 			children = (
+				649AAA0920592FBD009006AA /* huorui模块 */,
 				42E53CF61FE7FD45008D264C /* BaseProject.entitlements */,
 				425527191FC3FEFB00A616EA /* ColorHelper.h */,
 				2E4152941F945C1E00B53486 /* XFConst.h */,
@@ -2462,6 +2466,15 @@
 				42FFD7701FA96E2A00704591 /* CityPickView.m */,
 			);
 			path = CityPickView;
+			sourceTree = "<group>";
+		};
+		649AAA0920592FBD009006AA /* huorui模块 */ = {
+			isa = PBXGroup;
+			children = (
+				649AAA0A20592FD9009006AA /* ShouCangViewController.h */,
+				649AAA0B20592FD9009006AA /* ShouCangViewController.m */,
+			);
+			path = "huorui模块";
 			sourceTree = "<group>";
 		};
 		7F5FE81AF3930B1D8AB68F96 /* Frameworks */ = {
@@ -3055,7 +3068,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		133526D14F1C236D4D0AF02F /* [CP] Copy Pods Resources */ = {
@@ -3090,7 +3103,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject-frameworks.sh",
-				"${PODS_ROOT}/Hyphenate/ios_IM_Hyphenate_sdk_3.3.6/HyphenateFullSDK/Hyphenate.framework",
+				"${PODS_ROOT}/Hyphenate/iOS_IM_SDK_V3.3.8/HyphenateFullSDK/Hyphenate.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -3231,6 +3244,7 @@
 				42530A0A1FE378AF00BBF319 /* PSTGridLayoutSection.m in Sources */,
 				425309F21FE378AF00BBF319 /* EMVoiceConverter.mm in Sources */,
 				B85D5AC31FD0215A008DFEA1 /* XFMyViewController.m in Sources */,
+				649AAA0C20592FD9009006AA /* ShouCangViewController.m in Sources */,
 				B85D5ABB1FD0215A008DFEA1 /* XFAssetVerifyViewController.m in Sources */,
 				42C84EAF1EF2DB060008189D /* ViewController.m in Sources */,
 				B851B2D11FD0F3B200A7BBBE /* XFCircleZanViewController.m in Sources */,

@@ -52,6 +52,8 @@
 #import <UMSocialCore/UMSocialCore.h>
 #import "NSString+RegexExtension.h"
 
+#import "Masonry.h"
+
 
 #ifdef DEBUG
 #define FFLog(...)                      NSLog(@"%s 第%d行 \n %@\n\n",__func__,__LINE__,[NSString stringWithFormat:__VA_ARGS__])
@@ -109,7 +111,7 @@
 #define k_screenH ([UIScreen mainScreen].bounds.size.height)/(667)
 #define SizeWidth(x) ([UIScreen mainScreen].bounds.size.width)/(375) * (x)
 #define SizeHeigh(x) ([UIScreen mainScreen].bounds.size.height)/(667) * (x)
-
+#define RESIZE_UI(float) ((float)/375.0f * kScreenW)
 #define NormalFont(FONTSIZE)            [UIFont  systemFontOfSize:FONTSIZE]
 /**
  * 设备判断

@@ -19,5 +19,5 @@ target 'BaseProject' do
     pod 'Hyphenate'
     pod 'JPush'
     pod 'IQKeyboardManager'
-
+    pod 'Masonry'
 end
