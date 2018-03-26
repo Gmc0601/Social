@@ -102,7 +102,7 @@
 		<string>fbauth</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
-        <string>alipay</string>
+		<string>alipay</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

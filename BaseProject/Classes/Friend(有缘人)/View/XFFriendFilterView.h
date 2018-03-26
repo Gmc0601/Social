@@ -18,7 +18,11 @@ typedef NS_ENUM(NSInteger, FriendFilterType) {
 
 @optional
 - (void)friendFilterView:(XFFriendFilterView *)view didSelect:(NSString *)text;
+// 这是旧的------废弃
 - (void)friendFilterView:(XFFriendFilterView *)view didSelectCharm:(NSString *)charm tortoise:(NSString *)tortoise;
+
+// 这是新的   
+- (void)friendFilterView:(XFFriendFilterView *)view didSelectTopMin:(NSInteger)topMin topMax:(NSInteger)topMax bottomMin:(NSInteger)bottomMin bottomMax:(NSInteger)bottomMax;
 @end
 
 @interface XFFriendFilterView : UIView
@@ -27,8 +31,15 @@ typedef NS_ENUM(NSInteger, FriendFilterType) {
                       selectIndex:(NSInteger)index;
 @property (nonatomic, weak) id<XFFriendFilterViewDelegate> delegate;
 
+// 这是旧的------废弃
 - (instancetype)initWithCharmCount:(CGFloat)charmCount
                      tortoiseCount:(CGFloat)tortoiseCount;
+
+// 这是新的    赋值1-10, 并且min < max  阿弥陀佛，阿门
+- (instancetype)initWitiTopMin:(NSInteger)topMin
+                        topMax:(NSInteger)topMax
+                     bottomMin:(NSInteger)bottomMin
+                     bottomMax:(NSInteger)bottomMax;
 
 @end
 

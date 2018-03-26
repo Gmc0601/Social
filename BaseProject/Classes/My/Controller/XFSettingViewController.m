@@ -9,6 +9,8 @@
 #import "XFSettingViewController.h"
 #import "XFSelectItemView.h"
 #import "XFUserAgreementViewController.h"
+#import "ShouCangAlert.h"
+#import "ChangePhoneViewController.h"
 
 @interface XFSettingViewController ()<XFSelectItemViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -24,10 +26,15 @@
 
 @implementation XFSettingViewController
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self loadData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    [self loadData];
+
 }
 
 - (void)setupUI {
@@ -109,6 +116,8 @@
                       }
                   }
               }];
+
+
 }
 
 - (void)setupPushSettingItem:(NSString *)xianshi {
@@ -129,6 +138,15 @@
     [HttpRequest postPath:XFResetPushSettingUrl
                    params:@{@"delay_time" : [NSString stringWithFormat:@"%zd", index]}
               resultBlock:^(id responseObject, NSError *error) {
+                  if (!error) {
+
+                      NSDictionary *infoDict = responseObject[@"info"];
+                      NSString *str = infoDict[@"info"];
+                      if (!IsNULL(str)) {
+                          [ConfigModel mbProgressHUD:str andView:nil];
+                      }
+
+                  }
               }];
 }
 
@@ -173,6 +191,9 @@
     return RESIZE_UI(50);
 }
 
+
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *Cellindentifier = @"Cellindentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:Cellindentifier];
@@ -190,6 +211,9 @@
             cell.textLabel.text = @"是否参与排名榜";
             UISwitch *oneSwitch = [[UISwitch alloc]init];
             //            [oneSwitch setOn:YES];
+            [oneSwitch addTarget:self
+                          action:@selector(function_OrderList:)
+                forControlEvents:UIControlEventValueChanged];
             [cell addSubview:oneSwitch];
             [oneSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(cell.mas_centerY);
@@ -203,6 +227,9 @@
             cell.textLabel.text = @"隐藏我的魅力值/金龟值";
             UISwitch *twoSwitch = [[UISwitch alloc]init];
             //            [oneSwitch setOn:YES];
+            [twoSwitch addTarget:self
+                          action:@selector(function_HiddenValue:)
+                forControlEvents:UIControlEventValueChanged];
             [cell addSubview:twoSwitch];
             [twoSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(cell.mas_centerY);
@@ -265,7 +292,9 @@
             break;
         case 2://更换绑定手机号
         {
-            
+
+            ChangePhoneViewController *controller = [[ChangePhoneViewController alloc] init];
+            [self pushController:controller];
         }
             break;
         case 3://推送设置
@@ -293,6 +322,15 @@
             break;
         case 6://注销账号
         {
+            ShouCangAlert* alert = [[ShouCangAlert alloc]init];
+            alert.textString = @"注销账号后,该账号将无法使用APP,账户内余额将全部清空,请谨慎操作";
+            [alert function_ShowLeftBtnValue:@"确认注销"
+                            andRightBtnValue:@"取消"
+                                    andBlock:^(int numValue) {
+                                        if (numValue == 1) {
+                                            [self function_Deleteuser];
+                                        }
+                                    }];
             
         }
             break;
@@ -326,13 +364,6 @@
         [self pushController:controller];
     }
 }
-
-
-
-
-
-
-
 
 
 #pragma mark ----------Private----------
@@ -379,6 +410,76 @@
     
     return view;
 }
+
+#pragma mark - 是否参与排名榜
+- (void)function_OrderList: (UISwitch *)sender {
+    //Code
+    BOOL changeState = sender.on;
+    [self function_WeatherList:changeState];
+}
+
+
+#pragma mark - 隐藏我的魅力值/金龟值
+- (void)function_HiddenValue: (UISwitch *)sender {
+    BOOL changeState = sender.on;
+    [self function_HiddenValueChange:changeState];
+}
+#pragma mark - 隐藏我的魅力值/金龟值
+- (void)function_HiddenValueChange: (BOOL)isState {
+    //Code
+    NSString* stateValue = isState == YES ? @"1": @"2";
+    [HttpRequest postPath:@"_usercp_001"
+                   params:@{@"usercp": stateValue}
+              resultBlock:^(id responseObject, NSError *error) {
+                  NSLog(@"隐藏我的魅力值/金龟值:%@",responseObject);
+                  if (!error) {
+                      NSDictionary *infoDict = responseObject[@"info"];
+                      NSString *str = infoDict[@"info"];
+                      if (!IsNULL(str)) {
+                          [ConfigModel mbProgressHUD:str andView:nil];
+                      }
+
+                  }
+              }];
+}
+
+#pragma mark - 是否参与排名榜
+- (void)function_WeatherList: (BOOL)isState {
+    //Code
+    NSString* stateValue = isState == YES ? @"1": @"2";
+    [HttpRequest postPath:@"_rangking_001"
+                   params:@{@"rangking": stateValue}
+              resultBlock:^(id responseObject, NSError *error) {
+                  NSLog(@"是否参与排名榜:%@",responseObject);
+                  if (!error) {
+//                      NSNumber *errorCode = responseObject[@"error"];
+                      NSDictionary *infoDict = responseObject[@"info"];
+                      NSString *str = infoDict[@"info"];
+                      if (!IsNULL(str)) {
+                          [ConfigModel mbProgressHUD:str andView:nil];
+                      }
+
+                  }
+              }];
+}
+#pragma mark - 注销账号
+- (void)function_Deleteuser {
+    //Code
+    [HttpRequest postPath:@"_deleteuser_001"
+                   params:nil
+              resultBlock:^(id responseObject, NSError *error) {
+                  NSLog(@"注销账号:%@",responseObject);
+                  if (!error) {
+                      NSString *str = responseObject[@"info"];
+                      
+                      if (!IsNULL(str)) {
+                          [ConfigModel mbProgressHUD:str andView:nil];
+                      }
+
+                  }
+              }];
+}
+
 
 @end
 

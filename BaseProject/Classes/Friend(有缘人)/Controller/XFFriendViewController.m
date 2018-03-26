@@ -13,6 +13,7 @@
 #import "XFFriendHomeViewController.h"
 #import "XFMapViewController.h"
 #import "XFLocationViewController.h"
+#import "XFFriendSecondCell.h"
 
 @interface XFFriendViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, XFFriendFilterViewDelegate, AMapLocationManagerDelegate, AMapSearchDelegate>
 
@@ -22,7 +23,7 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UILabel *locationLabel;
 @property (nonatomic, assign) NSInteger currentPage;
-
+@property (nonatomic, assign) BOOL stateValue;
 @property (nonatomic, strong) UITextField *textField;
 
 
@@ -53,7 +54,7 @@
     fileterView.frame = CGRectMake(0, XFNavHeight, kScreenWidth, 33);
     [self.view addSubview:fileterView];
     
-    CGFloat itemW = kScreenWidth * 0.25;
+    CGFloat itemW = (kScreenWidth - 40) * 0.25;
     for (int i = 0; i < 4; i++) {
         NSString *imgName = i == 3 ? @"icon_yyr_sx" : @"list_ic_2_0";
         NSString *title = @"";
@@ -80,6 +81,14 @@
         button.left = i * itemW;
         [fileterView addSubview:button];
     }
+
+    UIButton *btn_BB = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn_BB setFrame:CGRectMake(kScreenWidth - 40, 0, 40, fileterView.height)];
+    [btn_BB setBackgroundColor:[UIColor whiteColor]];
+    [btn_BB setImage:[UIImage imageNamed:@"setMenu"] forState:UIControlStateNormal];
+    [btn_BB addTarget:self action:@selector(function_changeWay) forControlEvents:UIControlEventTouchUpInside];
+    [fileterView addSubview:btn_BB];
+
     
     UIView *splitView = [UIView xf_createSplitView];
     splitView.frame = CGRectMake(0, fileterView.height - 0.5, fileterView.width, 0.5);
@@ -98,6 +107,12 @@
     mapBtn.bottom = kScreenHeight - 75;
     [self.view addSubview:mapBtn];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.stateValue = NO;
+}
+
 
 - (void)setupNavView {
     UIView *navView = [UIView xf_createWhiteView];
@@ -347,10 +362,17 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    XFFriendCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendCell" forIndexPath:indexPath];
-    cell.backgroundColor = WhiteColor;
-    cell.user = self.dataArray[indexPath.item];
-    return cell;
+    if (self.stateValue) {
+        XFFriendSecondCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendSecondCell" forIndexPath:indexPath];
+        cell.backgroundColor = WhiteColor;
+        cell.user = self.dataArray[indexPath.item];
+        return cell;
+    } else {
+        XFFriendCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendCell" forIndexPath:indexPath];
+        cell.backgroundColor = WhiteColor;
+        cell.user = self.dataArray[indexPath.item];
+        return cell;
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -403,6 +425,20 @@
     [self loadData];
 }
 
+- (void)friendFilterView:(XFFriendFilterView *)view
+         didSelectTopMin:(NSInteger)topMin
+                  topMax:(NSInteger)topMax
+               bottomMin:(NSInteger)bottomMin
+               bottomMax:(NSInteger)bottomMax {
+
+    self.normalDict[@"coolpoint1"] = [NSString stringWithFormat:@"%ld", (long)topMin];
+    self.normalDict[@"coolpoint2"] = [NSString stringWithFormat:@"%ld", (long)topMax];
+    self.normalDict[@"beetlepoint1"] = [NSString stringWithFormat:@"%ld", (long)bottomMin];
+    self.normalDict[@"beetlepoint2"] = [NSString stringWithFormat:@"%ld", (long)bottomMax];
+    [self loadData];
+
+}
+
 #pragma mark ----------Action----------
 - (void)filterBtnClick:(XFLRButton *)button {
     self.clickBtn = button;
@@ -450,7 +486,11 @@
         if (torStr.length) {
             tor = torStr.floatValue;
         }
-        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithCharmCount:charm tortoiseCount:tor];
+        XFFriendFilterView* view = [[XFFriendFilterView alloc]initWitiTopMin:0
+                                                                      topMax:10
+                                                                   bottomMin:0
+                                                                   bottomMax:10];
+//        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithCharmCount:charm tortoiseCount:tor];
         view.tag = 2;
         view.delegate = self;
         [[UIApplication sharedApplication].keyWindow addSubview:view];
@@ -476,6 +516,7 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, top, kScreenWidth, kScreenHeight - top - XFTabHeight)
                                              collectionViewLayout:self.layout];
         [_collectionView registerClass:[XFFriendCell class] forCellWithReuseIdentifier:@"XFFriendCell"];
+        [_collectionView registerClass:[XFFriendSecondCell class] forCellWithReuseIdentifier:@"XFFriendSecondCell"];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = PaddingColor;
@@ -499,6 +540,22 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+#pragma mark - 刷新
+- (void)function_changeWay {
+    CGFloat itemW = floorf((kScreenWidth  - 15) * 0.5);
+    if (self.layout.itemSize.width == itemW) {
+        self.stateValue = YES;
+        self.layout.itemSize = CGSizeMake(kScreenWidth, 80);
+    } else {
+        self.stateValue = NO;
+        CGFloat itemH = itemW * 1.25;
+        self.layout.itemSize = CGSizeMake(itemW, itemH);
+    }
+    [self.collectionView reloadData];
+    //Code
+
 }
 
 @end

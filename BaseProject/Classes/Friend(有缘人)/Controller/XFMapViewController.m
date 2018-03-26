@@ -102,7 +102,7 @@
         if (torStr.length) {
             tor = torStr.floatValue;
         }
-        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithCharmCount:charm tortoiseCount:tor];
+        XFFriendFilterView* view = [[XFFriendFilterView alloc]initWitiTopMin:0 topMax:10 bottomMin:0 bottomMax:10];
         view.tag = 2;
         view.delegate = self;
         [[UIApplication sharedApplication].keyWindow addSubview:view];
@@ -160,6 +160,19 @@
         [self.normalDict removeObjectForKey:@"beetlepoint"];
     }
     [self loadData];
+}
+- (void)friendFilterView:(XFFriendFilterView *)view
+         didSelectTopMin:(NSInteger)topMin
+                  topMax:(NSInteger)topMax
+               bottomMin:(NSInteger)bottomMin
+               bottomMax:(NSInteger)bottomMax {
+    //coolpoint1
+    self.normalDict[@"coolpoint1"] = [NSString stringWithFormat:@"%ld", (long)topMin];
+    self.normalDict[@"coolpoint2"] = [NSString stringWithFormat:@"%ld", (long)topMax];
+    self.normalDict[@"beetlepoint1"] = [NSString stringWithFormat:@"%ld", (long)bottomMin];
+    self.normalDict[@"beetlepoint2"] = [NSString stringWithFormat:@"%ld", (long)bottomMax];
+    [self loadData];
+
 }
 
 - (void)loadData {

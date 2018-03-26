@@ -311,6 +311,14 @@
 		42FFD7711FA96E2B00704591 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42FFD76E1FA96E2A00704591 /* city.plist */; };
 		42FFD7721FA96E2B00704591 /* CityPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FFD7701FA96E2A00704591 /* CityPickView.m */; };
 		649AAA0C20592FD9009006AA /* ShouCangViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649AAA0B20592FD9009006AA /* ShouCangViewController.m */; };
+		976249AD205FEEE7002DF13B /* ShouCangTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249AC205FEEE7002DF13B /* ShouCangTextTableViewCell.m */; };
+		976249B12060117D002DF13B /* ShouCangAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249B02060117D002DF13B /* ShouCangAlert.m */; };
+		976249B420602021002DF13B /* ShouCangImgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249B320602021002DF13B /* ShouCangImgTableViewCell.m */; };
+		976249BA20602918002DF13B /* YHBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249B720602918002DF13B /* YHBrowserImageView.m */; };
+		976249BB20602918002DF13B /* YHPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249B920602918002DF13B /* YHPhotoBrowser.m */; };
+		976249C120607A0C002DF13B /* ChangePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249C020607A0C002DF13B /* ChangePhoneViewController.m */; };
+		976249C420608D64002DF13B /* ChangePhoneNextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249C320608D64002DF13B /* ChangePhoneNextViewController.m */; };
+		976249C820609F11002DF13B /* XFFriendSecondCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 976249C720609F11002DF13B /* XFFriendSecondCell.m */; };
 		B79A5CFD6299881CB3643ACB /* libPods-BaseProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */; };
 		B850B0A11FDE60B300E96C14 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A01FDE60B300E96C14 /* libc++.tbd */; };
 		B850B0A31FDE60BA00E96C14 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A21FDE60BA00E96C14 /* libz.tbd */; };
@@ -962,6 +970,22 @@
 		649AAA0A20592FD9009006AA /* ShouCangViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShouCangViewController.h; sourceTree = "<group>"; };
 		649AAA0B20592FD9009006AA /* ShouCangViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShouCangViewController.m; sourceTree = "<group>"; };
 		65EBE4FCE8758654A9B05419 /* libPods-BaseProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BaseProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		976249AB205FEEE7002DF13B /* ShouCangTextTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShouCangTextTableViewCell.h; sourceTree = "<group>"; };
+		976249AC205FEEE7002DF13B /* ShouCangTextTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShouCangTextTableViewCell.m; sourceTree = "<group>"; };
+		976249AF2060117D002DF13B /* ShouCangAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShouCangAlert.h; sourceTree = "<group>"; };
+		976249B02060117D002DF13B /* ShouCangAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShouCangAlert.m; sourceTree = "<group>"; };
+		976249B220602021002DF13B /* ShouCangImgTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShouCangImgTableViewCell.h; sourceTree = "<group>"; };
+		976249B320602021002DF13B /* ShouCangImgTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShouCangImgTableViewCell.m; sourceTree = "<group>"; };
+		976249B620602918002DF13B /* YHBrowserImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBrowserImageView.h; sourceTree = "<group>"; };
+		976249B720602918002DF13B /* YHBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHBrowserImageView.m; sourceTree = "<group>"; };
+		976249B820602918002DF13B /* YHPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHPhotoBrowser.h; sourceTree = "<group>"; };
+		976249B920602918002DF13B /* YHPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHPhotoBrowser.m; sourceTree = "<group>"; };
+		976249BF20607A0C002DF13B /* ChangePhoneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePhoneViewController.h; sourceTree = "<group>"; };
+		976249C020607A0C002DF13B /* ChangePhoneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePhoneViewController.m; sourceTree = "<group>"; };
+		976249C220608D64002DF13B /* ChangePhoneNextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePhoneNextViewController.h; sourceTree = "<group>"; };
+		976249C320608D64002DF13B /* ChangePhoneNextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePhoneNextViewController.m; sourceTree = "<group>"; };
+		976249C620609F11002DF13B /* XFFriendSecondCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XFFriendSecondCell.h; sourceTree = "<group>"; };
+		976249C720609F11002DF13B /* XFFriendSecondCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XFFriendSecondCell.m; sourceTree = "<group>"; };
 		A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.release.xcconfig"; sourceTree = "<group>"; };
 		B850B0A01FDE60B300E96C14 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B850B0A21FDE60BA00E96C14 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -2471,8 +2495,9 @@
 		649AAA0920592FBD009006AA /* huorui模块 */ = {
 			isa = PBXGroup;
 			children = (
-				649AAA0A20592FD9009006AA /* ShouCangViewController.h */,
-				649AAA0B20592FD9009006AA /* ShouCangViewController.m */,
+				976249BC206079B2002DF13B /* Controller */,
+				976249AE20601163002DF13B /* View */,
+				976249AA205FE413002DF13B /* Cell */,
 			);
 			path = "huorui模块";
 			sourceTree = "<group>";
@@ -2506,6 +2531,77 @@
 				A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		976249AA205FE413002DF13B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				976249C520609EE3002DF13B /* XFFriendCell */,
+				976249AB205FEEE7002DF13B /* ShouCangTextTableViewCell.h */,
+				976249AC205FEEE7002DF13B /* ShouCangTextTableViewCell.m */,
+				976249B220602021002DF13B /* ShouCangImgTableViewCell.h */,
+				976249B320602021002DF13B /* ShouCangImgTableViewCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		976249AE20601163002DF13B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				976249B520602918002DF13B /* YHPhotoBrowser */,
+				976249AF2060117D002DF13B /* ShouCangAlert.h */,
+				976249B02060117D002DF13B /* ShouCangAlert.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		976249B520602918002DF13B /* YHPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				976249B620602918002DF13B /* YHBrowserImageView.h */,
+				976249B720602918002DF13B /* YHBrowserImageView.m */,
+				976249B820602918002DF13B /* YHPhotoBrowser.h */,
+				976249B920602918002DF13B /* YHPhotoBrowser.m */,
+			);
+			path = YHPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		976249BC206079B2002DF13B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				976249BE206079CE002DF13B /* 变换绑定手机号 */,
+				976249BD206079BD002DF13B /* 收藏 */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		976249BD206079BD002DF13B /* 收藏 */ = {
+			isa = PBXGroup;
+			children = (
+				649AAA0A20592FD9009006AA /* ShouCangViewController.h */,
+				649AAA0B20592FD9009006AA /* ShouCangViewController.m */,
+			);
+			path = "收藏";
+			sourceTree = "<group>";
+		};
+		976249BE206079CE002DF13B /* 变换绑定手机号 */ = {
+			isa = PBXGroup;
+			children = (
+				976249BF20607A0C002DF13B /* ChangePhoneViewController.h */,
+				976249C020607A0C002DF13B /* ChangePhoneViewController.m */,
+				976249C220608D64002DF13B /* ChangePhoneNextViewController.h */,
+				976249C320608D64002DF13B /* ChangePhoneNextViewController.m */,
+			);
+			name = "变换绑定手机号";
+			sourceTree = "<group>";
+		};
+		976249C520609EE3002DF13B /* XFFriendCell */ = {
+			isa = PBXGroup;
+			children = (
+				976249C620609F11002DF13B /* XFFriendSecondCell.h */,
+				976249C720609F11002DF13B /* XFFriendSecondCell.m */,
+			);
+			path = XFFriendCell;
 			sourceTree = "<group>";
 		};
 		B850B0AE1FDE616B00E96C14 /* Alipay */ = {
@@ -2903,8 +2999,8 @@
 				TargetAttributes = {
 					42A4442C1EF133E000F90791 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 93TJ8UCX73;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = M7YYM46R26;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -3145,6 +3241,7 @@
 				B85D5AC21FD0215A008DFEA1 /* XFMyCircleViewController.m in Sources */,
 				425527221FC4001700A616EA /* ChatBalloonView.m in Sources */,
 				42530A351FE378AF00BBF319 /* EaseRecordView.m in Sources */,
+				976249C120607A0C002DF13B /* ChangePhoneViewController.m in Sources */,
 				425309811FE378AF00BBF319 /* EaseEmotionEscape.m in Sources */,
 				42530A001FE378AF00BBF319 /* MWGridViewController.m in Sources */,
 				B851B2E61FD0F3B200A7BBBE /* XFFriendCell.m in Sources */,
@@ -3168,6 +3265,7 @@
 				B86D7A2C1FE8D31B00DE4585 /* APAuthInfo.m in Sources */,
 				B851B2CE1FD0F3B200A7BBBE /* XFCircleCommentViewController.m in Sources */,
 				B85D5AC11FD0215A008DFEA1 /* XFMyCharmInfoViewController.m in Sources */,
+				976249B420602021002DF13B /* ShouCangImgTableViewCell.m in Sources */,
 				42FCBEFC1FCD69F70060FC14 /* RedPagCellTableViewCell.m in Sources */,
 				42C84F071EF2E97D0008189D /* UIButton+Category.m in Sources */,
 				42530A051FE378AF00BBF319 /* PSTCollectionViewCell.m in Sources */,
@@ -3216,6 +3314,7 @@
 				2E41528F1F945C0B00B53486 /* MLBlackTransition.m in Sources */,
 				4253097A1FE378AF00BBF319 /* UIViewController+DismissKeyboard.m in Sources */,
 				425309F11FE378AF00BBF319 /* amrFileCodec.mm in Sources */,
+				976249B12060117D002DF13B /* ShouCangAlert.m in Sources */,
 				42530A221FE378AF00BBF319 /* MBProgressHUD+Add.m in Sources */,
 				425309E31FE378AF00BBF319 /* MJRefreshAutoStateFooter.m in Sources */,
 				425309F81FE378AF00BBF319 /* EMAudioPlayerUtil.m in Sources */,
@@ -3297,6 +3396,7 @@
 				42C84EB61EF2DCBC0008189D /* ConfigModel.m in Sources */,
 				B85D5AB61FD0215A008DFEA1 /* XFAccountViewController.m in Sources */,
 				B851B2D81FD0F3B200A7BBBE /* XFCircleContentCellModel.m in Sources */,
+				976249BB20602918002DF13B /* YHPhotoBrowser.m in Sources */,
 				425309831FE378AF00BBF319 /* EaseEmotionManager.m in Sources */,
 				B851B2E01FD0F3B200A7BBBE /* XFFriendCircleViewController.m in Sources */,
 				42D858F81FB2F79E00C1B7D2 /* ChatRequestViewController.m in Sources */,
@@ -3309,6 +3409,7 @@
 				42530A261FE378AF00BBF319 /* EaseRefreshTableViewController.m in Sources */,
 				425309F51FE378AF00BBF319 /* EMCDDeviceManager+Media.m in Sources */,
 				2E41528A1F945C0B00B53486 /* UILabel+XFExtension.m in Sources */,
+				976249C420608D64002DF13B /* ChangePhoneNextViewController.m in Sources */,
 				425309971FE378AF00BBF319 /* ConferenceViewController.m in Sources */,
 				B851B2E41FD0F3B200A7BBBE /* XFMapViewController.m in Sources */,
 				2E4152991F945C5700B53486 /* XFViewController.m in Sources */,
@@ -3326,6 +3427,7 @@
 				B85D5ACB1FD0215A008DFEA1 /* XFSelectAddressView.m in Sources */,
 				B851B2EA1FD0F3B200A7BBBE /* XFPrepareChatView.m in Sources */,
 				425309901FE378AF00BBF319 /* EMConfUserSelectionViewController.m in Sources */,
+				976249BA20602918002DF13B /* YHBrowserImageView.m in Sources */,
 				B85D5ADA1FD02174008DFEA1 /* TradeRecord.m in Sources */,
 				42530A071FE378AF00BBF319 /* PSTCollectionViewData.m in Sources */,
 				42530A0D1FE378AF00BBF319 /* PSTGridLayoutRow.m in Sources */,
@@ -3352,6 +3454,7 @@
 				425309D91FE378AF00BBF319 /* EaseConversationModel.m in Sources */,
 				425309FD1FE378AF00BBF319 /* MWTapDetectingImageView.m in Sources */,
 				B86D7A291FE8D31B00DE4585 /* APRSASigner.m in Sources */,
+				976249C820609F11002DF13B /* XFFriendSecondCell.m in Sources */,
 				425309E81FE378AF00BBF319 /* MJRefreshGifHeader.m in Sources */,
 				42530A041FE378AF00BBF319 /* PSTCollectionViewFlowLayout.m in Sources */,
 				42530A251FE378AF00BBF319 /* EaseUsersListViewController.m in Sources */,
@@ -3371,6 +3474,7 @@
 				B851B2DB1FD0F3B200A7BBBE /* XFCircleContentView.m in Sources */,
 				4253098A1FE378AF00BBF319 /* DemoCallManager.m in Sources */,
 				425309E11FE378AF00BBF319 /* MJRefreshBackStateFooter.m in Sources */,
+				976249AD205FEEE7002DF13B /* ShouCangTextTableViewCell.m in Sources */,
 				42C84EFA1EF2E97D0008189D /* NSArray+Category.m in Sources */,
 				42530A081FE378AF00BBF319 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				425309F61FE378AF00BBF319 /* EMCDDeviceManager+Microphone.m in Sources */,
@@ -3483,7 +3587,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -3526,7 +3630,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3541,8 +3645,9 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BaseProject/BaseProject.entitlements;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 93TJ8UCX73;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7YYM46R26;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3568,7 +3673,7 @@
 					"\"${PODS_ROOT}/Headers/Public/YYKit\"",
 				);
 				INFOPLIST_FILE = BaseProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3578,10 +3683,10 @@
 					"$(PROJECT_DIR)/BaseProject/Library/Alipay",
 					"$(PROJECT_DIR)/BaseProject/Library/EaseUI/EMUIKit/Call/plugin",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cc.Social.app.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.ds1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a02226b9-4bf3-41d8-9401-757b7842fc0d";
-				PROVISIONING_PROFILE_SPECIFIER = Social;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -3593,8 +3698,9 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BaseProject/BaseProject.entitlements;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 93TJ8UCX73;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7YYM46R26;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3620,7 +3726,7 @@
 					"\"${PODS_ROOT}/Headers/Public/YYKit\"",
 				);
 				INFOPLIST_FILE = BaseProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3630,10 +3736,10 @@
 					"$(PROJECT_DIR)/BaseProject/Library/Alipay",
 					"$(PROJECT_DIR)/BaseProject/Library/EaseUI/EMUIKit/Call/plugin",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cc.Social.app.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.ds1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a02226b9-4bf3-41d8-9401-757b7842fc0d";
-				PROVISIONING_PROFILE_SPECIFIER = Social;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
