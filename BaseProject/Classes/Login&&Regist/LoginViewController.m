@@ -245,7 +245,7 @@
                     NSString *nickname =  dic[@"nickname"];
                     //  登录环信
                     EMError *error = nil;
-                   error = [[EMClient sharedClient] loginWithUsername:mobile password:ChatPWD];
+                   error = [[EMClient sharedClient] loginWithUsername:userId password:ChatPWD];
                     
 //                     [JPUSHService setTags:nil alias:usertoken callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
 //                    + (void)addTags:(NSSet<NSString *> *)tags

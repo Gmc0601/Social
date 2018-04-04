@@ -23,4 +23,6 @@
 - (void)back:(UIButton *)sender ;
 
 - (void)more:(UIButton *)sender ;
+
+//- (void)whiteBack;
 @end

@@ -14,6 +14,7 @@
 #import "XFFriendTopView.h"
 #import "XFPrepareChatView.h"
 #import "XFRechrgeViewController.h"
+#import <YYKit.h>
 
 @interface XFFriendHomeViewController ()<UIScrollViewDelegate, UIGestureRecognizerDelegate, XFPrepareChatViewDelegate>
 
@@ -96,18 +97,20 @@
     backBtn.frame = CGRectMake(16, 28, 28, 28);
     [navView addSubview:backBtn];
     
-    UIButton *followBtn = [UIButton xf_titleButtonWithTitle:@"关注"
+    
+    
+    
+    UIButton *followBtn = [UIButton xf_titleButtonWithTitle:@""
                                                  titleColor:WhiteColor
                                                   titleFont:Font(12)
                                                      target:self
-                                                     action:@selector(followBtnClick)];
-    self.followBtn = followBtn;
-    followBtn.backgroundColor = RGBA(144, 56, 143, 0.38);
+                                                     action:@selector(shareIdCard)];
+//    self.followBtn = followBtn;
+    [followBtn setImage:[UIImage imageNamed:@"zl_icon_fx"] forState:UIControlStateNormal];
+    followBtn.backgroundColor =[UIColor clearColor];
     [followBtn xf_cornerCut:3];
-    followBtn.layer.borderColor = RGBA(255, 255, 255, 0.38).CGColor;
-    followBtn.layer.borderWidth = 1;
-    followBtn.size = CGSizeMake(54, 24);
-    followBtn.top = 30;
+    followBtn.size = CGSizeMake(28, 28);
+    followBtn.top = 28;
     followBtn.right = kScreenWidth - 16;
     [navView addSubview:followBtn];
 }
@@ -160,9 +163,19 @@
     
     UIButton *chatBtn = [UIButton xf_bottomBtnWithTitle:@"聊天" target:self action:@selector(chatBtnClick)];
     self.chatBtn = chatBtn;
-    chatBtn.frame = CGRectMake(10, 3, kScreenWidth - 20, 44);
+    chatBtn.frame = CGRectMake(10, 3, (kScreenWidth - 20)/2 - 10, 44);
+    [chatBtn setCenterX: bottomView.centerX*1.5];
     [bottomView addSubview:chatBtn];
+    
+    UIButton *followBtn = [UIButton xf_bottomBtnWithTitle:@"+ 关注" target:self action:@selector(followBtnClick)];
+    self.followBtn = followBtn;
+    followBtn.frame = CGRectMake(10, 3, (kScreenWidth - 20)/2 - 10, 44);
+    [followBtn setCenterX: bottomView.centerX*0.5];
+    [bottomView addSubview:followBtn];
+    
     [self.view addSubview:bottomView];
+    
+    
 }
 
 - (void)loadUserInfo {
@@ -367,6 +380,12 @@
     }
 }
 
+//  分享名片
+- (void)shareIdCard {
+    
+}
+
+//  关注
 - (void)followBtnClick {
     if ([self isNotLogin]) {
         [self showLoginController];

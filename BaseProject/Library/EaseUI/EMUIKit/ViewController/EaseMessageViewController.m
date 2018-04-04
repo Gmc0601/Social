@@ -58,6 +58,7 @@ typedef enum : NSUInteger {
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
+    UIMenuItem *_saveMenuItem;
     UILongPressGestureRecognizer *_lpgr;
     NSMutableArray *_atTargets;
     
@@ -174,7 +175,6 @@ typedef enum : NSUInteger {
     
     [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
     [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
-    
     [[EaseBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_003"]]];
     [[EaseBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing003"]]];
     
@@ -467,18 +467,30 @@ typedef enum : NSUInteger {
         _deleteMenuItem = [[UIMenuItem alloc] initWithTitle:NSEaseLocalizedString(@"delete", @"Delete") action:@selector(deleteMenuAction:)];
     }
     
+    
+    if (!_saveMenuItem) {
+        _saveMenuItem = [[UIMenuItem alloc] initWithTitle:NSEaseLocalizedString(@"save", @"Save") action:@selector(saveMenuAction:)];
+    }
+    
     if (_copyMenuItem == nil) {
         _copyMenuItem = [[UIMenuItem alloc] initWithTitle:NSEaseLocalizedString(@"copy", @"Copy") action:@selector(copyMenuAction:)];
     }
     
     if (messageType == EMMessageBodyTypeText) {
-        [_menuController setMenuItems:@[_copyMenuItem, _deleteMenuItem]];
-    } else {
+        [_menuController setMenuItems:@[_copyMenuItem,_saveMenuItem, _deleteMenuItem]];
+    }
+    else if (messageType == EMMessageBodyTypeImage) {
+         [_menuController setMenuItems:@[_copyMenuItem,_saveMenuItem, _deleteMenuItem]];
+    }
+    else {
         [_menuController setMenuItems:@[_deleteMenuItem]];
     }
     [_menuController setTargetRect:showInView.frame inView:showInView.superview];
     [_menuController setMenuVisible:YES animated:YES];
 }
+
+
+
 
 - (void)_stopAudioPlayingWithChangeCategory:(BOOL)isChange
 {
@@ -1015,7 +1027,7 @@ typedef enum : NSUInteger {
     {
         CGPoint location = [recognizer locationInView:self.tableView];
         NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
-        BOOL canLongPress = NO;
+        BOOL canLongPress = YES;
         if (_dataSource && [_dataSource respondsToSelector:@selector(messageViewController:canLongPressRowAtIndexPath:)]) {
             canLongPress = [_dataSource messageViewController:self
                                    canLongPressRowAtIndexPath:indexPath];
@@ -1146,9 +1158,6 @@ typedef enum : NSUInteger {
             return cell;
             
         }
-        
-//            // Configure the cell...
-//            if (sendCell == nil) {
                 sendCell = [[EaseBaseMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
                 sendCell.selectionStyle = UITableViewCellSelectionStyleNone;
                 sendCell.delegate = self;
@@ -1691,6 +1700,18 @@ typedef enum : NSUInteger {
 //    locationController.delegate = self;
 //    [self.navigationController pushViewController:locationController animated:YES];
 }
+//  分享个人名片
+- (void)moreViewIdCardAction:(EaseChatBarMoreView *)moreView {
+    
+}
+//  收藏
+- (void)moreViewsaveAction:(EaseChatBarMoreView *)moreView{
+    
+}
+//  文件
+- (void)moreViewfileAction:(EaseChatBarMoreView *)moreView {
+    
+}
 
 - (void)moreViewAudioCallAction:(EaseChatBarMoreView *)moreView
 {
@@ -1844,6 +1865,10 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - action
+//   长按收藏
+- (void)saveMenuAction:(id)sender {
+    
+}
 
 - (void)copyMenuAction:(id)sender
 {

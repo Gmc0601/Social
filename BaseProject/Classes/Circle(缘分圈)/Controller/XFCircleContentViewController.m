@@ -134,7 +134,7 @@
 }
 
 - (NSArray *)fetchContactWithAddressBook:(ABAddressBookRef)addressBook{
-    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {////有权限访问
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {////有权限访问
         //获取联系人数组
         NSArray *array = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
         NSMutableArray *contacts = [NSMutableArray array];
@@ -143,7 +143,13 @@
             ABMutableMultiValueRef phoneNumRef = ABRecordCopyValue(people, kABPersonPhoneProperty);
             NSString *phoneNumber =  ((__bridge NSArray *)ABMultiValueCopyArrayOfAllValues(phoneNumRef)).lastObject;
             
-            [contacts addObject:phoneNumber];
+            if (IsNULL(phoneNumber)) {
+                
+            }else {
+                [contacts addObject:phoneNumber];
+            }
+            
+            
         }
         return contacts.copy;
     } else {//无权限访问

@@ -11,6 +11,8 @@
 #import "EaseMessageViewController.h"
 
 @interface ConfigModel : NSObject
+
++ (void)jumpgroupChatViewController:(UIViewController *)vc withGroupId:(NSString *)groupid;
 /*
  vc : self
  userId : 手机号
@@ -38,5 +40,7 @@
 + (void)saveIntegerObject:(NSInteger)Object forKey:(NSString *)key;
 
 + (int)getIntObjectforKey:(NSString *)key;
+
+
 
 @end

@@ -13,7 +13,7 @@
  * 颜色宏
  */
 
-#define Random_Color  [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0  alpha:1];
+#define Random_Color  [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0   blue:arc4random()%255/255.0  alpha:1];
 
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -21,7 +21,7 @@
 #define UIColorFromRGBwithALPHA(rgbValue,alt) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:(float)alt]
 
 
-
+#define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 
 #define WhiteColor    [UIColor whiteColor]
 #define ClearColor    [UIColor clearColor]
@@ -58,7 +58,7 @@
 //分割线
 #define FGX_line_color UIColorFromRGB(0xd9d9d9)//
 
-//运动 背景色
+// 运动 背景色
 #define Run_BackGroud_Color UIColorFromRGB(0x393940)
 
 //背景色

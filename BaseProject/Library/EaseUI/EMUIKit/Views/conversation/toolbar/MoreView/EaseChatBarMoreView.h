@@ -127,4 +127,13 @@ typedef enum{
  */
 - (void)moreView:(EaseChatBarMoreView *)moreView didItemInMoreViewAtIndex:(NSInteger)index;
 
+
+//  个人名片
+- (void)moreViewIdCardAction:(EaseChatBarMoreView *)moreView;
+// 收藏
+- (void)moreViewsaveAction:(EaseChatBarMoreView *)moreView;
+// 文件
+- (void)moreViewfileAction:(EaseChatBarMoreView *)moreView;
+
+
 @end

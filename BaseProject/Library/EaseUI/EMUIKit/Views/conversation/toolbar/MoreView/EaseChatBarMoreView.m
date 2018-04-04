@@ -45,6 +45,10 @@
 @property (nonatomic, strong) UIButton *audioCallButton;
 @property (nonatomic, strong) UIButton *videoCallButton;
 
+@property (nonatomic, retain) UIButton *idCardButton;
+@property (nonatomic, retain) UIButton *saveButton;
+@property (nonatomic, retain) UIButton *fileButton;
+
 @end
 
 @implementation EaseChatBarMoreView
@@ -84,6 +88,7 @@
     _pageControl.numberOfPages = 1;
     [self addSubview:_pageControl];
     
+    
     CGFloat insets = (self.frame.size.width - 4 * CHAT_BUTTON_SIZE.width) / 5;
     
     _photoButton = [self btnWithImage:[UIImage imageNamed:@"icon_tj_xc"]
@@ -98,14 +103,15 @@
     
 
     
-    _takePicButton = [self btnWithImage:[UIImage imageNamed:@"icon_tj_xj"]
-                       highlightedImage:[UIImage imageNamed:@"icon_tj_xj"]
+    _takePicButton = [self btnWithImage:[UIImage imageNamed:@"ic_xc"]
+                       highlightedImage:[UIImage imageNamed:@"ic_xc"]
                                   title:@"拍摄"];
     [_takePicButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE.width , 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
     [_takePicButton addTarget:self action:@selector(takePicAction) forControlEvents:UIControlEventTouchUpInside];
     _takePicButton.tag = MOREVIEW_BUTTON_TAG + 2;
     _maxIndex = 2;
     [_scrollview addSubview:_takePicButton];
+
     
         _locationButton = [self btnWithImage:[UIImage imageNamed:@"icon_tj_hb"]
                             highlightedImage:[UIImage imageNamed:@"icon_tj_hb"]
@@ -115,10 +121,39 @@
         [_locationButton addTarget:self action:@selector(locationAction) forControlEvents:UIControlEventTouchUpInside];
         _locationButton.tag = MOREVIEW_BUTTON_TAG + 1;
         [_scrollview addSubview:_locationButton];
+    
+//      添加 个人名片收藏  文件按钮
+    
+    _idCardButton = [self btnWithImage:[UIImage imageNamed:@"ic_grmp"]
+                         highlightedImage:[UIImage imageNamed:@"ic_grmp"]
+                                    title:@"个人名片"];
+    [_idCardButton setFrame:CGRectMake(insets, 10 * 2 + CHAT_BUTTON_SIZE.height + 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
+    [_idCardButton addTarget:self action:@selector(idcardAction) forControlEvents:UIControlEventTouchUpInside];
+    _idCardButton.tag =MOREVIEW_BUTTON_TAG + 4;
+    [_scrollview addSubview:_idCardButton];
+    
+    
+    _saveButton = [self btnWithImage:[UIImage imageNamed:@"ic_sc"]
+                      highlightedImage:[UIImage imageNamed:@"ic_sc"]
+                                 title:@"收藏"];
+    [_saveButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE.width, 10 * 2 + CHAT_BUTTON_SIZE.height + 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
+    [_saveButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
+    _saveButton.tag =MOREVIEW_BUTTON_TAG + 5;
+    [_scrollview addSubview:_saveButton];
+
+    
+    _fileButton = [self btnWithImage:[UIImage imageNamed:@"ic_wj"]
+                    highlightedImage:[UIImage imageNamed:@"ic_wj"]
+                               title:@"文件"];
+    _maxIndex = 7;
+    [_fileButton setFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE.width *2, 10 * 2 + CHAT_BUTTON_SIZE.height + 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
+    [_fileButton addTarget:self action:@selector(fileAction) forControlEvents:UIControlEventTouchUpInside];
+    _fileButton.tag =MOREVIEW_BUTTON_TAG + 6;
+    [_scrollview addSubview:_fileButton];
 
     CGRect frame = self.frame;
     if (type == EMChatToolbarTypeChat) {
-        frame.size.height = 80;
+        frame.size.height = 150;
         _audioCallButton = [self btnWithImage:[UIImage imageNamed:@"EaseUIResource.bundle/chatBar_colorMore_audioCall"]
                              highlightedImage:[UIImage imageNamed:@"EaseUIResource.bundle/chatBar_colorMore_audioCallSelected"]
                                         title:@"语音"];
@@ -135,12 +170,12 @@
         [_videoCallButton setFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE.width *3, 10, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
         [_videoCallButton addTarget:self action:@selector(takeVideoCallAction) forControlEvents:UIControlEventTouchUpInside];
         _videoCallButton.tag =MOREVIEW_BUTTON_TAG + 4;
-        _maxIndex = 4;
+        _maxIndex = 7;
         [_scrollview addSubview:_videoCallButton];
     }
     else if (type == EMChatToolbarTypeGroup)
     {
-        frame.size.height = 80;
+        frame.size.height = 150;
     }
     self.frame = frame;
     _scrollview.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
@@ -328,6 +363,25 @@
 {
     if (_delegate && [_delegate respondsToSelector:@selector(moreViewLocationAction:)]) {
         [_delegate moreViewLocationAction:self];
+    }
+}
+
+
+-(void) idcardAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(moreViewIdCardAction:)]) {
+        [_delegate moreViewIdCardAction:self];
+    }
+}
+
+- (void)saveAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(moreViewsaveAction:)]) {
+        [_delegate moreViewsaveAction:self];
+    }
+}
+
+- (void)fileAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(moreViewfileAction:)]) {
+        [_delegate moreViewfileAction:self];
     }
 }
 

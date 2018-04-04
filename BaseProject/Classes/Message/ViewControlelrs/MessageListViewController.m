@@ -179,31 +179,31 @@
     if ([ConfigModel getBoolObjectforKey:IsLogin]) {
         [self.view addSubview:self.noUseTableView];
         [self createDate];
-        
+
     }else {
         [self.noUseTableView removeFromSuperview];
     }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 2 ? self.dateArr.count: 1;
+    return section == 1 ? self.dateArr.count: 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellId = [NSString stringWithFormat:@"%lu%lu", indexPath.section, indexPath.row];
     
-    if (indexPath.section < 2) {
+    if (indexPath.section < 1) {
         UITableViewCell *cell = [self.noUseTableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell ) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
         }
         switch (indexPath.section) {
             case 0:{
-                cell.textLabel.text = @"好友通讯录";
+                cell.textLabel.text = @"通讯录";
             }
                 break;
             case 1:{
@@ -219,13 +219,13 @@
                     self.lab.text = [NSString stringWithFormat:@"%d", questCount];
                 }
 
-                
             }
                 break;
                 
             default:
                 break;
         }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }else {
         ChatInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -246,9 +246,6 @@
             cell.countLab.hidden = NO;
             cell.countLab.text = [NSString stringWithFormat:@"%d", conversation.unreadMessagesCount];
         }
-        
-        
-        
         EMMessage *message = conversation.latestMessage;
         
         [self getmessage:message cell:cell];
@@ -295,6 +292,8 @@
         //昨天以前
         dateFmt.dateFormat = @"yyyy-MM-dd HH:mm";
     }
+    
+    
     
     return [dateFmt stringFromDate:msgDate];
 }
@@ -392,7 +391,7 @@
 
 #pragma mark - UITableDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return indexPath.section == 2 ? 70 : 48;
+    return indexPath.section == 1 ? 70 : 48;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -424,15 +423,10 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     
+
     if (indexPath.section == 1) {
-        ChatRequestViewController *vc = [[ChatRequestViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    
-    if (indexPath.section == 2) {
         
         EMConversation *conversation = self.dateArr[indexPath.row];
-        
         [ConfigModel jumptoChatViewController:self withId:conversation.conversationId];
     }
     

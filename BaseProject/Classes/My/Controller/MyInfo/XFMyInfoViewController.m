@@ -34,9 +34,7 @@
 @property (nonatomic, strong) UIImage *avatarImage;
 @property (nonatomic, assign) BOOL ageChange;
 @property (nonatomic, assign) BOOL addressChange;
-@property (nonatomic, assign) BOOL areaChange;
 @property (nonatomic, copy) NSString *province;
-@property (nonatomic, copy) NSString *areaValue;
 @property (nonatomic, copy) NSString *city;
 @property (nonatomic, copy) NSString *area;
 
@@ -97,13 +95,9 @@
     UIView *addressView = [self createRightLabelView:@"居住地" andInfo:self.user.address hiddenSplit:YES];
     addressView.tag = 104;
     addressView.top = genderView.bottom;
-
-    UIView *hometownView = [self createRightLabelView:@"故乡" andInfo:self.user.address hiddenSplit:YES];
-    hometownView.tag = 105;
-    hometownView.top = addressView.bottom;
     
     UIView *paddingView2 = [UIView xf_createPaddingView];
-    paddingView2.frame = CGRectMake(0, hometownView.bottom, kScreenWidth, 5);
+    paddingView2.frame = CGRectMake(0, addressView.bottom, kScreenWidth, 5);
     [self.scrollView addSubview:paddingView2];
     
     UIView *sectionTwoView = [self createRightEmptyView:@"个人信息"];
@@ -208,28 +202,15 @@
            selectProvince:(NSString *)province
                      city:(NSString *)city
                   address:(NSString *)area {
-    if (itemView.tag == 1004) {
-        NSString *info = [NSString stringWithFormat:@"%@ %@ %@", province, city, area];
-        self.province = province;
-        self.city = city;
-        self.area = area;
-        self.addressChange = YES;
-        UILabel *label = [self.selectItem viewWithTag:100];
-        label.text = info;
-        self.user.address = info;
-        self.addressChange = YES;
-    } else if (itemView.tag == 1005) {
-        NSString *info = [NSString stringWithFormat:@"%@ %@ %@", province, city, area];
-
-
-        UILabel *label = [self.selectItem viewWithTag:100];
-        label.text = info;
-        self.user.area = info;
-        self.areaValue = info;
-        self.areaChange = YES;
-
-    }
-
+    NSString *info = [NSString stringWithFormat:@"%@%@%@", province, city, area];
+    self.province = province;
+    self.city = city;
+    self.area = area;
+    self.addressChange = YES;
+    UILabel *label = [self.selectItem viewWithTag:100];
+    label.text = info;
+    self.user.address = info;
+    self.addressChange = YES;
 }
 
 - (void)loadData {
@@ -281,8 +262,6 @@
     } else if (tag == 103) { // 性别
         self.user.sex = info;
     } else if (tag == 104) { // 居住地
-    } else if (tag == 105) { // 故乡
-        self.user.area = info;
     } else if (tag == 200) { // 身高
         self.user.height = info;
     } else if (tag == 201) { // 体重
@@ -351,11 +330,6 @@
         
         if (self.area.length) {
             dict1[@"area"] = self.area;
-        }
-    }
-    if (self.areaChange) {
-        if (self.areaValue.length) {
-            dict1[@"area"] = self.areaValue;
         }
     }
     
@@ -512,13 +486,6 @@
     } else if (tag == 104) {
         // 居住地
         XFSelectAddressView *addressView = [[XFSelectAddressView alloc] init];
-        addressView.tag = 1004;
-        addressView.delegate = self;
-        [self.view addSubview:addressView];
-    } else if (tag == 105) {
-        // 居住地
-        XFSelectAddressView *addressView = [[XFSelectAddressView alloc] init];
-        addressView.tag = 1005;
         addressView.delegate = self;
         [self.view addSubview:addressView];
     } else if (tag == 200) {
@@ -731,10 +698,6 @@
 }
 
 - (UIView *)createRightLabelView:(NSString *)title andInfo:(NSString *)info hiddenSplit:(BOOL) hidden {
-
-    if ([title isEqualToString:@"故乡"] && info.length == 0) {
-        info = @"未设置";
-    }
     UIView *view = [UIView xf_createWhiteView];
     view.size = CGSizeMake(kScreenWidth, 50);
     view.userInteractionEnabled = YES;

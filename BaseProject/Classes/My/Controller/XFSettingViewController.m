@@ -9,10 +9,8 @@
 #import "XFSettingViewController.h"
 #import "XFSelectItemView.h"
 #import "XFUserAgreementViewController.h"
-#import "ShouCangAlert.h"
-#import "ChangePhoneViewController.h"
 
-@interface XFSettingViewController ()<XFSelectItemViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface XFSettingViewController ()<XFSelectItemViewDelegate>
 
 @property (nonatomic, strong) UIPickerView *pickView;
 @property (nonatomic, strong) XFSelectItemView *selectItemView;
@@ -20,21 +18,15 @@
 @property (nonatomic, strong) NSString *pushStr;
 
 @property (nonatomic, copy) NSString *xianshi;
-@property (nonatomic, strong)UILabel *pushConentLabel;
 
 @end
 
 @implementation XFSettingViewController
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self loadData];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-
+    [self loadData];
 }
 
 - (void)setupUI {
@@ -49,35 +41,22 @@
     UIView *paddingView = [UIView xf_createPaddingView];
     paddingView.frame = CGRectMake(0, navView.bottom, kScreenWidth, 5);
     [self.view addSubview:paddingView];
-    //
-    //    UIView *pushView = [self createItemView:@"推送设置" tag:0];
-    //    pushView.top = paddingView.bottom;
-    //    [self.view addSubview:pushView];
-    //
-    //    UIView *cacheView = [self createItemView:@"清除缓存" tag:1];
-    //    cacheView.top = pushView.bottom;
-    //    [self.view addSubview:cacheView];
-    //
-    //    UIView *aboutView = [self createItemView:@"关于我们" tag:2];
-    //    aboutView.top = cacheView.bottom;
-    //    [self.view addSubview:aboutView];
-    //
-    //    UIView *agreementView = [self createItemView:@"用户协议" tag:3];
-    //    agreementView.top = aboutView.bottom;
-    //    [self.view addSubview:agreementView];
     
-    UITableView *mainTableView = [[UITableView alloc]init];
-    mainTableView.delegate = self;
-    mainTableView.dataSource = self;
-    mainTableView.scrollEnabled = NO;
-    [self.view addSubview:mainTableView];
-    [mainTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(paddingView.mas_top);
-        make.left.equalTo(self.view.mas_left);
-        make.right.equalTo(self.view.mas_right);
-        make.height.mas_offset(RESIZE_UI(50)*7);
-    }];
+    UIView *pushView = [self createItemView:@"推送设置" tag:0];
+    pushView.top = paddingView.bottom;
+    [self.view addSubview:pushView];
     
+    UIView *cacheView = [self createItemView:@"清除缓存" tag:1];
+    cacheView.top = pushView.bottom;
+    [self.view addSubview:cacheView];
+    
+    UIView *aboutView = [self createItemView:@"关于我们" tag:2];
+    aboutView.top = cacheView.bottom;
+    [self.view addSubview:aboutView];
+    
+    UIView *agreementView = [self createItemView:@"用户协议" tag:3];
+    agreementView.top = aboutView.bottom;
+    [self.view addSubview:agreementView];
     
     UIButton *logoutBtn = [UIButton xf_titleButtonWithTitle:@"退出登录"
                                                  titleColor:RGBGray(102)
@@ -116,18 +95,14 @@
                       }
                   }
               }];
-
-
 }
 
 - (void)setupPushSettingItem:(NSString *)xianshi {
-//    if (xianshi.length) {
-//        UILabel *label = [[self.view viewWithTag:0] viewWithTag:100];
-//        label.text = xianshi;
-//        label.hidden = NO;
-//    }
-    _xianshi = xianshi;
-    _pushConentLabel.text = _xianshi;
+    if (xianshi.length) {
+        UILabel *label = [[self.view viewWithTag:0] viewWithTag:100];
+        label.text = xianshi;
+        label.hidden = NO;
+    }
 }
 
 #pragma mark ----------<XFSelectItemViewDelegate>----------
@@ -138,15 +113,6 @@
     [HttpRequest postPath:XFResetPushSettingUrl
                    params:@{@"delay_time" : [NSString stringWithFormat:@"%zd", index]}
               resultBlock:^(id responseObject, NSError *error) {
-                  if (!error) {
-
-                      NSDictionary *infoDict = responseObject[@"info"];
-                      NSString *str = infoDict[@"info"];
-                      if (!IsNULL(str)) {
-                          [ConfigModel mbProgressHUD:str andView:nil];
-                      }
-
-                  }
               }];
 }
 
@@ -165,7 +131,7 @@
             [ConfigModel saveString:@"" forKey:UserId];
             [ConfigModel saveString:@"" forKey:UserId];
             [ConfigModel saveString:@"" forKey:NickName];
-            
+        
             [[EMClient sharedClient] logout:YES];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:XFLogoutSuccessNotification object:nil];
@@ -176,172 +142,6 @@
         }
     }];
 }
-
-
-#pragma mark - tableviewdelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return RESIZE_UI(50);
-}
-
-
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *Cellindentifier = @"Cellindentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:Cellindentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Cellindentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.textColor = RGBGray(102);
-        cell.textLabel.font = Font(RESIZE_UI(12));
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    switch (indexPath.row) {
-        case 0:
-        {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.textLabel.text = @"是否参与排名榜";
-            UISwitch *oneSwitch = [[UISwitch alloc]init];
-            //            [oneSwitch setOn:YES];
-            [oneSwitch addTarget:self
-                          action:@selector(function_OrderList:)
-                forControlEvents:UIControlEventValueChanged];
-            [cell addSubview:oneSwitch];
-            [oneSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cell.mas_centerY);
-                make.right.equalTo(cell.mas_right).with.offset(-RESIZE_UI(15));
-            }];
-        }
-            break;
-        case 1:
-        {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.textLabel.text = @"隐藏我的魅力值/金龟值";
-            UISwitch *twoSwitch = [[UISwitch alloc]init];
-            //            [oneSwitch setOn:YES];
-            [twoSwitch addTarget:self
-                          action:@selector(function_HiddenValue:)
-                forControlEvents:UIControlEventValueChanged];
-            [cell addSubview:twoSwitch];
-            [twoSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cell.mas_centerY);
-                make.right.equalTo(cell.mas_right).with.offset(-RESIZE_UI(15));
-            }];
-        }
-            break;
-        case 2:
-        {
-            cell.textLabel.text = @"更换绑定手机号";
-        }
-            break;
-        case 3:
-        {
-            cell.textLabel.text = @"推送设置";
-            _pushConentLabel = [[UILabel alloc]init];
-            _pushConentLabel.text = _xianshi;
-            _pushConentLabel.font = Font(RESIZE_UI(12));
-            _pushConentLabel.textColor = RGBGray(102);
-            [cell addSubview:_pushConentLabel];
-            [_pushConentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(cell.mas_right).with.offset(-30);
-                make.centerY.equalTo(cell.mas_centerY);
-            }];
-        }
-            break;
-        case 4:
-        {
-            cell.textLabel.text = @"关于我们";
-        }
-            break;
-        case 5:
-        {
-            cell.textLabel.text = @"用户协议";
-        }
-            break;
-        case 6:
-        {
-            cell.textLabel.text = @"注销账号";
-        }
-            break;
-            
-        default:
-            break;
-    }
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
-        case 0://是否参与排名榜
-        {
-            
-        }
-            break;
-        case 1://隐藏我的魅力值/金龟值
-        {
-            
-        }
-            break;
-        case 2://更换绑定手机号
-        {
-
-            ChangePhoneViewController *controller = [[ChangePhoneViewController alloc] init];
-            [self pushController:controller];
-        }
-            break;
-        case 3://推送设置
-        {
-            XFSelectItemView *selectItem = [[XFSelectItemView alloc] initWithTitle:@"推送设置"
-                                                                         dataArray:self.pushArray
-                                                                        selectText:[self.pushArray objectAtIndex:0]];
-            selectItem.delegate = self;
-            [self.view addSubview:selectItem];
-        }
-            break;
-        case 4://关于我们
-        {
-            XFUserAgreementViewController *controller = [[XFUserAgreementViewController alloc] init];
-            controller.agreementType = AgreementType_About;
-            [self pushController:controller];
-        }
-            break;
-        case 5://用户协议
-        {
-            XFUserAgreementViewController *controller = [[XFUserAgreementViewController alloc] init];
-            controller.agreementType = AgreementType_Agree;
-            [self pushController:controller];
-        }
-            break;
-        case 6://注销账号
-        {
-            ShouCangAlert* alert = [[ShouCangAlert alloc]init];
-            alert.textString = @"注销账号后,该账号将无法使用APP,账户内余额将全部清空,请谨慎操作";
-            [alert function_ShowLeftBtnValue:@"确认注销"
-                            andRightBtnValue:@"取消"
-                                    andBlock:^(int numValue) {
-                                        if (numValue == 1) {
-                                            [self function_Deleteuser];
-                                        }
-                                    }];
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
-
-
 
 - (void)viewTap:(UIGestureRecognizer *)ges {
     if (ges.view.tag == 0) {
@@ -364,7 +164,6 @@
         [self pushController:controller];
     }
 }
-
 
 #pragma mark ----------Private----------
 - (UIView *)createItemView:(NSString *)text tag:(NSInteger)tag {
@@ -410,76 +209,6 @@
     
     return view;
 }
-
-#pragma mark - 是否参与排名榜
-- (void)function_OrderList: (UISwitch *)sender {
-    //Code
-    BOOL changeState = sender.on;
-    [self function_WeatherList:changeState];
-}
-
-
-#pragma mark - 隐藏我的魅力值/金龟值
-- (void)function_HiddenValue: (UISwitch *)sender {
-    BOOL changeState = sender.on;
-    [self function_HiddenValueChange:changeState];
-}
-#pragma mark - 隐藏我的魅力值/金龟值
-- (void)function_HiddenValueChange: (BOOL)isState {
-    //Code
-    NSString* stateValue = isState == YES ? @"1": @"2";
-    [HttpRequest postPath:@"_usercp_001"
-                   params:@{@"usercp": stateValue}
-              resultBlock:^(id responseObject, NSError *error) {
-                  NSLog(@"隐藏我的魅力值/金龟值:%@",responseObject);
-                  if (!error) {
-                      NSDictionary *infoDict = responseObject[@"info"];
-                      NSString *str = infoDict[@"info"];
-                      if (!IsNULL(str)) {
-                          [ConfigModel mbProgressHUD:str andView:nil];
-                      }
-
-                  }
-              }];
-}
-
-#pragma mark - 是否参与排名榜
-- (void)function_WeatherList: (BOOL)isState {
-    //Code
-    NSString* stateValue = isState == YES ? @"1": @"2";
-    [HttpRequest postPath:@"_rangking_001"
-                   params:@{@"rangking": stateValue}
-              resultBlock:^(id responseObject, NSError *error) {
-                  NSLog(@"是否参与排名榜:%@",responseObject);
-                  if (!error) {
-//                      NSNumber *errorCode = responseObject[@"error"];
-                      NSDictionary *infoDict = responseObject[@"info"];
-                      NSString *str = infoDict[@"info"];
-                      if (!IsNULL(str)) {
-                          [ConfigModel mbProgressHUD:str andView:nil];
-                      }
-
-                  }
-              }];
-}
-#pragma mark - 注销账号
-- (void)function_Deleteuser {
-    //Code
-    [HttpRequest postPath:@"_deleteuser_001"
-                   params:nil
-              resultBlock:^(id responseObject, NSError *error) {
-                  NSLog(@"注销账号:%@",responseObject);
-                  if (!error) {
-                      NSString *str = responseObject[@"info"];
-                      
-                      if (!IsNULL(str)) {
-                          [ConfigModel mbProgressHUD:str andView:nil];
-                      }
-
-                  }
-              }];
-}
-
 
 @end
 

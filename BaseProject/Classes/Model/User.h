@@ -35,7 +35,6 @@
 @property (nonatomic, copy) NSString *income; // 收入
 @property (nonatomic, copy) NSString *house; // 车产
 @property (nonatomic, copy) NSString *car; // 房产
-@property (nonatomic, copy) NSString *area; //故乡
 
 @property (nonatomic, strong) NSNumber *city_bee;
 @property (nonatomic, strong) NSNumber *city_coo;
@@ -43,11 +42,6 @@
 @property (nonatomic, strong) NSNumber *country_coo;
 @property (nonatomic, strong) NSNumber *friend_bee;
 @property (nonatomic, strong) NSNumber *friend_coo;
-
-@property (nonatomic, strong) NSNumber *area_bee;
-@property (nonatomic, strong) NSNumber *area_coo;
-@property (nonatomic, strong) NSNumber *province_bee;
-@property (nonatomic, strong) NSNumber *province_coo;
 
 @property (nonatomic, copy) NSString *distance; // 距离， 有缘人页面使用
 

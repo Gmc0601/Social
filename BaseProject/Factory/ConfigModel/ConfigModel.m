@@ -13,6 +13,8 @@
 @implementation ConfigModel
 
 
+
+
 + (void)jumptoChatViewController:(UIViewController *)vc withId:(NSString *)userId {
     
     NSDictionary *dic = @{
@@ -50,6 +52,13 @@
     }];
     
    
+}
+
+
++ (void)jumpgroupChatViewController:(UIViewController *)vc withGroupId:(NSString *)groupid {
+    EaseMessageViewController *chatController = [[EaseMessageViewController alloc] initWithConversationChatter:groupid conversationType:EMConversationTypeGroupChat];
+    [[DemoCallManager sharedManager] setMainController:chatController];
+    [vc.navigationController pushViewController:chatController animated:YES];
 }
 
 + (void)showHud:(UIViewController *)vc {

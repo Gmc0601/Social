@@ -25,6 +25,10 @@
     [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent animated:YES];
 }
 
+- (void)whiteBack {
+    
+}
+
 #pragma mark - Action  ---> NeedReset in son
 - (void)back:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -76,7 +80,7 @@
 
 - (UIButton *)leftBar {
     if (!_leftBar) {
-        UIImage *image = [UIImage imageNamed:@"icon_fh"];
+        UIImage *image = [UIImage imageNamed:@"nav_icon_fh"];
         _leftBar = [[UIButton alloc] initWithFrame:CGRectMake(10, 25, image.size.width + 15, image.size.height + 15)];
         _leftBar.backgroundColor = [UIColor clearColor];
         [_leftBar setImage:image forState:UIControlStateNormal];

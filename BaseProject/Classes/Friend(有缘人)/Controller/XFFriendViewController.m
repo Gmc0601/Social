@@ -12,18 +12,20 @@
 #import "XFSeniorFilterViewController.h"
 #import "XFFriendHomeViewController.h"
 #import "XFMapViewController.h"
+#import "MJRefresh.h"
 #import "XFLocationViewController.h"
-#import "XFFriendSecondCell.h"
+#import "FrindeListTableViewCell.h"
 
-@interface XFFriendViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, XFFriendFilterViewDelegate, AMapLocationManagerDelegate, AMapSearchDelegate>
+@interface XFFriendViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, XFFriendFilterViewDelegate, AMapLocationManagerDelegate, AMapSearchDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) AMapLocationManager *locationManager;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
+@property (nonatomic, retain) UITableView *noUseTableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UILabel *locationLabel;
 @property (nonatomic, assign) NSInteger currentPage;
-@property (nonatomic, assign) BOOL stateValue;
+
 @property (nonatomic, strong) UITextField *textField;
 
 
@@ -36,12 +38,15 @@
 
 @property (nonatomic, strong) UIButton *clickBtn;
 
+@property (nonatomic) BOOL list;
+
 @end
 
 @implementation XFFriendViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.list = NO;
     [self setupUI];
     [self getLocation];
 }
@@ -54,9 +59,9 @@
     fileterView.frame = CGRectMake(0, XFNavHeight, kScreenWidth, 33);
     [self.view addSubview:fileterView];
     
-    CGFloat itemW = (kScreenWidth - 40) * 0.25;
-    for (int i = 0; i < 4; i++) {
-        NSString *imgName = i == 3 ? @"icon_yyr_sx" : @"list_ic_2_0";
+    CGFloat itemW = (kScreenWidth - SizeWidth(30))/4;
+    for (int i = 0; i < 5; i++) {
+        NSString *imgName = i == 4 ? @"icon_yyr_sx" : @"list_ic_2_0";
         NSString *title = @"";
         if (i == 0) {
             title = @"附近";
@@ -64,31 +69,37 @@
             title = @"性别";
         } else if (i == 2) {
             title = @"魅力值";
-        } else if (i == 3) {
+        } else if (i == 4) {
             title = @"高级筛选";
         }
         
         XFLRButton *button = [XFLRButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:title forState:UIControlStateNormal];
         [button setTitleColor:BlackColor forState:UIControlStateNormal];
-        [button setImage:Image(imgName) forState:UIControlStateNormal];
+        if (i == 3) {
+            [button setImage:Image(@"yyr_icon_yszh") forState:UIControlStateNormal];
+        }else {
+           [button setImage:Image(imgName) forState:UIControlStateNormal];
+        }
+        
         button.titleLabel.font = Font(13);
         [button addTarget:self action:@selector(filterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         button.tag = i;
-        button.width = itemW;
+        if (i == 3) {
+            button.width = SizeWidth(30);
+        }else {
+         button.width = itemW;
+        }
         button.height = fileterView.height;
         button.top = 0;
-        button.left = i * itemW;
+        if (i == 4) {
+            button.left = (i- 1) * itemW + SizeWidth(30);
+        }else {
+            button.left = i * itemW;
+        }
+        
         [fileterView addSubview:button];
     }
-
-    UIButton *btn_BB = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn_BB setFrame:CGRectMake(kScreenWidth - 40, 0, 40, fileterView.height)];
-    [btn_BB setBackgroundColor:[UIColor whiteColor]];
-    [btn_BB setImage:[UIImage imageNamed:@"setMenu"] forState:UIControlStateNormal];
-    [btn_BB addTarget:self action:@selector(function_changeWay) forControlEvents:UIControlEventTouchUpInside];
-    [fileterView addSubview:btn_BB];
-
     
     UIView *splitView = [UIView xf_createSplitView];
     splitView.frame = CGRectMake(0, fileterView.height - 0.5, fileterView.width, 0.5);
@@ -107,12 +118,6 @@
     mapBtn.bottom = kScreenHeight - 75;
     [self.view addSubview:mapBtn];
 }
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.stateValue = NO;
-}
-
 
 - (void)setupNavView {
     UIView *navView = [UIView xf_createWhiteView];
@@ -193,6 +198,7 @@
                    params:[self getTheParams]
               resultBlock:^(id responseObject, NSError *error) {
                   [weakSelf.collectionView.mj_header endRefreshing];
+                  [weakSelf.noUseTableView.mj_header endRefreshing];
                   weakSelf.dataArray = [NSMutableArray array];
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
@@ -208,10 +214,14 @@
                           }
                           if (infoArray.count == 0) {
                               [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+                              [self.noUseTableView.mj_footer endRefreshingWithNoMoreData];
+                              
                           } else {
                               [self.collectionView.mj_footer endRefreshing];
+                              [self.noUseTableView.mj_footer endRefreshing];
                           }
                           [self.collectionView reloadData];
+                          [self.noUseTableView reloadData];
                       } else {
                           NSString *info = responseObject[@"info"];
                           if ([info isKindOfClass:[NSString class]] && info.length) {
@@ -242,10 +252,13 @@
                           }
                           if (infoArray.count == 0) {
                               [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+                              [self.noUseTableView.mj_footer endRefreshingWithNoMoreData];
                           } else {
+                              [self.collectionView.mj_footer endRefreshing];
                               [self.collectionView.mj_footer endRefreshing];
                           }
                           [self.collectionView reloadData];
+                          [self.noUseTableView reloadData];
                       } else {
                           NSString *info = responseObject[@"info"];
                           if ([info isKindOfClass:[NSString class]] && info.length) {
@@ -331,7 +344,6 @@
             [UserDefaults setObject:city forKey:XFCurrentCityKey];
             [UserDefaults synchronize];
             
-            
             if ([[city substringFromIndex:city.length - 1] isEqualToString:@"市"]) {
                 city = [city substringToIndex:city.length - 1];
             }
@@ -351,6 +363,38 @@
     }
     [self loadData];
 }
+#pragma mark ----------<UITableViewDataSource>----------
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.dataArray.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSString *ID = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+    FrindeListTableViewCell *cell = [self.noUseTableView dequeueReusableCellWithIdentifier:ID];
+    if (!cell) {
+        cell = [[FrindeListTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+    }
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
+    cell.user = self.dataArray[indexPath.row];
+    
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return SizeHeigh(75);
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+    User *user = self.dataArray[indexPath.row];
+    controller.friendId = user.id;
+    [self pushController:controller];
+}
 
 #pragma mark ----------<UICollectionViewDataSource>----------
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -362,17 +406,10 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.stateValue) {
-        XFFriendSecondCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendSecondCell" forIndexPath:indexPath];
-        cell.backgroundColor = WhiteColor;
-        cell.user = self.dataArray[indexPath.item];
-        return cell;
-    } else {
-        XFFriendCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendCell" forIndexPath:indexPath];
-        cell.backgroundColor = WhiteColor;
-        cell.user = self.dataArray[indexPath.item];
-        return cell;
-    }
+    XFFriendCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XFFriendCell" forIndexPath:indexPath];
+    cell.backgroundColor = WhiteColor;
+    cell.user = self.dataArray[indexPath.item];
+    return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -425,20 +462,6 @@
     [self loadData];
 }
 
-- (void)friendFilterView:(XFFriendFilterView *)view
-         didSelectTopMin:(NSInteger)topMin
-                  topMax:(NSInteger)topMax
-               bottomMin:(NSInteger)bottomMin
-               bottomMax:(NSInteger)bottomMax {
-
-    self.normalDict[@"coolpoint1"] = [NSString stringWithFormat:@"%ld", (long)topMin];
-    self.normalDict[@"coolpoint2"] = [NSString stringWithFormat:@"%ld", (long)topMax];
-    self.normalDict[@"beetlepoint1"] = [NSString stringWithFormat:@"%ld", (long)bottomMin];
-    self.normalDict[@"beetlepoint2"] = [NSString stringWithFormat:@"%ld", (long)bottomMax];
-    [self loadData];
-
-}
-
 #pragma mark ----------Action----------
 - (void)filterBtnClick:(XFLRButton *)button {
     self.clickBtn = button;
@@ -486,15 +509,11 @@
         if (torStr.length) {
             tor = torStr.floatValue;
         }
-        XFFriendFilterView* view = [[XFFriendFilterView alloc]initWitiTopMin:0
-                                                                      topMax:10
-                                                                   bottomMin:0
-                                                                   bottomMax:10];
-//        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithCharmCount:charm tortoiseCount:tor];
+        XFFriendFilterView *view = [[XFFriendFilterView alloc] initWithCharmCount:charm tortoiseCount:tor];
         view.tag = 2;
         view.delegate = self;
         [[UIApplication sharedApplication].keyWindow addSubview:view];
-    } else if (button.tag == 3) {
+    } else if (button.tag == 4) {
         XFSeniorFilterViewController *controller = [[XFSeniorFilterViewController alloc] init];
         controller.orignDict = self.seniorDict;
         controller.confirmBack = ^(NSDictionary *dict) {
@@ -502,6 +521,17 @@
             [self loadData];
         };
         [self pushController:controller];
+    } else if ( button.tag == 3) {
+        //   切换视图
+        self.list = !self.list;
+        if (self.list) {
+            self.collectionView.hidden = YES;
+            self.noUseTableView.hidden = NO;
+        
+        }else {
+            self.collectionView.hidden = NO;
+            self.noUseTableView.hidden = YES;
+        }
     }
 }
 
@@ -516,12 +546,13 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, top, kScreenWidth, kScreenHeight - top - XFTabHeight)
                                              collectionViewLayout:self.layout];
         [_collectionView registerClass:[XFFriendCell class] forCellWithReuseIdentifier:@"XFFriendCell"];
-        [_collectionView registerClass:[XFFriendSecondCell class] forCellWithReuseIdentifier:@"XFFriendSecondCell"];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = PaddingColor;
         _collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
         [self.view addSubview:_collectionView];
+        [self.view addSubview:self.noUseTableView];
+        self.noUseTableView.hidden = YES;
     }
     return _collectionView;
 }
@@ -538,24 +569,32 @@
     return _layout;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+
+- (UITableView *)noUseTableView {
+    if (!_noUseTableView) {
+        CGFloat top = XFNavHeight + XFFriendFilterHeight;
+        _noUseTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, top, kScreenW, kScreenH - SizeHeigh(50) - top) style:UITableViewStylePlain];
+        _noUseTableView.backgroundColor = RGBColor(239, 240, 241);
+        _noUseTableView.delegate = self;
+        _noUseTableView.dataSource = self;
+        _noUseTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _noUseTableView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
+        _noUseTableView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
+        
+//        _noUseTableView.tableHeaderView = ({
+//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01)];
+//            view;
+//        });
+//        _noUseTableView.tableFooterView = ({
+//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW,  SizeHeigh(0))];
+//            view;
+//        });
+    }
+    return _noUseTableView;
 }
 
-#pragma mark - 刷新
-- (void)function_changeWay {
-    CGFloat itemW = floorf((kScreenWidth  - 15) * 0.5);
-    if (self.layout.itemSize.width == itemW) {
-        self.stateValue = YES;
-        self.layout.itemSize = CGSizeMake(kScreenWidth, 80);
-    } else {
-        self.stateValue = NO;
-        CGFloat itemH = itemW * 1.25;
-        self.layout.itemSize = CGSizeMake(itemW, itemH);
-    }
-    [self.collectionView reloadData];
-    //Code
-
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

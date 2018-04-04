@@ -45,7 +45,6 @@
     [HttpRequest postPath:XFMyCharmUrl
                    params:nil
               resultBlock:^(id responseObject, NSError *error) {
-                  NSLog(@"显示想要的: %@", responseObject);
                   if (!error) {
                       NSNumber *errorCode = responseObject[@"error"];
                       if (errorCode.integerValue == 0) {
@@ -66,11 +65,6 @@
                           user.country_coo = rankInfo[@"country_coo"];
                           user.friend_bee = rankInfo[@"friend_bee"];
                           user.friend_coo = rankInfo[@"friend_coo"];
-                          user.area_bee = rankInfo[@"area_bee"];
-                          user.area_coo = rankInfo[@"area_coo"];
-                          user.province_bee = rankInfo[@"province_bee"];
-                          user.province_coo = rankInfo[@"province_coo"];
-
                           
                           weakSelf.user = user;
                           [self setupUI];
@@ -109,7 +103,7 @@
     UIView *topView = [self createTopView];
     topView.top = grayView.bottom;
     [self.scrollView addSubview:topView];
-    /*
+    
     UIView *countryView = [self createItemView:@"全国排名"
                                            coo:self.user.country_coo.integerValue
                                            bee:self.user.country_bee.integerValue];
@@ -123,39 +117,6 @@
                                           coo:self.user.friend_coo.integerValue
                                           bee:self.user.friend_bee.integerValue];
     friendView.top = cityView.bottom;
-     */
-    //1.全国
-    UIView *countryView = [self createItemView:@"全国排名"
-                                           coo:self.user.country_coo.integerValue
-                                           bee:self.user.country_bee.integerValue];
-    countryView.top = topView.bottom;
-
-    //2.省排名
-    UIView *provinceView = [self createItemView:@"省排名"
-                                           coo:self.user.province_coo.integerValue
-                                           bee:self.user.province_bee.integerValue];
-    provinceView.top = countryView.bottom;
-    //3.市排名
-    UIView *cityView = [self createItemView:@"市排名"
-                                            coo:self.user.city_coo.integerValue
-                                            bee:self.user.city_bee.integerValue];
-    cityView.top = provinceView.bottom;
-    //4.地区排名
-    UIView *areaView = [self createItemView:@"地区排名"
-                                        coo:self.user.area_coo.integerValue
-                                        bee:self.user.area_bee.integerValue];
-    areaView.top = cityView.bottom;
-    //5.好友排名
-    UIView *friendView = [self createItemView:@"好友排名"
-                                        coo:self.user.province_coo.integerValue
-                                        bee:self.user.province_bee.integerValue];
-    friendView.top = areaView.bottom;
-
-
-
-
-
-
     self.scrollView.contentSize = CGSizeMake(kScreenWidth, friendView.bottom);
 }
 

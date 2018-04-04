@@ -16,7 +16,6 @@
 #import "XFMyCircleViewController.h"
 #import "XFMyAlbumViewController.h"
 #import "XFMyCharmInfoViewController.h"
-#import "ShouCangViewController.h"
 
 @interface XFMyViewController ()<UIScrollViewDelegate, UIGestureRecognizerDelegate, XFMyInfoViewDelegate>
 @property (nonatomic, strong) XFMyInfoView *myInfoView;
@@ -32,11 +31,6 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) User *user;
-
-@property (nonatomic, strong)UIView *blackBottomView;
-@property (nonatomic, strong)UITapGestureRecognizer *tapGes;
-@property (nonatomic, strong)UIView *whiteBottomView;
-@property (nonatomic, strong)UIImageView *codeImageView;
 
 @end
 
@@ -100,149 +94,7 @@
     self.navView.frame = CGRectMake(0, 0, kScreenWidth, XFNavHeight);
     self.settingBtn.frame = CGRectMake(0, 20, 44, 44);
     self.accountBtn.frame = CGRectMake(kScreenWidth - 85, 20, 85, 44);
-    //二维码按钮
-    UIButton *codeButton = [[UIButton alloc]init];
-//    [codeButton setBackgroundImage:[UIImage imageNamed:@"yyr_icon_yszh"] forState:UIControlStateNormal];
-    [codeButton setImage:[UIImage imageNamed:@"icon_ewm"] forState:UIControlStateNormal];
-    [codeButton addTarget:self action:@selector(showCodeImageViewMethod) forControlEvents:UIControlEventTouchUpInside];
-    [self.navView addSubview:codeButton];
-    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.settingBtn.mas_centerY);
-        make.left.equalTo(self.settingBtn.mas_right).with.offset(RESIZE_UI(5));
-        make.width.height.mas_offset(55);
-    }];
-    //收藏按钮
-    UIButton *shoucangButton = [[UIButton alloc]init];
-    [shoucangButton setTitle:@"收藏" forState:UIControlStateNormal];
-    shoucangButton.titleLabel.font = Font(15);
-    [shoucangButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [shoucangButton addTarget:self action:@selector(shoucangMethod) forControlEvents:UIControlEventTouchUpInside];
-    [self.navView addSubview:shoucangButton];
-    [shoucangButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.accountBtn.mas_centerY);
-        make.right.equalTo(self.accountBtn.mas_left);
-        make.width.mas_offset(85);
-        make.height.mas_offset(44);
-    }];
-    
 }
-
-#pragma mark - 收藏入口方法
-- (void)shoucangMethod {
-    ShouCangViewController *shoucangVC = [[ShouCangViewController alloc]init];
-    [self pushController:shoucangVC];
-}
-
-#pragma mark - 显示二维码
-- (void)showCodeImageViewMethod {
-    
-    //生成黑色背景
-    _blackBottomView = [[UIView alloc]init];
-    _blackBottomView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
-    UIWindow *windows =[[UIApplication sharedApplication].delegate window];
-    [windows addSubview:_blackBottomView];
-    [_blackBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(windows);
-    }];
-    
-    _tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeAll)];
-    [_blackBottomView addGestureRecognizer:_tapGes];
-    
-    //生成白色背景
-    _whiteBottomView = [[UIView alloc]init];
-    _whiteBottomView.backgroundColor = [UIColor whiteColor];
-    _whiteBottomView.layer.masksToBounds = YES;
-    _whiteBottomView.layer.cornerRadius = 10.0f;
-    [_blackBottomView addSubview:_whiteBottomView];
-    [_whiteBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_blackBottomView.mas_centerX);
-        make.centerY.equalTo(_blackBottomView.mas_centerY);
-        make.width.height.mas_offset(RESIZE_UI(300));
-    }];
-    
-    //生成二维码
-    // 1.创建过滤器
-    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
-    
-    // 2.恢复默认
-    [filter setDefaults];
-    
-    // 3.给过滤器添加数据(正则表达式/账号和密码)
-    //http://m.wangmacaifu.com/#/register/wmcf-xxxxxx
-    //    NSString *dataString = [NSString stringWithFormat:@"http://m.wmjr888.com/?invitationcode=%@#login-register",[SingletonManager sharedManager].userModel.invitationcode];
-    NSString *userId = [NSString stringWithFormat:@"%@",self.user.id];
-    NSString *dataString = userId;//user_id
-    NSData *data = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-    [filter setValue:data forKeyPath:@"inputMessage"];
-    
-    // 4.获取输出的二维码
-    CIImage *outputImage = [filter outputImage];
-    
-    // 5.显示二维码
-    self.codeImageView = [[UIImageView alloc]init];
-    [_whiteBottomView addSubview:self.codeImageView];
-    self.codeImageView.image = [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:200];
-    [self.codeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_whiteBottomView.mas_centerX);
-        make.centerY.equalTo(_whiteBottomView.mas_centerY);
-        make.width.height.mas_offset(RESIZE_UI(250));
-    }];
-    
-    UILabel *nameLabel = [[UILabel alloc]init];
-    nameLabel.text = @"朋友可以通过扫码，添加你为好友";
-    nameLabel.textColor = RGBGray(102);
-    nameLabel.font = [UIFont systemFontOfSize:RESIZE_UI(14)];
-    [_whiteBottomView addSubview:nameLabel];
-    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.codeImageView.mas_bottom);
-        make.centerX.equalTo(self.codeImageView.mas_centerX);
-    }];
-    
-}
-
-/**
- *  根据CIImage生成指定大小的UIImage
- *
- *  @param image CIImage
- *  @param size  图片宽度
- */
-- (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size
-{
-    CGRect extent = CGRectIntegral(image.extent);
-    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
-    
-    // 1.创建bitmap;
-    size_t width = CGRectGetWidth(extent) * scale;
-    size_t height = CGRectGetHeight(extent) * scale;
-    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
-    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
-    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
-    CGContextScaleCTM(bitmapRef, scale, scale);
-    CGContextDrawImage(bitmapRef, extent, bitmapImage);
-    
-    // 2.保存bitmap到图片
-    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
-    CGContextRelease(bitmapRef);
-    CGImageRelease(bitmapImage);
-    return [UIImage imageWithCGImage:scaledImage];
-}
-
-#pragma mark - 关闭全部
-- (void)closeAll {
-
-    [_codeImageView removeFromSuperview];
-    _codeImageView = nil;
-    [_whiteBottomView removeFromSuperview];
-    _whiteBottomView = nil;
-    [_blackBottomView removeGestureRecognizer:_tapGes];
-    _tapGes = nil;
-    [_blackBottomView removeFromSuperview];
-    _blackBottomView = nil;
-    
-}
-
 
 - (void)setupTabView {
     _tabView = [UIView xf_createWhiteView];
