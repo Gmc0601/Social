@@ -61,6 +61,9 @@ NSString *const XFPushSettingUrl            = @"_xianshidelay_001";
 NSString *const XFResetPushSettingUrl       = @"_delay_001";
 NSString *const XFAlipayPayUrl              = @"_paycallback_001";
 NSString *const XFApplyChatUrl              = @"_pleasechat_001";
+NSString *const XFApplyCollectlist          = @"_collectlist_001";
+NSString *const XFApplyDeletecollect         = @"_deletecollect_001";
+
 
 
 

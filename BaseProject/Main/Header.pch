@@ -97,6 +97,9 @@
 /*
  通用
  */
+/*
+ 通用
+ */
 #define kScreen_BOUNDS                  [[UIScreen mainScreen] bounds]
 #define kScreenW                        [UIScreen mainScreen].bounds.size.width
 #define kScreenH                        [UIScreen mainScreen].bounds.size.height
@@ -109,6 +112,8 @@
 #define k_screenH ([UIScreen mainScreen].bounds.size.height)/(667)
 #define SizeWidth(x) ([UIScreen mainScreen].bounds.size.width)/(375) * (x)
 #define SizeHeigh(x) ([UIScreen mainScreen].bounds.size.height)/(667) * (x)
+#define RESIZE_UI(float) ((float)/375.0f * kScreenW)
+#define NormalFont(FONTSIZE)            [UIFont  systemFontOfSize:FONTSIZE]
 
 #define NormalFont(FONTSIZE)            [UIFont  systemFontOfSize:FONTSIZE]
 /**
@@ -132,6 +137,8 @@
 #define WeakObj(o) __weak typeof(o) o##Weak = o
 
 #define StrongSelf(strongSelf)  __strong __typeof(&*self)  strongSelf = weakSelf;
+
+
 
 
 /**

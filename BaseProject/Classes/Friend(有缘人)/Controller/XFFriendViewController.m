@@ -58,7 +58,7 @@
     UIView *fileterView = [UIView xf_createWhiteView];
     fileterView.frame = CGRectMake(0, XFNavHeight, kScreenWidth, 33);
     [self.view addSubview:fileterView];
-    
+
     CGFloat itemW = (kScreenWidth - SizeWidth(30))/4;
     for (int i = 0; i < 5; i++) {
         NSString *imgName = i == 4 ? @"icon_yyr_sx" : @"list_ic_2_0";
@@ -72,23 +72,23 @@
         } else if (i == 4) {
             title = @"高级筛选";
         }
-        
+
         XFLRButton *button = [XFLRButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:title forState:UIControlStateNormal];
         [button setTitleColor:BlackColor forState:UIControlStateNormal];
         if (i == 3) {
             [button setImage:Image(@"yyr_icon_yszh") forState:UIControlStateNormal];
         }else {
-           [button setImage:Image(imgName) forState:UIControlStateNormal];
+            [button setImage:Image(imgName) forState:UIControlStateNormal];
         }
-        
+
         button.titleLabel.font = Font(13);
         [button addTarget:self action:@selector(filterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         button.tag = i;
         if (i == 3) {
             button.width = SizeWidth(30);
         }else {
-         button.width = itemW;
+            button.width = itemW;
         }
         button.height = fileterView.height;
         button.top = 0;
@@ -97,21 +97,21 @@
         }else {
             button.left = i * itemW;
         }
-        
+
         [fileterView addSubview:button];
     }
-    
+
     UIView *splitView = [UIView xf_createSplitView];
     splitView.frame = CGRectMake(0, fileterView.height - 0.5, fileterView.width, 0.5);
     [fileterView addSubview:splitView];
-    
+
     self.seniorDict = [NSMutableDictionary dictionary];
     self.normalDict = [NSMutableDictionary dictionary];
     self.normalDict[@"distance"] = @"20km";
-    
+
     self.collectionView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
     self.collectionView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
-    
+
     UIButton *mapBtn = [UIButton xf_imgButtonWithImgName:@"btn_yyr_dt" target:self action:@selector(mapBtnClick)];
     mapBtn.size = CGSizeMake(50, 50);
     mapBtn.right = kScreenWidth - 30;
@@ -124,35 +124,35 @@
     navView.frame = CGRectMake(0, 0, kScreenWidth, XFNavHeight);
     navView.backgroundColor = ThemeColor;
     [self.view addSubview:navView];
-    
+
     UIView *searchView = [UIView xf_createViewWithColor:RGBA(249, 249, 249, 0.5)];
     searchView.frame = CGRectMake(kScreenWidth - 177 - 16, 28, 177, 32);
     [searchView xf_cornerCut:16];
     [navView addSubview:searchView];
-    
+
     UIImageView *imgView = [[UIImageView alloc] initWithImage:Image(@"icon_nav_ss")];
     imgView.centerY = searchView.height * 0.5;
     imgView.right = searchView.width - 15;
     imgView.userInteractionEnabled = YES;
     [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchViewTap)]];
     [searchView addSubview:imgView];
-    
+
     UITextField *textField = [[UITextField alloc] init];
     self.textField = textField;
     textField.font = Font(13);
-    textField.placeholder = @"输入ID号或手机号搜索";
+    textField.placeholder = @"输入手机号搜索";
     [searchView addSubview:textField];
     textField.height = searchView.height;
     textField.left = 15;
     textField.width = imgView.left - 10 - textField.left;
-    
+
     UIImageView *locationView = [[UIImageView alloc] initWithImage:Image(@"icon_dw_b")];
     locationView.left = 16;
     locationView.centerY = searchView.centerY;
     locationView.userInteractionEnabled = YES;
     [locationView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationViewTap)]];
     [navView addSubview:locationView];
-    
+
     UILabel *locationLabel = [UILabel xf_labelWithFont:Font(13)
                                              textColor:WhiteColor
                                          numberOfLines:1
@@ -215,7 +215,7 @@
                           if (infoArray.count == 0) {
                               [self.collectionView.mj_footer endRefreshingWithNoMoreData];
                               [self.noUseTableView.mj_footer endRefreshingWithNoMoreData];
-                              
+
                           } else {
                               [self.collectionView.mj_footer endRefreshing];
                               [self.noUseTableView.mj_footer endRefreshing];
@@ -280,14 +280,14 @@
         if (self.normalDict.allKeys.count) {
             [dict addEntriesFromDictionary:self.normalDict];
         }
-        
+
         NSString *distance = dict[@"distance"];
         if ([distance containsString:@"km"]) {
             distance = [distance substringToIndex:distance.length - 2];
             dict[@"distance"] = distance;
         }
-        
-        
+
+
         NSString *city = [UserDefaults objectForKey:XFCurrentCityKey];
         if (city.length) {
             if ([[city substringFromIndex:city.length - 1] isEqualToString:@"市"]) {
@@ -300,7 +300,7 @@
         dict[@"page"] = [NSString stringWithFormat:@"%zd", self.currentPage];
         dict[@"size"] = XFDefaultPageSize;
     }
-    
+
     NSString *latitude = [NSString stringWithFormat:@"%f", self.location.coordinate.latitude];
     NSString *longitude = [NSString stringWithFormat:@"%f", self.location.coordinate.longitude];
     if (latitude.length && longitude.length) {
@@ -330,7 +330,7 @@
     self.location = location;
     self.codeSearch = [[AMapReGeocodeSearchRequest alloc] init];
     self.codeSearch.location = [AMapGeoPoint locationWithLatitude:self.location.coordinate.latitude longitude:self.location.coordinate.longitude];
-    
+
     self.codeSearch.requireExtension = YES;
     [self.search AMapReGoecodeSearch:self.codeSearch];
     [self.locationManager stopUpdatingLocation];
@@ -343,7 +343,7 @@
         if (city.length) {
             [UserDefaults setObject:city forKey:XFCurrentCityKey];
             [UserDefaults synchronize];
-            
+
             if ([[city substringFromIndex:city.length - 1] isEqualToString:@"市"]) {
                 city = [city substringToIndex:city.length - 1];
             }
@@ -358,7 +358,7 @@
                           resultBlock:^(id responseObject, NSError *error) {
                           }];
             }
-            
+
         }
     }
     [self loadData];
@@ -371,7 +371,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     NSString *ID = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     FrindeListTableViewCell *cell = [self.noUseTableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
@@ -380,7 +380,7 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor clearColor];
     cell.user = self.dataArray[indexPath.row];
-    
+
     return cell;
 }
 
@@ -453,7 +453,7 @@
     } else {
         [self.normalDict removeObjectForKey:@"coolpoint"];
     }
-    
+
     if (tortoise.integerValue > 0) {
         self.normalDict[@"beetlepoint"] = tortoise;
     } else {
@@ -527,7 +527,7 @@
         if (self.list) {
             self.collectionView.hidden = YES;
             self.noUseTableView.hidden = NO;
-        
+
         }else {
             self.collectionView.hidden = NO;
             self.noUseTableView.hidden = YES;
@@ -580,15 +580,15 @@
         _noUseTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _noUseTableView.mj_header = [XFRefreshTool xf_header:self action:@selector(loadData)];
         _noUseTableView.mj_footer = [XFRefreshTool xf_footer:self action:@selector(loadMoreData)];
-        
-//        _noUseTableView.tableHeaderView = ({
-//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01)];
-//            view;
-//        });
-//        _noUseTableView.tableFooterView = ({
-//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW,  SizeHeigh(0))];
-//            view;
-//        });
+
+        //        _noUseTableView.tableHeaderView = ({
+        //            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, 0.01)];
+        //            view;
+        //        });
+        //        _noUseTableView.tableFooterView = ({
+        //            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW,  SizeHeigh(0))];
+        //            view;
+        //        });
     }
     return _noUseTableView;
 }

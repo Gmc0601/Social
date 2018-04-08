@@ -369,7 +369,9 @@
                                   if ([score isKindOfClass:[NSNumber class]]) {
                                       score = @"0";
                                   }
-                                  XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:infoDict[@"suggest_earnest"]];
+                                  id suggest_earnest = infoDict[@"suggest_earnest"];
+                                  NSString* suggest_earnest_String = [suggest_earnest isKindOfClass:[NSNumber class]] ? [suggest_earnest stringValue] : suggest_earnest;
+                                  XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:suggest_earnest_String];
                                   view.delegate = self;
                                   [self.view addSubview:view];
                               }
