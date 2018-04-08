@@ -99,22 +99,19 @@
 - (void)setupNavView {
     self.navView.frame = CGRectMake(0, 0, kScreenWidth, XFNavHeight);
     self.settingBtn.frame = CGRectMake(0, 20, 44, 44);
-    self.accountBtn.frame = CGRectMake(kScreenWidth - 85, 20, 85, 44);
+
+    CGFloat accountWidth = [self.accountBtn.titleLabel.text widthForFont:self.accountBtn.titleLabel.font] + 5;
+    self.accountBtn.frame = CGRectMake(kScreenWidth - accountWidth - 10, 20, accountWidth, 44);
     //二维码按钮
     UIButton *codeButton = [[UIButton alloc]init];
-    //    [codeButton setBackgroundImage:[UIImage imageNamed:@"yyr_icon_yszh"] forState:UIControlStateNormal];
     [codeButton setImage:[UIImage imageNamed:@"icon_ewm"] forState:UIControlStateNormal];
     [codeButton addTarget:self action:@selector(showCodeImageViewMethod) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:codeButton];
-    codeButton.centerY = self.settingBtn.centerY;
-    codeButton.left = self.settingBtn.right + 5;
-    codeButton.width = 55;
-    codeButton.height = 55;
-//    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(self.settingBtn.mas_centerY);
-//        make.left.equalTo(self.settingBtn.mas_right).with.offset(RESIZE_UI(5));
-//        make.width.height.mas_offset(55);
-//    }];
+    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.settingBtn.mas_centerY);
+        make.left.equalTo(self.settingBtn.mas_right).with.offset(RESIZE_UI(5));
+        make.width.height.mas_offset(44);
+    }];
     //收藏按钮
     UIButton *shoucangButton = [[UIButton alloc]init];
     [shoucangButton setTitle:@"收藏" forState:UIControlStateNormal];
@@ -122,16 +119,15 @@
     [shoucangButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [shoucangButton addTarget:self action:@selector(shoucangMethod) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:shoucangButton];
-    shoucangButton.centerY = self.accountBtn.centerY;
-    shoucangButton.right = self.accountBtn.left;
-    shoucangButton.width = 85;
-    shoucangButton.height = 44;
-//    [shoucangButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(self.accountBtn.mas_centerY);
-//        make.right.equalTo(self.accountBtn.mas_left);
-//        make.width.mas_offset(85);
-//        make.height.mas_offset(44);
-//    }];
+    CGFloat shoucangButtonWidth = [shoucangButton.titleLabel.text widthForFont:shoucangButton.titleLabel.font] + 5;
+
+
+    [shoucangButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.accountBtn.mas_centerY);
+        make.right.equalTo(self.accountBtn.mas_left).with.offset(-8);
+        make.width.mas_offset(shoucangButtonWidth);
+        make.height.mas_offset(44);
+    }];
 
 }
 
@@ -149,10 +145,9 @@
     _blackBottomView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     UIWindow *windows =[[UIApplication sharedApplication].delegate window];
     [windows addSubview:_blackBottomView];
-    _blackBottomView.frame = windows.bounds;
-//    [_blackBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo(windows);
-//    }];
+    [_blackBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(windows);
+    }];
 
     _tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeAll)];
     [_blackBottomView addGestureRecognizer:_tapGes];
@@ -163,15 +158,11 @@
     _whiteBottomView.layer.masksToBounds = YES;
     _whiteBottomView.layer.cornerRadius = 10.0f;
     [_blackBottomView addSubview:_whiteBottomView];
-    _whiteBottomView.centerX = _blackBottomView.centerX;
-    _whiteBottomView.centerY = _blackBottomView.centerY;
-    _whiteBottomView.width = RESIZE_UI(300);
-    _whiteBottomView.height = RESIZE_UI(300);
-//    [_whiteBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(_blackBottomView.mas_centerX);
-//        make.centerY.equalTo(_blackBottomView.mas_centerY);
-//        make.width.height.mas_offset(RESIZE_UI(300));
-//    }];
+    [_whiteBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(_blackBottomView.mas_centerX);
+        make.centerY.equalTo(_blackBottomView.mas_centerY);
+        make.width.height.mas_offset(RESIZE_UI(300));
+    }];
 
     //生成二维码
     // 1.创建过滤器
@@ -195,22 +186,21 @@
     self.codeImageView = [[UIImageView alloc]init];
     [_whiteBottomView addSubview:self.codeImageView];
     self.codeImageView.image = [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:200];
-    self.codeImageView.center = _whiteBottomView.center;
-    self.codeImageView.width = RESIZE_UI(250);
-    self.codeImageView.height = RESIZE_UI(250);
-
+    [self.codeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(_whiteBottomView.mas_centerX);
+        make.centerY.equalTo(_whiteBottomView.mas_centerY);
+        make.width.height.mas_offset(RESIZE_UI(250));
+    }];
 
     UILabel *nameLabel = [[UILabel alloc]init];
     nameLabel.text = @"朋友可以通过扫码，添加你为好友";
     nameLabel.textColor = RGBGray(102);
     nameLabel.font = [UIFont systemFontOfSize:RESIZE_UI(14)];
     [_whiteBottomView addSubview:nameLabel];
-    nameLabel.top = self.codeImageView.bottom;
-    nameLabel.centerX = self.codeImageView.centerX;
-//    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.codeImageView.mas_bottom);
-//        make.centerX.equalTo(self.codeImageView.mas_centerX);
-//    }];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.codeImageView.mas_bottom);
+        make.centerX.equalTo(self.codeImageView.mas_centerX);
+    }];
 
 }
 
