@@ -228,14 +228,15 @@
 - (void)prepareChatView:(XFPrepareChatView *)view clickConfirmBtn:(NSString *)text {
     [self.view addGestureRecognizer:self.up];
     [self.view addGestureRecognizer:self.down];
-    if (text.integerValue <= 0) {
+    if ([text componentsSeparatedByString:@";;"].firstObject.integerValue <= 0) {
         [ConfigModel mbProgressHUD:@"诚意金不能为0" andView:nil];
         return;
     }
     
     WeakSelf
     [HttpRequest postPath:XFApplyChatUrl
-                   params:@{@"earnest" : text,
+                   params:@{@"earnest" : [text componentsSeparatedByString:@";;"].firstObject,
+                            @"remark": [text componentsSeparatedByString:@";;"].lastObject,
                             @"id" : self.friendId.stringValue}
               resultBlock:^(id responseObject, NSError *error) {
                   if (!error) {
@@ -365,10 +366,10 @@
                               if ([infoDict isKindOfClass:[NSDictionary class]] && infoDict.allKeys.count) {
                                   [self.view removeGestureRecognizer:self.up];
                                   [self.view removeGestureRecognizer:self.down];
-                                  NSString *score = infoDict[@"suggest_earnest"];
-                                  if ([score isKindOfClass:[NSNumber class]]) {
-                                      score = @"0";
-                                  }
+//                                  NSString *score = infoDict[@"suggest_earnest"];
+//                                  if ([score isKindOfClass:[NSNumber class]]) {
+//                                      score = @"0";
+//                                  }
                                   id suggest_earnest = infoDict[@"suggest_earnest"];
                                   NSString* suggest_earnest_String = [suggest_earnest isKindOfClass:[NSNumber class]] ? [suggest_earnest stringValue] : suggest_earnest;
                                   XFPrepareChatView *view = [[XFPrepareChatView alloc] initWithScore:suggest_earnest_String];

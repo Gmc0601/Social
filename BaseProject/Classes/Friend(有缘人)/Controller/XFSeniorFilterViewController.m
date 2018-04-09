@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIView *currentTapView;
 
 @property (nonatomic, strong) UILabel *ageLabel;
+@property (nonatomic, strong) UILabel *homeLabel;
 @property (nonatomic, strong) UILabel *heightLabel;
 @property (nonatomic, strong) UILabel *weightLabel;
 @property (nonatomic, strong) UILabel *educationLabel;
@@ -88,6 +89,15 @@
     if (cityView.bottom > scrollView.height) {
         self.scrollView.contentSize = CGSizeMake(kScreenWidth, cityView.bottom);
     }
+
+    UIView *homeTowmView = [self createRightLabelView:@"故乡" andInfo:nil];
+    homeTowmView.tag = SeniorFilterBaseTag + 7;
+    homeTowmView.top = cityView.bottom;
+    if (homeTowmView.bottom > scrollView.height) {
+        self.scrollView.contentSize = CGSizeMake(kScreenWidth, homeTowmView.bottom);
+    }
+
+    
     
     UILabel *ageLabel = (UILabel *)[ageView viewWithTag:300];
     self.ageLabel = ageLabel;
@@ -105,6 +115,9 @@
     self.carLabel = carLabel;
     UILabel *cityLabel = (UILabel *)[cityView viewWithTag:300];
     self.cityLabel = cityLabel;
+
+    UILabel *hhomeLabel = (UILabel *)[homeTowmView viewWithTag:300];
+    self.homeLabel = hhomeLabel;
     
     if (self.orignDict) {
         NSString *ageLeftStr = self.orignDict[@"age1"];
@@ -126,6 +139,11 @@
         if (ageStr.length) {
             [self setupRightLabel:ageLabel info:ageStr];
         }
+        NSString *hometown = self.orignDict[@"hometown"];
+        if (hometown.length != 0) {
+            self.dict[@"hometown"] = hometown;
+        }
+        //
         
         
         NSString *heightLeftStr = self.orignDict[@"height1"];
