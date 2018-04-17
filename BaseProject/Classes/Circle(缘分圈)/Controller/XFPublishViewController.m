@@ -373,6 +373,8 @@
                                           }];
     } else {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        NSData *eachImgData = UIImageJPEGRepresentation(image, 0.5);
+        image = [UIImage imageWithData:eachImgData];
         [self.photos addObject:image];
         [self setupScrollView];
     }
