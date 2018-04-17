@@ -25,17 +25,24 @@
     [self.view addSubview:backBtn];
     self.view.backgroundColor = [UIColor blackColor];
     
-    if (self.localUrl.absoluteString.length) {
-        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.localUrl];
-        _player = [AVPlayer playerWithPlayerItem:playerItem];
-    } else {
-        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.videoUrl]];
-        _player = [AVPlayer playerWithPlayerItem:playerItem];
-    }
-    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
-    playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
-    [self.view.layer insertSublayer:playerLayer atIndex:0];
-    [_player play];
+
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // 通知主线程刷新
+            if (self.localUrl.absoluteString.length) {
+                AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.localUrl];
+                _player = [AVPlayer playerWithPlayerItem:playerItem];
+            } else {
+                AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.videoUrl]];
+                _player = [AVPlayer playerWithPlayerItem:playerItem];
+            }
+            AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+            playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+            [self.view.layer insertSublayer:playerLayer atIndex:0];
+            [_player play];
+        });
+    });
 }
 
 

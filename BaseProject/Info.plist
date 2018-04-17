@@ -119,6 +119,8 @@
 	<string>访问您所在位置</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App需要您的同意,才能访问麦克风</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>App需要您的同意,才能访问媒体库</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>是否允许App使用您的相机</string>
 	<key>UILaunchStoryboardName</key>
