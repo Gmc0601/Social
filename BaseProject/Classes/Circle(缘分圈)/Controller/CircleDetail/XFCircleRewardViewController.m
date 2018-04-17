@@ -53,7 +53,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XFOriginTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"XFOriginTableViewCell" forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     User *user = self.rewardArray[indexPath.row];
     [cell becomeValue:user];
     return cell;
