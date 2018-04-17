@@ -370,6 +370,8 @@
 		970799F4207A6B9B002F5431 /* XFFriendSecondCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 970799F0207A6B9A002F5431 /* XFFriendSecondCell.m */; };
 		970799F5207A6B9B002F5431 /* ShouCangTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 970799F1207A6B9B002F5431 /* ShouCangTextTableViewCell.m */; };
 		970799F6207A6B9B002F5431 /* ShouCangImgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 970799F3207A6B9B002F5431 /* ShouCangImgTableViewCell.m */; };
+		97DB1A532086426900BCCEA9 /* XFOriginTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DB1A512086426900BCCEA9 /* XFOriginTableViewCell.m */; };
+		97DB1A542086426900BCCEA9 /* XFOriginTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97DB1A522086426900BCCEA9 /* XFOriginTableViewCell.xib */; };
 		B850B0A11FDE60B300E96C14 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A01FDE60B300E96C14 /* libc++.tbd */; };
 		B850B0A31FDE60BA00E96C14 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A21FDE60BA00E96C14 /* libz.tbd */; };
 		B850B0B11FDE616B00E96C14 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B850B0AF1FDE616B00E96C14 /* AlipaySDK.bundle */; };
@@ -1132,6 +1134,9 @@
 		970799F1207A6B9B002F5431 /* ShouCangTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShouCangTextTableViewCell.m; sourceTree = "<group>"; };
 		970799F2207A6B9B002F5431 /* ShouCangImgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShouCangImgTableViewCell.h; sourceTree = "<group>"; };
 		970799F3207A6B9B002F5431 /* ShouCangImgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShouCangImgTableViewCell.m; sourceTree = "<group>"; };
+		97DB1A502086426900BCCEA9 /* XFOriginTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XFOriginTableViewCell.h; sourceTree = "<group>"; };
+		97DB1A512086426900BCCEA9 /* XFOriginTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XFOriginTableViewCell.m; sourceTree = "<group>"; };
+		97DB1A522086426900BCCEA9 /* XFOriginTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = XFOriginTableViewCell.xib; sourceTree = "<group>"; };
 		A2BC379B4929E517CCEBBD81 /* Pods-BaseProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseProject/Pods-BaseProject.release.xcconfig"; sourceTree = "<group>"; };
 		B850B0A01FDE60B300E96C14 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B850B0A21FDE60BA00E96C14 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -2975,6 +2980,9 @@
 				B851B2B11FD0F3B100A7BBBE /* XFCircleSuggestCell.m */,
 				42A4A69020288C13006E1289 /* FrindeListTableViewCell.h */,
 				42A4A69120288C13006E1289 /* FrindeListTableViewCell.m */,
+				97DB1A502086426900BCCEA9 /* XFOriginTableViewCell.h */,
+				97DB1A512086426900BCCEA9 /* XFOriginTableViewCell.m */,
+				97DB1A522086426900BCCEA9 /* XFOriginTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3412,6 +3420,7 @@
 				425309981FE378AF00BBF319 /* Button_Camera@3x.png in Resources */,
 				4253099A1FE378AF00BBF319 /* default_avatar.png in Resources */,
 				425309BB1FE378AF00BBF319 /* conf_connected@3x.png in Resources */,
+				97DB1A542086426900BCCEA9 /* XFOriginTableViewCell.xib in Resources */,
 				425309B61FE378AF00BBF319 /* Button_Camera_disabled@2x.png in Resources */,
 				4253099E1FE378AF00BBF319 /* Button_Speaker_disabled@2x.png in Resources */,
 				425309A51FE378AF00BBF319 /* Button_Speaker_active@3x.png in Resources */,
@@ -3661,6 +3670,7 @@
 				42530A3F1FE378AF00BBF319 /* EaseSDKHelper.m in Sources */,
 				42FFD7691FA96D0700704591 /* CCTextField.m in Sources */,
 				42530A301FE378AF00BBF319 /* EaseImageView.m in Sources */,
+				97DB1A532086426900BCCEA9 /* XFOriginTableViewCell.m in Sources */,
 				42530A3C1FE378AF00BBF319 /* EaseBubbleView+Voice.m in Sources */,
 				B851B2D91FD0F3B200A7BBBE /* XFCircleCommentCell.m in Sources */,
 				42530A0A1FE378AF00BBF319 /* PSTGridLayoutSection.m in Sources */,

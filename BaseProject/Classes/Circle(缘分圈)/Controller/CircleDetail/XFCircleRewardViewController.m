@@ -8,10 +8,15 @@
 
 #import "XFCircleRewardViewController.h"
 #import "XFFriendHomeViewController.h"
+#import "XFOriginTableViewCell.h"
 
-@interface XFCircleRewardViewController ()
 
-@property (nonatomic, strong) YYLabel *rewardLabel;
+
+@interface XFCircleRewardViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -22,59 +27,63 @@
     [self setupUI];
 }
 
-- (void)setupUI {
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
-    for (int i = 0; i < self.rewardArray.count; i++) {
-        User *user = self.rewardArray[i];
-        if ([user.nickname isKindOfClass:[NSString class]]) {
-            NSMutableAttributedString *nameAttr = [[NSMutableAttributedString alloc] initWithString:user.nickname];
-            WeakSelf
-            [nameAttr setTextHighlightRange:nameAttr.rangeOfAll
-                                      color:BlackColor
-                            backgroundColor:[UIColor clearColor]
-                                  tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-                                      XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
-                                      controller.friendId = user.user_id;;
-                                      [weakSelf pushController:controller];
-                                  }];
-            
-            [attrStr appendAttributedString:nameAttr];
-            if (i != self.rewardArray.count - 1) {
-                NSMutableAttributedString *rightAttr = [[NSMutableAttributedString alloc] initWithString:@"、"];
-                [attrStr appendAttributedString:rightAttr];
-            }
-        }
-    }
-    attrStr.font = FontB(15);
-    attrStr.color = BlackColor;
-    attrStr.lineSpacing = 8;
-    self.rewardLabel.attributedText = attrStr;
-    self.rewardLabel.numberOfLines = 0;
-    self.rewardLabel.textAlignment = NSTextAlignmentLeft;
-    self.rewardLabel.left = 17;
-    self.rewardLabel.top = 17;
-    self.rewardLabel.width = kScreenWidth - 17 * 2;
-    CGFloat height = [YYTextLayout layoutWithContainerSize:CGSizeMake(self.rewardLabel.width, CGFLOAT_MAX)
-                                                      text:attrStr.copy].textBoundingSize.height;
-    self.rewardLabel.height = height;
-}
-
-- (void)resetLabel:(NSArray *)rewardArray {
-    self.rewardArray = rewardArray;
-    [self setupUI];
-}
-
-
 - (CGFloat)scrollOffset {
-    return 0;
+    return _tableView.contentOffset.y;
 }
 
-- (YYLabel *)rewardLabel {
-    if (_rewardLabel == nil) {
-        _rewardLabel = [YYLabel new];
-        [self.view addSubview:_rewardLabel];
+- (void)setupUI {
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.view.backgroundColor = WhiteColor;
+    self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - XFNavHeight - XFCircleTabHeight - XFCircleDetailBottomHeight);
+
+    [self.tableView reloadData];
+}
+
+- (void)reloadTheData {
+    [self.tableView reloadData];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.rewardArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    XFOriginTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"XFOriginTableViewCell" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    User *user = self.rewardArray[indexPath.row];
+    [cell becomeValue:user];
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    XFFriendHomeViewController *controller = [[XFFriendHomeViewController alloc] init];
+    User *user = self.rewardArray[indexPath.row];
+    controller.friendId = user.user_id;;
+    [self pushController:controller];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return 60;
+}
+
+- (UITableView *)tableView {
+    if (_tableView == nil) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.backgroundColor = WhiteColor;
+
+        [_tableView registerNib:[UINib nibWithNibName:@"XFOriginTableViewCell" bundle:nil] forCellReuseIdentifier:@"XFOriginTableViewCell"];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [self.view addSubview:_tableView];
     }
-    return _rewardLabel;
+    return _tableView;
 }
 
 @end
+

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
 @property (nonatomic, strong) UIView *splitView;
+@property (nonatomic, strong) UIImageView *userIconView;
 
 @end
 
@@ -31,6 +32,11 @@
     self.commentLabel.text = model.comment.content;
     
     self.splitView.frame = model.splitViewFrame;
+
+    self.userIconView.frame = model.imgFrame;
+    [self.userIconView sd_setImageWithURL:[NSURL URLWithString:model.comment.avatar_url] placeholderImage:[UIImage imageNamed:@"bg_tj_tx"]];//.text = model.comment.user_id;
+    [self.userIconView.layer setMasksToBounds:YES];
+    [self.userIconView.layer setCornerRadius:22];
 }
 
 - (void)nameTap {
@@ -81,6 +87,14 @@
         [self.contentView addSubview:_splitView];
     }
     return _splitView;
+}
+
+- (UIImageView *)userIconView {
+    if (_userIconView == nil) {
+        _userIconView = [[UIImageView alloc]init];
+        [self.contentView addSubview:_userIconView];
+    }
+    return _userIconView;
 }
 
 @end

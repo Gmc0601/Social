@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="XFOriginTableViewCell" id="KGk-i7-Jjw" customClass="XFOriginTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="esD-gP-Sqf">
+                        <rect key="frame" x="15" y="10.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="acT-vc-Pbn"/>
+                            <constraint firstAttribute="width" constant="40" id="wRt-1H-pEL"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7p-vx-t7c">
+                        <rect key="frame" x="63" y="8" width="249" height="43.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="H7p-vx-t7c" secondAttribute="trailing" constant="8" id="0M4-yE-y03"/>
+                    <constraint firstItem="esD-gP-Sqf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="8Rr-fe-uCm"/>
+                    <constraint firstItem="esD-gP-Sqf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="AUQ-iW-G8D"/>
+                    <constraint firstItem="esD-gP-Sqf" firstAttribute="centerY" secondItem="H7p-vx-t7c" secondAttribute="centerY" id="ccg-pP-1hW"/>
+                    <constraint firstItem="H7p-vx-t7c" firstAttribute="leading" secondItem="esD-gP-Sqf" secondAttribute="trailing" constant="8" id="jjx-ab-I1d"/>
+                    <constraint firstItem="H7p-vx-t7c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="jpv-YM-yaB"/>
+                    <constraint firstAttribute="bottom" secondItem="H7p-vx-t7c" secondAttribute="bottom" constant="8" id="zEm-bF-YIm"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lbContent" destination="H7p-vx-t7c" id="TBi-hb-FxB"/>
+                <outlet property="userImageView" destination="esD-gP-Sqf" id="UXR-7h-6vs"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

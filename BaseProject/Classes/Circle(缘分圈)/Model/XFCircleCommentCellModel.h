@@ -14,6 +14,7 @@
 @property (nonatomic, assign) CGRect nameLabelFrame;
 @property (nonatomic, assign) CGRect timeLabelFrame;
 @property (nonatomic, assign) CGRect commentLabelFrame;
+@property (nonatomic, assign) CGRect imgFrame;
 @property (nonatomic, assign) CGRect splitViewFrame;
 
 @property (nonatomic, assign) CGFloat cellH;
