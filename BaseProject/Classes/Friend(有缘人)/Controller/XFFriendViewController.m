@@ -141,6 +141,7 @@
     self.textField = textField;
     textField.font = Font(13);
     textField.placeholder = @"输入手机号搜索";
+    textField.keyboardType = UIKeyboardTypeNumberPad;
     [searchView addSubview:textField];
     textField.height = searchView.height;
     textField.left = 15;
