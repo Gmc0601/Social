@@ -8,6 +8,6 @@
 
 #import "XFViewController.h"
 
-@interface XFAccountViewController : XFViewController
+@interface XFAccountViewController : XFViewController<UITableViewDelegate, UITableViewDataSource>
 
 @end

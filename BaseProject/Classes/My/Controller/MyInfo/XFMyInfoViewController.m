@@ -55,15 +55,7 @@
     self.incomeArray = @[@"3000以下", @"3000-5000", @"5000-10000", @"10000-20000", @"50000以上"];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
-    UIView *navView = [UIView xf_navView:@"个人信息"
-                              backTarget:self
-                              backAction:@selector(backBtnClick)];
-    [self.view addSubview:navView];
-    
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navView.bottom, kScreenWidth, kScreenHeight - XFNavHeight)];
-    self.scrollView = scrollView;
-    scrollView.delegate = self;
-    [self.view addSubview:scrollView];
+
 }
 
 - (void)setupContent {
@@ -161,8 +153,7 @@
     paddingView3.frame = CGRectMake(0, standardView.bottom, kScreenWidth, 5);
     [self.scrollView addSubview:paddingView3];
     
-    UIView *sectionThreeView = [self createRightEmptyView:@"详细信息"];
-    sectionThreeView.top = paddingView3.bottom;
+
     
     UIView *workViewView = [self createRightLabelView:@"工作" andInfo:self.user.job hiddenSplit:NO];
     workViewView.tag = 300;

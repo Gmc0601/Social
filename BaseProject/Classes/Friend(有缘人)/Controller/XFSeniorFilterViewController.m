@@ -18,13 +18,14 @@
 
 @property (nonatomic, strong) UILabel *ageLabel;
 @property (nonatomic, strong) UILabel *homeLabel;
-@property (nonatomic, strong) UILabel *heightLabel;
-@property (nonatomic, strong) UILabel *weightLabel;
-@property (nonatomic, strong) UILabel *educationLabel;
-@property (nonatomic, strong) UILabel *incomeLabel;
-@property (nonatomic, strong) UILabel *houseLabel;
-@property (nonatomic, strong) UILabel *carLabel;
+//@property (nonatomic, strong) UILabel *heightLabel;
+//@property (nonatomic, strong) UILabel *weightLabel;
+//@property (nonatomic, strong) UILabel *educationLabel;
+//@property (nonatomic, strong) UILabel *incomeLabel;
+//@property (nonatomic, strong) UILabel *houseLabel;
+//@property (nonatomic, strong) UILabel *carLabel;
 @property (nonatomic, strong) UILabel *cityLabel;
+//ageLabel\homeLabel\cityLabel
 
 @property (nonatomic, strong) NSMutableDictionary *dict;
 
@@ -59,36 +60,36 @@
     ageView.tag = SeniorFilterBaseTag;
     ageView.top = paddingView.bottom;
     
-    UIView *heightView = [self createRightLabelView:@"身高" andInfo:nil];
-    heightView.tag = SeniorFilterBaseTag + 1;
-    heightView.top = ageView.bottom;
-    
-    UIView *weightView = [self createRightLabelView:@"体重" andInfo:nil];
-    weightView.tag = SeniorFilterBaseTag + 2;
-    weightView.top = heightView.bottom;
-    
-    UIView *educationView = [self createRightLabelView:@"学历" andInfo:nil];
-    educationView.tag = SeniorFilterBaseTag + 3;
-    educationView.top = weightView.bottom;
-    
-    UIView *incomeView = [self createRightLabelView:@"收入" andInfo:nil];
-    incomeView.tag = SeniorFilterBaseTag + 4;
-    incomeView.top = educationView.bottom;
-    
-    UIView *houseView = [self createRightLabelView:@"车产" andInfo:nil];
-    houseView.tag = SeniorFilterBaseTag + 5;
-    houseView.top = incomeView.bottom;
-    
-    UIView *carView = [self createRightLabelView:@"房产" andInfo:nil];
-    carView.tag = SeniorFilterBaseTag + 6;
-    carView.top = houseView.bottom;
-    
+//    UIView *heightView = [self createRightLabelView:@"身高" andInfo:nil];
+//    heightView.tag = SeniorFilterBaseTag + 1;
+//    heightView.top = ageView.bottom;
+//
+//    UIView *weightView = [self createRightLabelView:@"体重" andInfo:nil];
+//    weightView.tag = SeniorFilterBaseTag + 2;
+//    weightView.top = heightView.bottom;
+//
+//    UIView *educationView = [self createRightLabelView:@"学历" andInfo:nil];
+//    educationView.tag = SeniorFilterBaseTag + 3;
+//    educationView.top = weightView.bottom;
+//
+//    UIView *incomeView = [self createRightLabelView:@"收入" andInfo:nil];
+//    incomeView.tag = SeniorFilterBaseTag + 4;
+//    incomeView.top = educationView.bottom;
+
+//    UIView *houseView = [self createRightLabelView:@"车产" andInfo:nil];
+//    houseView.tag = SeniorFilterBaseTag + 5;
+//    houseView.top = incomeView.bottom;
+//
+//    UIView *carView = [self createRightLabelView:@"房产" andInfo:nil];
+//    carView.tag = SeniorFilterBaseTag + 6;
+//    carView.top = houseView.bottom;
+
     UIView *cityView = [self createRightLabelView:@"所在城市" andInfo:nil];
     cityView.tag = SeniorFilterBaseTag + 7;
-    cityView.top = carView.bottom;
-    if (cityView.bottom > scrollView.height) {
-        self.scrollView.contentSize = CGSizeMake(kScreenWidth, cityView.bottom);
-    }
+    cityView.top = ageView.bottom;
+//    if (cityView.bottom > scrollView.height) {
+//        self.scrollView.contentSize = CGSizeMake(kScreenWidth, cityView.bottom);
+//    }
 
     UIView *homeTowmView = [self createRightLabelView:@"故乡" andInfo:nil];
     homeTowmView.tag = SeniorFilterBaseTag + 7;
@@ -97,22 +98,22 @@
         self.scrollView.contentSize = CGSizeMake(kScreenWidth, homeTowmView.bottom);
     }
 
-    
+
     
     UILabel *ageLabel = (UILabel *)[ageView viewWithTag:300];
     self.ageLabel = ageLabel;
-    UILabel *heightLabel = (UILabel *)[heightView viewWithTag:300];
-    self.heightLabel = heightLabel;
-    UILabel *weightLabel = (UILabel *)[weightView viewWithTag:300];
-    self.weightLabel = weightLabel;
-    UILabel *educationLabel = (UILabel *)[educationView viewWithTag:300];
-    self.educationLabel = educationLabel;
-    UILabel *incomeLabel = (UILabel *)[incomeView viewWithTag:300];
-    self.incomeLabel = incomeLabel;
-    UILabel *houseLabel = (UILabel *)[houseView viewWithTag:300];
-    self.houseLabel = houseLabel;
-    UILabel *carLabel = (UILabel *)[carView viewWithTag:300];
-    self.carLabel = carLabel;
+//    UILabel *heightLabel = (UILabel *)[heightView viewWithTag:300];
+//    self.heightLabel = heightLabel;
+//    UILabel *weightLabel = (UILabel *)[weightView viewWithTag:300];
+//    self.weightLabel = weightLabel;
+//    UILabel *educationLabel = (UILabel *)[educationView viewWithTag:300];
+//    self.educationLabel = educationLabel;
+//    UILabel *incomeLabel = (UILabel *)[incomeView viewWithTag:300];
+//    self.incomeLabel = incomeLabel;
+//    UILabel *houseLabel = (UILabel *)[houseView viewWithTag:300];
+//    self.houseLabel = houseLabel;
+//    UILabel *carLabel = (UILabel *)[carView viewWithTag:300];
+//    self.carLabel = carLabel;
     UILabel *cityLabel = (UILabel *)[cityView viewWithTag:300];
     self.cityLabel = cityLabel;
 
@@ -162,10 +163,10 @@
                 self.dict[@"height2"] = heightRightStr;
             }
         }
-        if (heightStr.length) {
-            [self setupRightLabel:heightLabel info:heightStr];
-        }
-        
+//        if (heightStr.length) {
+//            [self setupRightLabel:heightLabel info:heightStr];
+//        }
+
         
         NSString *weightLeftStr = self.orignDict[@"weight1"];
         NSString *weightRightStr = self.orignDict[@"weight2"];
@@ -183,52 +184,52 @@
                 self.dict[@"weight2"] = weightRightStr;
             }
         }
-        if (weightStr.length) {
-            [self setupRightLabel:weightLabel info:weightStr];
-        }
+//        if (weightStr.length) {
+//            [self setupRightLabel:weightLabel info:weightStr];
+//        }
         
         
-        NSString *educationStr = self.orignDict[@"education"];
-        if ([educationStr isEqualToString:@"1"]) {
-            [self setupRightLabel:educationLabel info:@"中专"];
-        } else if ([educationStr isEqualToString:@"2"]) {
-            [self setupRightLabel:educationLabel info:@"大专"];
-        } else if ([educationStr isEqualToString:@"3"]) {
-            [self setupRightLabel:educationLabel info:@"本科"];
-        } else if ([educationStr isEqualToString:@"4"]) {
-            [self setupRightLabel:educationLabel info:@"硕士"];
-        } else if ([educationStr isEqualToString:@"5"]) {
-            [self setupRightLabel:educationLabel info:@"博士"];
-        }
+//        NSString *educationStr = self.orignDict[@"education"];
+//        if ([educationStr isEqualToString:@"1"]) {
+//            [self setupRightLabel:educationLabel info:@"中专"];
+//        } else if ([educationStr isEqualToString:@"2"]) {
+//            [self setupRightLabel:educationLabel info:@"大专"];
+//        } else if ([educationStr isEqualToString:@"3"]) {
+//            [self setupRightLabel:educationLabel info:@"本科"];
+//        } else if ([educationStr isEqualToString:@"4"]) {
+//            [self setupRightLabel:educationLabel info:@"硕士"];
+//        } else if ([educationStr isEqualToString:@"5"]) {
+//            [self setupRightLabel:educationLabel info:@"博士"];
+//        }
+
         
-        
-        NSString *incomeStr = self.orignDict[@"income"];
-        if ([incomeStr isEqualToString:@"1"]) {
-            [self setupRightLabel:incomeLabel info:@"3000以下"];
-        } else if ([incomeStr isEqualToString:@"2"]) {
-            [self setupRightLabel:incomeLabel info:@"3000-5000"];
-        } else if ([incomeStr isEqualToString:@"3"]) {
-            [self setupRightLabel:incomeLabel info:@"5000-10000"];
-        } else if ([incomeStr isEqualToString:@"4"]) {
-            [self setupRightLabel:incomeLabel info:@"10000-20000"];
-        } else if ([incomeStr isEqualToString:@"5"]) {
-            [self setupRightLabel:incomeLabel info:@"50000以上"];
-        }
-        
-        NSString *houseStr = self.orignDict[@"house"];
-        if ([houseStr isEqualToString:@"1"]) {
-            [self setupRightLabel:houseLabel info:@"有"];
-        } else if ([houseStr isEqualToString:@"2"]) {
-            [self setupRightLabel:houseLabel info:@"无"];
-        }
-        
-        NSString *carStr = self.orignDict[@"car"];
-        if ([carStr isEqualToString:@"1"]) {
-            [self setupRightLabel:carLabel info:@"无"];
-        } else if ([carStr isEqualToString:@"2"]) {
-            [self setupRightLabel:carLabel info:@"无"];
-        }
-        
+//        NSString *incomeStr = self.orignDict[@"income"];
+//        if ([incomeStr isEqualToString:@"1"]) {
+//            [self setupRightLabel:incomeLabel info:@"3000以下"];
+//        } else if ([incomeStr isEqualToString:@"2"]) {
+//            [self setupRightLabel:incomeLabel info:@"3000-5000"];
+//        } else if ([incomeStr isEqualToString:@"3"]) {
+//            [self setupRightLabel:incomeLabel info:@"5000-10000"];
+//        } else if ([incomeStr isEqualToString:@"4"]) {
+//            [self setupRightLabel:incomeLabel info:@"10000-20000"];
+//        } else if ([incomeStr isEqualToString:@"5"]) {
+//            [self setupRightLabel:incomeLabel info:@"50000以上"];
+//        }
+
+//        NSString *houseStr = self.orignDict[@"house"];
+//        if ([houseStr isEqualToString:@"1"]) {
+//            [self setupRightLabel:houseLabel info:@"有"];
+//        } else if ([houseStr isEqualToString:@"2"]) {
+//            [self setupRightLabel:houseLabel info:@"无"];
+//        }
+
+//        NSString *carStr = self.orignDict[@"car"];
+//        if ([carStr isEqualToString:@"1"]) {
+//            [self setupRightLabel:carLabel info:@"无"];
+//        } else if ([carStr isEqualToString:@"2"]) {
+//            [self setupRightLabel:carLabel info:@"无"];
+//        }
+
         NSString *cityStr = self.orignDict[@"address"];
         if (cityStr.length) {
             [self setupRightLabel:cityLabel info:cityStr];
@@ -446,13 +447,14 @@
 
 - (void)resetBtnClick {
     [self setupRightLabel:self.ageLabel info:@"不限"];
-    [self setupRightLabel:self.heightLabel info:@"不限"];
-    [self setupRightLabel:self.weightLabel info:@"不限"];
-    [self setupRightLabel:self.educationLabel info:@"不限"];
-    [self setupRightLabel:self.incomeLabel info:@"不限"];
-    [self setupRightLabel:self.houseLabel info:@"不限"];
-    [self setupRightLabel:self.carLabel info:@"不限"];
+//    [self setupRightLabel:self.heightLabel info:@"不限"];
+//    [self setupRightLabel:self.weightLabel info:@"不限"];
+//    [self setupRightLabel:self.educationLabel info:@"不限"];
+//    [self setupRightLabel:self.incomeLabel info:@"不限"];
+//    [self setupRightLabel:self.houseLabel info:@"不限"];
+//    [self setupRightLabel:self.carLabel info:@"不限"];
     [self setupRightLabel:self.cityLabel info:@"不限"];
+    [self setupRightLabel:self.homeLabel info:@"不限"];
     self.dict = [NSMutableDictionary dictionary];
 }
 

@@ -370,6 +370,8 @@
 		970799F4207A6B9B002F5431 /* XFFriendSecondCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 970799F0207A6B9A002F5431 /* XFFriendSecondCell.m */; };
 		970799F5207A6B9B002F5431 /* ShouCangTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 970799F1207A6B9B002F5431 /* ShouCangTextTableViewCell.m */; };
 		970799F6207A6B9B002F5431 /* ShouCangImgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 970799F3207A6B9B002F5431 /* ShouCangImgTableViewCell.m */; };
+		9773429F208CC97200879D41 /* MyAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9773429D208CC97200879D41 /* MyAccountTableViewCell.m */; };
+		977342A0208CC97200879D41 /* MyAccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9773429E208CC97200879D41 /* MyAccountTableViewCell.xib */; };
 		97DB1A532086426900BCCEA9 /* XFOriginTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DB1A512086426900BCCEA9 /* XFOriginTableViewCell.m */; };
 		97DB1A542086426900BCCEA9 /* XFOriginTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97DB1A522086426900BCCEA9 /* XFOriginTableViewCell.xib */; };
 		B850B0A11FDE60B300E96C14 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B850B0A01FDE60B300E96C14 /* libc++.tbd */; };
@@ -1134,6 +1136,9 @@
 		970799F1207A6B9B002F5431 /* ShouCangTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShouCangTextTableViewCell.m; sourceTree = "<group>"; };
 		970799F2207A6B9B002F5431 /* ShouCangImgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShouCangImgTableViewCell.h; sourceTree = "<group>"; };
 		970799F3207A6B9B002F5431 /* ShouCangImgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShouCangImgTableViewCell.m; sourceTree = "<group>"; };
+		9773429C208CC97200879D41 /* MyAccountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccountTableViewCell.h; sourceTree = "<group>"; };
+		9773429D208CC97200879D41 /* MyAccountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccountTableViewCell.m; sourceTree = "<group>"; };
+		9773429E208CC97200879D41 /* MyAccountTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyAccountTableViewCell.xib; sourceTree = "<group>"; };
 		97DB1A502086426900BCCEA9 /* XFOriginTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XFOriginTableViewCell.h; sourceTree = "<group>"; };
 		97DB1A512086426900BCCEA9 /* XFOriginTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XFOriginTableViewCell.m; sourceTree = "<group>"; };
 		97DB1A522086426900BCCEA9 /* XFOriginTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = XFOriginTableViewCell.xib; sourceTree = "<group>"; };
@@ -2892,6 +2897,16 @@
 			name = "变换绑定手机号";
 			sourceTree = "<group>";
 		};
+		9773429B208CC97200879D41 /* MyAccount */ = {
+			isa = PBXGroup;
+			children = (
+				9773429C208CC97200879D41 /* MyAccountTableViewCell.h */,
+				9773429D208CC97200879D41 /* MyAccountTableViewCell.m */,
+				9773429E208CC97200879D41 /* MyAccountTableViewCell.xib */,
+			);
+			path = MyAccount;
+			sourceTree = "<group>";
+		};
 		B850B0AE1FDE616B00E96C14 /* Alipay */ = {
 			isa = PBXGroup;
 			children = (
@@ -3114,6 +3129,7 @@
 		B85D5AA81FD0215A008DFEA1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9773429B208CC97200879D41 /* MyAccount */,
 				970799A1207A46FE002F5431 /* YHPhotoBrowser */,
 				9707999D207A4656002F5431 /* 收藏 */,
 				B85D5AA91FD0215A008DFEA1 /* XFAddress.plist */,
@@ -3422,6 +3438,7 @@
 				425309BB1FE378AF00BBF319 /* conf_connected@3x.png in Resources */,
 				97DB1A542086426900BCCEA9 /* XFOriginTableViewCell.xib in Resources */,
 				425309B61FE378AF00BBF319 /* Button_Camera_disabled@2x.png in Resources */,
+				977342A0208CC97200879D41 /* MyAccountTableViewCell.xib in Resources */,
 				4253099E1FE378AF00BBF319 /* Button_Speaker_disabled@2x.png in Resources */,
 				425309A51FE378AF00BBF319 /* Button_Speaker_active@3x.png in Resources */,
 				42A4A6D52029973B006E1289 /* image1.jpg in Resources */,
@@ -3727,6 +3744,7 @@
 				2E4152891F945C0B00B53486 /* UIColor+XFExtension.m in Sources */,
 				425309EC1FE378AF00BBF319 /* MJRefreshAutoFooter.m in Sources */,
 				B851B2D41FD0F3B200A7BBBE /* XFLocationViewController.m in Sources */,
+				9773429F208CC97200879D41 /* MyAccountTableViewCell.m in Sources */,
 				B85D5ACD1FD0215A008DFEA1 /* XFSelectItemView.m in Sources */,
 				42D859011FB2F8F200C1B7D2 /* AnnouncementViewController.m in Sources */,
 				42FFD76B1FA96D0700704591 /* MobileViewController.m in Sources */,
