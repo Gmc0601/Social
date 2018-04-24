@@ -55,7 +55,15 @@
     self.incomeArray = @[@"3000以下", @"3000-5000", @"5000-10000", @"10000-20000", @"50000以上"];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = WhiteColor;
-
+    UIView *navView = [UIView xf_navView:@"个人信息"
+                              backTarget:self
+                              backAction:@selector(backBtnClick)];
+    [self.view addSubview:navView];
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, navView.bottom, kScreenWidth, kScreenHeight - XFNavHeight)];
+    self.scrollView = scrollView;
+    scrollView.delegate = self;
+    [self.view addSubview:scrollView];
 }
 
 - (void)setupContent {
@@ -97,7 +105,7 @@
     UIView *paddingView2 = [UIView xf_createPaddingView];
     paddingView2.frame = CGRectMake(0, hometownView.bottom, kScreenWidth, 5);
     [self.scrollView addSubview:paddingView2];
-    
+    /*
     UIView *sectionTwoView = [self createRightEmptyView:@"个人信息"];
     sectionTwoView.top = paddingView2.bottom;
     
@@ -152,8 +160,10 @@
     UIView *paddingView3 = [UIView xf_createPaddingView];
     paddingView3.frame = CGRectMake(0, standardView.bottom, kScreenWidth, 5);
     [self.scrollView addSubview:paddingView3];
-    
-
+     */
+    /*
+    UIView *sectionThreeView = [self createRightEmptyView:@"详细信息"];
+    sectionThreeView.top = paddingView3.bottom;
     
     UIView *workViewView = [self createRightLabelView:@"工作" andInfo:self.user.job hiddenSplit:NO];
     workViewView.tag = 300;
@@ -170,11 +180,12 @@
     UIView *carView = [self createRightLabelView:@"车产" andInfo:self.user.car hiddenSplit:NO];
     carView.tag = 303;
     carView.top = houseView.bottom;
+     */
     
     UIButton *saveBtn = [UIButton xf_bottomBtnWithTitle:@"保存"
                                                  target:self
                                                  action:@selector(saveBtnClick)];
-    saveBtn.frame = CGRectMake(10, carView.bottom + 10, kScreenWidth - 20, 44);
+    saveBtn.frame = CGRectMake(10, paddingView2.bottom + 10, kScreenWidth - 20, 44);
     [self.scrollView addSubview:saveBtn];
     
     [self.scrollView setContentSize:CGSizeMake(kScreenWidth, saveBtn.bottom + 10)];
